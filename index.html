@@ -951,7 +951,8 @@ if (tkVal) {
 
 <script>
 let submitted = false;
-const COOLDOWN_TIME = 24 * 60 * 60 * 1000; // 86.400.000 ms
+// Benar untuk 10 Detik
+const COOLDOWN_TIME = 10 * 1000;
 const COOLDOWN_KEY = 'attendance_cooldown_timer';
 
 const elements = {
@@ -1079,6 +1080,38 @@ options.forEach(opt => {
     });
 });
 
+options.forEach(opt => {
+    opt.addEventListener('click', function () {
+        const val = this.getAttribute('data-value');
+        elements.trigger.textContent = val;
+        elements.trigger.style.color = "#fff";
+        elements.hiddenInput.value = val;
+
+        elements.optionsMenu.classList.remove('show');
+        elements.trigger.classList.remove('open');
+
+        if (val === 'Izin') {
+            elements.reasonContainer.style.display = 'block';
+            setTimeout(() => elements.reasonContainer.classList.add('show-reason'), 10);
+            elements.reasonInput.required = true;
+            // Membersihkan input jika sebelumnya ada teks otomatis dari 'Hadir'
+            elements.reasonInput.value = ""; 
+        } else {
+            elements.reasonContainer.classList.remove('show-reason');
+            elements.reasonInput.required = false;
+            
+            // Logika tambahan untuk 'Hadir'
+            if (val === 'Hadir') {
+                elements.reasonInput.value = "Tidak ada alasan, karena saya hadir";
+            } else {
+                elements.reasonInput.value = "";
+            }
+
+            setTimeout(() => elements.reasonContainer.style.display = 'none', 400);
+        }
+    });
+});
+
 
 // ================= SUBMIT =================
 
@@ -1136,10 +1169,5 @@ window.addEventListener('click', (e) => {
     }
 });
 </script>
-
-
-
-
 </body>
-
 </html>
