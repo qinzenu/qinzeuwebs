@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Absensi Harian - Newbie Fams</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="icon" href="https://i.ibb.co.com/DPPZfVBY/Logo-DF9-CCBD.png">
+    <style>
+        :root {
+            --primary: #ff3131;
+            --primary-gradient: linear-gradient(135deg, #ff0000 0%, #7a0000 100%);
+            --bg-color: #050505;
+            --text-main: #ffffff;
+            --text-muted: #a1a1a1;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --radius-lg: 32px;
+            --radius-md: 18px;
+            --transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            --danger: #ff0000;
+            --warning: #facc15;
+            --success-color: #22c55e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image:
+                radial-gradient(circle at 0% 0%, rgba(255, 0, 0, 0.15) 0%, transparent 35%),
+                radial-gradient(circle at 100% 100%, rgba(122, 0, 0, 0.15) 0%, transparent 35%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--text-main);
+            overflow-x: hidden;
+            user-select: none;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .main-wrapper {
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 0, 0, 0.2);
+            padding: 3rem 2rem;
+            border-radius: var(--radius-lg);
+            box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.8);
+            width: 100%;
+            max-width: 500px;
+            animation: fadeIn 1s ease forwards;
+            position: relative;
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.2rem;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .logo-container img {
+            width: 90px;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 20px;
+            padding: 5px;
+            background: var(--glass-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            pointer-events: none;
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header-section h2 {
+            font-weight: 800;
+            font-size: 2rem;
+            letter-spacing: 2px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.3rem;
+        }
+
+        .header-section p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.6rem;
+            font-weight: 600;
+            font-size: 0.65rem;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+
+        input,
+        textarea,
+        .custom-select-trigger {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-md);
+            background: rgba(255, 255, 255, 0.03);
+            font-size: 0.9rem;
+            transition: var(--transition);
+            color: #fff;
+            outline: none;
+        }
+
+        textarea {
+            resize: none;
+            min-height: 80px;
+        }
+
+        input:focus,
+        textarea:focus {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.15);
+        }
+
+        .custom-select-wrapper {
+            position: relative;
+        }
+
+        .custom-select-trigger {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            color: #94a3b8;
+        }
+
+        .custom-select-trigger::after {
+            content: "";
+            width: 7px;
+            height: 7px;
+            border-right: 2px solid var(--primary);
+            border-bottom: 2px solid var(--primary);
+            transform: rotate(45deg);
+            transition: var(--transition);
+        }
+
+        .custom-select-trigger.open::after {
+            transform: rotate(-135deg);
+        }
+
+        .custom-options {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            right: 0;
+            background: #151515;
+            border-radius: var(--radius-md);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            pointer-events: none;
+        }
+
+        .custom-options.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .option {
+            padding: 1rem 1.2rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            color: #cbd5e1;
+        }
+
+        .option:hover {
+            background: var(--primary-gradient);
+            color: white;
+            padding-left: 1.5rem;
+        }
+
+        #reason-container {
+            display: none;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.4s ease;
+        }
+
+        #reason-container.show-reason {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1.1rem;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            filter: brightness(1.1);
+            box-shadow: 0 10px 20px rgba(255, 0, 0, 0.3);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        #error-notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            background: #450a0a;
+            border-left: 5px solid var(--danger);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            transition: transform 0.5s ease;
+            z-index: 10000;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        #error-notification.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        #success-overlay {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .check-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .footer-text {
+            text-align: center;
+            font-size: 0.65rem;
+            margin-top: 2rem;
+            color: #444;
+            letter-spacing: 1px;
+        }
+
+        /* Animasi putar untuk spinner */
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .spinner {
+            display: none;
+            /* Sembunyi secara default */
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #ffffff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 10px;
+        }
+
+        /* Penyesuaian tombol agar spinner dan teks sejajar */
+        .submit-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="error-notification"></div>
+
+    <div class="main-wrapper">
+        <div id="success-overlay">
+            <div class="check-icon" id="status-icon">✓</div>
+            <h2 id="status-title">Absen Berhasil</h2>
+            <p id="status-desc"
+                style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px; margin-top: 10px;">
+                Absensi kamu telah tersimpan.
+            </p>
+            <button onclick="location.reload()"
+                style="background: var(--primary-gradient); color: white; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer;">Tutup</button>
+        </div>
+
+        <div id="form-container">
+            <div class="header-section">
+                <div class="logo-container">
+                    <img src="https://i.ibb.co.com/bgsX6qpt/image.png" alt="Logo">
+                </div>
+                <h2>ABSEN HARIAN</h2>
+                <p>Jangan Lupa Absen Setiap Hari</p>
+            </div>
+
+            <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"
+                onload="if(submitted){showSuccess();}"></iframe>
+
+            <form id="attendanceForm"
+                action="https://docs.google.com/forms/d/e/1FAIpQLSeOjtlyn9ao3Qsk7IqFe0MtjLrFHiJr_s8hy-qaloWRHdATQQ/formResponse"
+                method="POST" target="hidden_iframe">
+
+                <div class="form-group">
+                    <label>Nama</label>
+                    <input type="text" id="inputNama" name="entry.877985187" placeholder="Masukkan Nama Anda" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Username TikTok</label>
+                    <input type="text" id="tiktokUser" name="entry.1529109235" placeholder="Masukkan Username TikTok"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label>Nomor WhatsApp</label>
+                    <input type="tel" id="inputWA" name="entry.834103540" placeholder="Masukan Nomor WA yg ada di GC"
+                        pattern="[0-9]*" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Status Kehadiran</label>
+                    <div class="custom-select-wrapper">
+                        <div class="custom-select-trigger" id="statusTrigger">Pilih Status</div>
+                        <div class="custom-options" id="statusOptions">
+                            <div class="option" data-value="Hadir">Hadir</div>
+                            <div class="option" data-value="Izin">Izin</div>
+                        </div>
+                    </div>
+                    <input type="hidden" name="entry.461399002" id="statusValue" required>
+                </div>
+
+                <div class="form-group" id="reason-container">
+                    <label>Alasan Izin</label>
+                    <textarea id="reasonInput" name="entry.864916109"
+                        placeholder="Berikan alasan yang jelas..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <div class="spinner" id="btnSpinner"></div>
+                    <span id="btnText">Kirim Absens</span>
+                </button>
+            </form>
+        </div>
+        <div class="footer-text">© 2026 NEWBIE FAMS • ADMIN</div>
+    </div>
+
+    <!--
+<script>
+    let submitted = false;
+
+    // Inisialisasi Elemen
+    const elements = {
+        trigger: document.getElementById('statusTrigger'),
+        optionsMenu: document.getElementById('statusOptions'),
+        hiddenInput: document.getElementById('statusValue'),
+        reasonContainer: document.getElementById('reason-container'),
+        reasonInput: document.getElementById('reasonInput'),
+        tiktokInput: document.getElementById('tiktokUser'),
+        btn: document.getElementById('submitBtn'),
+        form: document.getElementById('attendanceForm'),
+        errorNotif: document.getElementById('error-notification'),
+        loadingScreen: document.getElementById('loading-screen'),
+        btnSpinner: document.getElementById('btnSpinner'),
+        btnText: document.getElementById('btnText'),
+        formContainer: document.getElementById('form-container'),
+        successOverlay: document.getElementById('success-overlay')
+    };
+
+    const options = document.querySelectorAll('.option');
+
+    // Hapus sisa cache antrean lama
+    localStorage.removeItem('nf_offline_queue');
+
+    // --- FUNGSI UTAMA ---
+
+    function showError(message) {
+        elements.errorNotif.textContent = message;
+        elements.errorNotif.classList.add('show');
+        setTimeout(() => { elements.errorNotif.classList.remove('show'); }, 4000);
+    }
+
+    // Dipanggil otomatis oleh iframe onload
+    function showSuccess() {
+        if (submitted) {
+            if (elements.loadingScreen) elements.loadingScreen.style.display = 'none';
+            elements.formContainer.style.display = 'none';
+            elements.successOverlay.style.display = 'flex';
+        }
+    }
+
+    // --- EVENT LISTENERS ---
+
+    // Toggle Dropdown
+    elements.trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        elements.trigger.classList.toggle('open');
+        elements.optionsMenu.classList.toggle('show');
+    });
+
+    // Pilihan Status (Hadir/Izin)
+    options.forEach(opt => {
+        opt.addEventListener('click', function() {
+            const val = this.getAttribute('data-value');
+            elements.trigger.textContent = val;
+            elements.trigger.style.color = "#ffffff";
+            elements.hiddenInput.value = val;
+            elements.optionsMenu.classList.remove('show');
+            elements.trigger.classList.remove('open');
+
+            if (val === 'Izin') {
+                elements.reasonContainer.style.display = 'block';
+                setTimeout(() => { elements.reasonContainer.classList.add('show-reason'); }, 10);
+                elements.reasonInput.required = true;
+            } else {
+                elements.reasonContainer.classList.remove('show-reason');
+                elements.reasonInput.value = "-";
+                setTimeout(() => { elements.reasonContainer.style.display = 'none'; }, 400);
+                elements.reasonInput.required = false;
+            }
+        });
+    });
+
+    // Handle Submit Form
+    elements.form.addEventListener('submit', function(e) {
+        // 1. Validasi Koneksi
+        if (!navigator.onLine) {
+            e.preventDefault();
+            showError("Gagal! Tidak ada koneksi internet.");
+            return;
+        }
+
+        // 2. Validasi Status Kehadiran
+        if (!elements.hiddenInput.value) {
+            e.preventDefault();
+            showError("Pilih status kehadiran terlebih dahulu!");
+            return;
+        }
+
+        // 3. Cegah Double Post
+        if (submitted) {
+            e.preventDefault();
+            return;
+        }
+
+        // 4. Formatting Username TikTok menjadi Link Lengkap
+let tkVal = elements.tiktokInput.value.trim();
+if (tkVal) {
+    // Hapus '@' atau URL lama jika user memasukkannya secara tidak sengaja
+    let cleanUser = tkVal.replace('@', '').replace('https://tiktok.com/', '').replace('http://tiktok.com/', '');
+    
+    // Kirim ke Google Form dalam format link lengkap
+    elements.tiktokInput.value = 'https://tiktok.com/@' + cleanUser;
+}
+
+        // --- PROSES LOADING DIMULAI ---
+        submitted = true;
+
+        // Tampilkan Fullscreen Loading
+        if (elements.loadingScreen) {
+            elements.loadingScreen.style.display = 'flex';
+        }
+
+        // Update Button ke State Loading
+        if (elements.btnSpinner) elements.btnSpinner.style.display = 'block';
+        if (elements.btnText) {
+            elements.btnText.textContent = "Mengirim...";
+        } else {
+            elements.btn.textContent = "Mengirim...";
+        }
+        
+        elements.btn.disabled = true;
+        elements.btn.style.opacity = "0.7";
+    });
+
+    // Close dropdown saat klik di mana saja
+    window.addEventListener('click', (e) => {
+        if (!elements.trigger.contains(e.target)) {
+            elements.optionsMenu.classList.remove('show');
+            elements.trigger.classList.remove('open');
+        }
+    });
+</script>
+
+______ Script 2 (Cooldown Timer)
+<script>
+    let submitted = false;
+   const COOLDOWN_TIME = 1 * 60 * 1000; // Hasil: 60,000 ms
+    const COOLDOWN_KEY = 'attendance_cooldown_timer'; 
+
+    const elements = {
+        trigger: document.getElementById('statusTrigger'),
+        optionsMenu: document.getElementById('statusOptions'),
+        hiddenInput: document.getElementById('statusValue'),
+        reasonContainer: document.getElementById('reason-container'),
+        reasonInput: document.getElementById('reasonInput'),
+        tiktokInput: document.getElementById('tiktokUser'),
+        btn: document.getElementById('submitBtn'),
+        form: document.getElementById('attendanceForm'),
+        errorNotif: document.getElementById('error-notification'),
+        loadingScreen: document.getElementById('loading-screen'),
+        btnSpinner: document.getElementById('btnSpinner'),
+        btnText: document.getElementById('btnText'),
+        formContainer: document.getElementById('form-container'),
+        successOverlay: document.getElementById('success-overlay')
+    };
+
+    const options = document.querySelectorAll('.option');
+
+    // --- LOGIKA TAMPILAN COOLDOWN ---
+
+    function applyCooldownUI(timeLeftMs) {
+        const hours = Math.floor(timeLeftMs / (1000 * 60 * 60));
+        const minutes = Math.floor((timeLeftMs % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeLeftMs % (1000 * 60)) / 1000);
+        const finalMsg = `Terkunci (${hours}j ${minutes}m ${seconds}s)`;
+
+        // Matikan Tombol
+        elements.btn.disabled = true;
+        elements.btn.style.background = "#444"; 
+        elements.btn.style.cursor = "not-allowed";
+        elements.btn.style.opacity = "1"; // Pastikan warna tetap solid tapi abu-abu
+
+        // UBAH TEKS SECARA TEGAS
+        if (elements.btnText) {
+            elements.btnText.innerText = finalMsg;
+        }
+        // Jaga-jaga jika strukturnya hanya button tanpa span didalamnya
+        elements.btn.innerText = finalMsg;
+
+        // Matikan Form agar tidak bisa diinput
+        elements.form.style.opacity = "0.5";
+        elements.form.style.pointerEvents = "none"; 
+    }
+
+    function checkCooldown() {
+        const lastSubmit = localStorage.getItem(COOLDOWN_KEY);
+        if (lastSubmit) {
+            const timePassed = Date.now() - parseInt(lastSubmit);
+            if (timePassed < COOLDOWN_TIME) {
+                applyCooldownUI(COOLDOWN_TIME - timePassed);
+                return true;
+            } else {
+                localStorage.removeItem(COOLDOWN_KEY);
+            }
+        }
+        return false;
+    }
+
+    // PAKSA PENGECEKAN SECEPAT MUNGKIN
+    checkCooldown(); 
+
+    // Jalankan ulang saat window load untuk memastikan elemen stabil
+    window.addEventListener('load', checkCooldown);
+
+    // --- FUNGSI UTAMA ---
+
+    function showError(message) {
+        elements.errorNotif.textContent = message;
+        elements.errorNotif.classList.add('show');
+        setTimeout(() => { elements.errorNotif.classList.remove('show'); }, 4000);
+    }
+
+    function showSuccess() {
+        if (submitted) {
+            localStorage.setItem(COOLDOWN_KEY, Date.now().toString());
+            if (elements.loadingScreen) elements.loadingScreen.style.display = 'none';
+            elements.formContainer.style.display = 'none';
+            elements.successOverlay.style.display = 'flex';
+        }
+    }
+
+    // --- EVENT LISTENERS ---
+
+    elements.trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        elements.trigger.classList.toggle('open');
+        elements.optionsMenu.classList.toggle('show');
+    });
+
+    options.forEach(opt => {
+        opt.addEventListener('click', function() {
+            const val = this.getAttribute('data-value');
+            elements.trigger.textContent = val;
+            elements.trigger.style.color = "#ffffff";
+            elements.hiddenInput.value = val;
+            elements.optionsMenu.classList.remove('show');
+            elements.trigger.classList.remove('open');
+
+            if (val === 'Izin') {
+                elements.reasonContainer.style.display = 'block';
+                setTimeout(() => { elements.reasonContainer.classList.add('show-reason'); }, 10);
+                elements.reasonInput.required = true;
+            } else {
+                elements.reasonContainer.classList.remove('show-reason');
+                elements.reasonInput.value = "-";
+                setTimeout(() => { elements.reasonContainer.style.display = 'none'; }, 400);
+                elements.reasonInput.required = false;
+            }
+        });
+    });
+
+    elements.form.addEventListener('submit', function(e) {
+        if (checkCooldown()) {
+            e.preventDefault();
+            return;
+        }
+
+        if (!navigator.onLine) {
+            e.preventDefault();
+            showError("Gagal! Tidak ada koneksi internet.");
+            return;
+        }
+
+        if (!elements.hiddenInput.value) {
+            e.preventDefault();
+            showError("Pilih status kehadiran terlebih dahulu!");
+            return;
+        }
+
+        if (submitted) {
+            e.preventDefault();
+            return;
+        }
+
+        let tkVal = elements.tiktokInput.value.trim();
+        if (tkVal) {
+            let cleanUser = tkVal.replace('@', '').replace('https://tiktok.com/', '').replace('http://tiktok.com/', '');
+            elements.tiktokInput.value = 'https://tiktok.com/@' + cleanUser;
+        }
+
+        submitted = true;
+        if (elements.loadingScreen) elements.loadingScreen.style.display = 'flex';
+
+        if (elements.btnSpinner) elements.btnSpinner.style.display = 'block';
+        if (elements.btnText) {
+            elements.btnText.textContent = "Mengirim...";
+        } else {
+            elements.btn.textContent = "Mengirim...";
+        }
+        
+        elements.btn.disabled = true;
+    });
+
+    window.addEventListener('click', (e) => {
+        if (!elements.trigger.contains(e.target)) {
+            elements.optionsMenu.classList.remove('show');
+            elements.trigger.classList.remove('open');
+        }
+    });
+</script>
+-->
+<!--
+<script>
+    let submitted = false;
+    const COOLDOWN_TIME = 1 * 60 * 1000; // Hasil: 60,000 ms
+    const COOLDOWN_KEY = 'attendance_cooldown_timer'; 
+    const DB_NAME = "AttendanceBackup"; // Nama Database
+    const STORE_NAME = "cooldownStore";
+
+    const elements = {
+        trigger: document.getElementById('statusTrigger'),
+        optionsMenu: document.getElementById('statusOptions'),
+        hiddenInput: document.getElementById('statusValue'),
+        reasonContainer: document.getElementById('reason-container'),
+        reasonInput: document.getElementById('reasonInput'),
+        tiktokInput: document.getElementById('tiktokUser'),
+        btn: document.getElementById('submitBtn'),
+        form: document.getElementById('attendanceForm'),
+        errorNotif: document.getElementById('error-notification'),
+        loadingScreen: document.getElementById('loading-screen'),
+        btnSpinner: document.getElementById('btnSpinner'),
+        btnText: document.getElementById('btnText'),
+        formContainer: document.getElementById('form-container'),
+        successOverlay: document.getElementById('success-overlay')
+    };
+
+    const options = document.querySelectorAll('.option');
+
+    // --- LOGIKA TAMBAHAN: INDEXEDDB UNTUK ANTI CLEAR CACHE ---
+
+    function openDB() {
+        return new Promise((resolve) => {
+            const request = indexedDB.open(DB_NAME, 1);
+            request.onupgradeneeded = (e) => {
+                e.target.result.createObjectStore(STORE_NAME);
+            };
+            request.onsuccess = () => resolve(request.result);
+        });
+    }
+
+    async function saveCooldownPersistent(timestamp) {
+        // Simpan ke localStorage (Cara lama)
+        localStorage.setItem(COOLDOWN_KEY, timestamp);
+        // Simpan ke IndexedDB (Cara baru/Lebih kuat)
+        const db = await openDB();
+        const tx = db.transaction(STORE_NAME, "readwrite");
+        tx.objectStore(STORE_NAME).put(timestamp, "lastSubmit");
+    }
+
+    async function getCooldownPersistent() {
+        // Cek localStorage dulu
+        let lastSubmit = localStorage.getItem(COOLDOWN_KEY);
+        
+        // Jika localStorage kosong (kena clear cache), cek ke IndexedDB
+        if (!lastSubmit) {
+            const db = await openDB();
+            lastSubmit = await new Promise((resolve) => {
+                const req = db.transaction(STORE_NAME).objectStore(STORE_NAME).get("lastSubmit");
+                req.onsuccess = () => resolve(req.result);
+            });
+            // Jika ketemu di IndexedDB, pulihkan kembali ke localStorage
+            if (lastSubmit) localStorage.setItem(COOLDOWN_KEY, lastSubmit);
+        }
+        return lastSubmit;
+    }
+
+    // --- LOGIKA TAMPILAN COOLDOWN ---
+
+    function applyCooldownUI(timeLeftMs) {
+        const hours = Math.floor(timeLeftMs / (1000 * 60 * 60));
+        const minutes = Math.floor((timeLeftMs % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeLeftMs % (1000 * 60)) / 1000);
+        const finalMsg = `Terkunci (${hours}j ${minutes}m ${seconds}s)`;
+
+        elements.btn.disabled = true;
+        elements.btn.style.background = "#444"; 
+        elements.btn.style.cursor = "not-allowed";
+        elements.btn.style.opacity = "1";
+
+        if (elements.btnText) {
+            elements.btnText.innerText = finalMsg;
+        }
+        elements.btn.innerText = finalMsg;
+
+        elements.form.style.opacity = "0.5";
+        elements.form.style.pointerEvents = "none"; 
+    }
+
+    async function checkCooldown() {
+        const lastSubmit = await getCooldownPersistent(); // Menggunakan fungsi baru
+        if (lastSubmit) {
+            const timePassed = Date.now() - parseInt(lastSubmit);
+            if (timePassed < COOLDOWN_TIME) {
+                applyCooldownUI(COOLDOWN_TIME - timePassed);
+                return true;
+            } else {
+                localStorage.removeItem(COOLDOWN_KEY);
+                // Kita tidak hapus IndexedDB agar tetap ada record-nya
+            }
+        }
+        return false;
+    }
+
+    // PAKSA PENGECEKAN SECEPAT MUNGKIN
+    checkCooldown(); 
+
+    window.addEventListener('load', checkCooldown);
+
+    // --- FUNGSI UTAMA ---
+
+    function showError(message) {
+        elements.errorNotif.textContent = message;
+        elements.errorNotif.classList.add('show');
+        setTimeout(() => { elements.errorNotif.classList.remove('show'); }, 4000);
+    }
+
+    // Fungsi showSuccess dipanggil setelah submit berhasil (biasanya oleh Apps Script)
+    async function showSuccess() {
+        if (submitted) {
+            const now = Date.now().toString();
+            await saveCooldownPersistent(now); // Simpan secara permanen
+            if (elements.loadingScreen) elements.loadingScreen.style.display = 'none';
+            elements.formContainer.style.display = 'none';
+            elements.successOverlay.style.display = 'flex';
+        }
+    }
+
+    // --- EVENT LISTENERS ---
+
+    elements.trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        elements.trigger.classList.toggle('open');
+        elements.optionsMenu.classList.toggle('show');
+    });
+
+    options.forEach(opt => {
+        opt.addEventListener('click', function() {
+            const val = this.getAttribute('data-value');
+            elements.trigger.textContent = val;
+            elements.trigger.style.color = "#ffffff";
+            elements.hiddenInput.value = val;
+            elements.optionsMenu.classList.remove('show');
+            elements.trigger.classList.remove('open');
+
+            if (val === 'Izin') {
+                elements.reasonContainer.style.display = 'block';
+                setTimeout(() => { elements.reasonContainer.classList.add('show-reason'); }, 10);
+                elements.reasonInput.required = true;
+            } else {
+                elements.reasonContainer.classList.remove('show-reason');
+                elements.reasonInput.value = "-";
+                setTimeout(() => { elements.reasonContainer.style.display = 'none'; }, 400);
+                elements.reasonInput.required = false;
+            }
+        });
+    });
+
+    elements.form.addEventListener('submit', async function(e) {
+        // Gunakan await karena pengecekan DB sekarang async
+        if (await checkCooldown()) {
+            e.preventDefault();
+            return;
+        }
+
+        if (!navigator.onLine) {
+            e.preventDefault();
+            showError("Gagal! Tidak ada koneksi internet.");
+            return;
+        }
+
+        if (!elements.hiddenInput.value) {
+            e.preventDefault();
+            showError("Pilih status kehadiran terlebih dahulu!");
+            return;
+        }
+
+        if (submitted) {
+            e.preventDefault();
+            return;
+        }
+
+        let tkVal = elements.tiktokInput.value.trim();
+if (tkVal) {
+    // 1. Hapus semua protokol, domain, dan simbol @ agar tersisa hanya username
+    let cleanUser = tkVal
+        .replace(/https?:\/\//, '') // Hapus http:// atau https://
+        .replace(/(www\.|vt\.)?tiktok\.com\//, '') // Hapus www.tiktok.com/ atau vt.tiktok.com/
+        .replace(/@/g, '') // Hapus semua simbol @ menggunakan regex global /g
+        .split('?')[0] // Hapus parameter tambahan di belakang (misal: ?is_from_webapp=1)
+        .split('/')[0]; // Jaga-jaga jika ada folder tambahan
+
+    // 2. Format ulang secara rapi
+    elements.tiktokInput.value = 'https://tiktok.com/@' + cleanUser;
+}
+
+
+        submitted = true;
+        
+        // Simpan waktu ke backup segera sebelum submit
+        await saveCooldownPersistent(Date.now().toString());
+
+        if (elements.loadingScreen) elements.loadingScreen.style.display = 'flex';
+
+        if (elements.btnSpinner) elements.btnSpinner.style.display = 'block';
+        if (elements.btnText) {
+            elements.btnText.textContent = "Mengirim...";
+        } else {
+            elements.btn.textContent = "Mengirim...";
+        }
+        
+        elements.btn.disabled = true;
+    });
+
+    window.addEventListener('click', (e) => {
+        if (!elements.trigger.contains(e.target)) {
+            elements.optionsMenu.classList.remove('show');
+            elements.trigger.classList.remove('open');
+        }
+    });
+</script> -->
+
+<script>
+let submitted = false;
+const COOLDOWN_TIME = 24 * 60 * 60 * 1000; // 86.400.000 ms
+const COOLDOWN_KEY = 'attendance_cooldown_timer';
+
+const elements = {
+    trigger: document.getElementById('statusTrigger'),
+    optionsMenu: document.getElementById('statusOptions'),
+    hiddenInput: document.getElementById('statusValue'),
+    reasonContainer: document.getElementById('reason-container'),
+    reasonInput: document.getElementById('reasonInput'),
+    tiktokInput: document.getElementById('tiktokUser'),
+    btn: document.getElementById('submitBtn'),
+    form: document.getElementById('attendanceForm'),
+    errorNotif: document.getElementById('error-notification'),
+    btnSpinner: document.getElementById('btnSpinner'),
+    btnText: document.getElementById('btnText'),
+    formContainer: document.getElementById('form-container'),
+    successOverlay: document.getElementById('success-overlay')
+};
+
+const options = document.querySelectorAll('.option');
+
+
+// ================= COOLDOWN =================
+
+function applyCooldownUI(timeLeft) {
+    const totalSec = Math.ceil(timeLeft / 1000);
+
+    const hours = Math.floor(totalSec / 3600);
+    const minutes = Math.floor((totalSec % 3600) / 60);
+    const seconds = totalSec % 60;
+
+    // format biar 2 digit (01, 02, dst)
+    const h = String(hours).padStart(2, '0');
+    const m = String(minutes).padStart(2, '0');
+    const s = String(seconds).padStart(2, '0');
+
+    elements.btn.disabled = true;
+    elements.btn.style.background = "#444";
+    elements.btnText.textContent = `Tunggu ${h}:${m}:${s}`;
+}
+
+function startCooldown() {
+    const start = Date.now();
+    localStorage.setItem(COOLDOWN_KEY, start);
+
+    const interval = setInterval(() => {
+        const elapsed = Date.now() - start;
+        const remain = COOLDOWN_TIME - elapsed;
+
+        if (remain <= 0) {
+            clearInterval(interval);
+            localStorage.removeItem(COOLDOWN_KEY);
+
+            elements.btn.disabled = false;
+            elements.btnText.textContent = "Kirim Absensi";
+            elements.btn.style.background = "";
+            return;
+        }
+
+        applyCooldownUI(remain);
+    }, 1000);
+}
+
+function checkCooldown() {
+    const saved = localStorage.getItem(COOLDOWN_KEY);
+    if (!saved) return false;
+
+    const remain = COOLDOWN_TIME - (Date.now() - saved);
+    if (remain > 0) {
+        applyCooldownUI(remain);
+        startCooldown();
+        return true;
+    } else {
+        localStorage.removeItem(COOLDOWN_KEY);
+        return false;
+    }
+}
+
+checkCooldown();
+
+
+// ================= UTIL =================
+
+function showError(msg) {
+    elements.errorNotif.textContent = msg;
+    elements.errorNotif.classList.add('show');
+    setTimeout(() => elements.errorNotif.classList.remove('show'), 4000);
+}
+
+function showSuccess() {
+    if (submitted) {
+        elements.formContainer.style.display = 'none';
+        elements.successOverlay.style.display = 'flex';
+    }
+}
+
+
+// ================= UI =================
+
+elements.trigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    elements.trigger.classList.toggle('open');
+    elements.optionsMenu.classList.toggle('show');
+});
+
+options.forEach(opt => {
+    opt.addEventListener('click', function () {
+        const val = this.getAttribute('data-value');
+        elements.trigger.textContent = val;
+        elements.trigger.style.color = "#fff";
+        elements.hiddenInput.value = val;
+
+        elements.optionsMenu.classList.remove('show');
+        elements.trigger.classList.remove('open');
+
+        if (val === 'Izin') {
+            elements.reasonContainer.style.display = 'block';
+            setTimeout(() => elements.reasonContainer.classList.add('show-reason'), 10);
+            elements.reasonInput.required = true;
+        } else {
+            elements.reasonContainer.classList.remove('show-reason');
+            elements.reasonInput.value = "";
+            setTimeout(() => elements.reasonContainer.style.display = 'none', 400);
+            elements.reasonInput.required = false;
+        }
+    });
+});
+
+
+// ================= SUBMIT =================
+
+elements.form.addEventListener('submit', function (e) {
+
+    if (checkCooldown()) {
+        e.preventDefault();
+        return;
+    }
+
+    if (!navigator.onLine) {
+        e.preventDefault();
+        showError("Tidak ada internet!");
+        return;
+    }
+
+    if (!elements.hiddenInput.value) {
+        e.preventDefault();
+        showError("Pilih status dulu!");
+        return;
+    }
+
+    if (submitted) {
+        e.preventDefault();
+        return;
+    }
+
+    // ===== FIX TIKTOK → @username =====
+    let tk = elements.tiktokInput.value.trim();
+    if (tk) {
+        let user = tk
+            .replace(/https?:\/\//, '')
+            .replace(/(www\.|vt\.)?tiktok\.com\//, '')
+            .replace(/@/g, '')
+            .split(/[?\/]/)[0];
+
+        elements.tiktokInput.value = 'https://tiktok.com/@' + user;
+    }
+
+    submitted = true;
+    startCooldown();
+
+    elements.btnSpinner.style.display = 'block';
+    elements.btnText.textContent = "Mengirim...";
+    elements.btn.disabled = true;
+});
+
+
+// ================= CLOSE DROPDOWN =================
+
+window.addEventListener('click', (e) => {
+    if (!elements.trigger.contains(e.target)) {
+        elements.optionsMenu.classList.remove('show');
+        elements.trigger.classList.remove('open');
+    }
+});
+</script>
+
+
+
+
+</body>
+
+</html>
