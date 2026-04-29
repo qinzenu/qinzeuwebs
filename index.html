@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Absensi Harian - Newbie Fams</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
@@ -29,7 +29,13 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
+            touch-action: pan-x pan-y;
         }
+
+        /* Mencegah zoom saat double tap pada tombol atau elemen interaktif */
+button, input, select, textarea {
+    touch-action: manipulation;
+}
 
         body {
             background-color: var(--bg-color);
@@ -316,7 +322,7 @@
             text-align: center;
             font-size: 0.65rem;
             margin-top: 2rem;
-            color: #444;
+            color: #e5e5e5;
             letter-spacing: 1px;
         }
 
@@ -1108,7 +1114,7 @@ if (tkVal) {
     });
 </script> -->
 
-<script>
+<!-- kode asli <script>
 let submitted = false;
 
 const COOLDOWN_TIME = 24 * 60 * 60 * 1000;
@@ -1326,6 +1332,254 @@ window.addEventListener('click', (e) => {
     }
 });
 </script>
+-->
+
+
+
+<script>
+let submitted = false;
+
+const COOLDOWN_TIME = 24 * 60 * 60 * 1000;
+const COOLDOWN_KEY = 'attendance_cooldown_timer';
+
+const elements = {
+    trigger: document.getElementById('statusTrigger'),
+    optionsMenu: document.getElementById('statusOptions'),
+    hiddenInput: document.getElementById('statusValue'),
+    reasonContainer: document.getElementById('reason-container'),
+    reasonInput: document.getElementById('reasonInput'),
+    tiktokInput: document.getElementById('tiktokUser'),
+    btn: document.getElementById('submitBtn'),
+    form: document.getElementById('attendanceForm'),
+    errorNotif: document.getElementById('error-notification'),
+    btnSpinner: document.getElementById('btnSpinner'),
+    btnText: document.getElementById('btnText'),
+    formContainer: document.getElementById('form-container'),
+    successOverlay: document.getElementById('success-overlay')
+};
+
+const options = document.querySelectorAll('.option');
+
+
+// ================= COOLDOWN =================
+
+function applyCooldownUI(timeLeft) {
+    const totalSec = Math.ceil(timeLeft / 1000);
+
+    const h = String(Math.floor(totalSec / 3600)).padStart(2, '0');
+    const m = String(Math.floor((totalSec % 3600) / 60)).padStart(2, '0');
+    const s = String(totalSec % 60).padStart(2, '0');
+
+    // Kunci tombol kirim
+    elements.btn.disabled = true;
+    elements.btn.style.background = "#444";
+    elements.btnText.textContent = `Tunggu ${h}:${m}:${s}`;
+
+    // KUNCI SEMUA INPUT (Tambahan Baru)
+    const allInputs = elements.form.querySelectorAll('input, textarea');
+    allInputs.forEach(input => {
+        input.disabled = true;
+        input.style.opacity = "0.6";
+        input.style.cursor = "not-allowed";
+    });
+    
+    // Kunci dropdown status
+    elements.trigger.style.pointerEvents = "none";
+    elements.trigger.style.opacity = "0.6";
+}
+
+// 🔥 FIX: pakai startTime lama
+function startCooldown(startTime) {
+    const interval = setInterval(() => {
+        const elapsed = Date.now() - startTime;
+        const remain = COOLDOWN_TIME - elapsed;
+
+        if (remain <= 0) {
+            clearInterval(interval);
+            localStorage.removeItem(COOLDOWN_KEY);
+
+            // Aktifkan kembali tombol
+            elements.btn.disabled = false;
+            elements.btnText.textContent = "Kirim Absensi";
+            elements.btn.style.background = "";
+
+            // AKTIFKAN KEMBALI SEMUA INPUT (Tambahan Baru)
+            const allInputs = elements.form.querySelectorAll('input, textarea');
+            allInputs.forEach(input => {
+                input.disabled = false;
+                input.style.opacity = "1";
+                input.style.cursor = "text";
+            });
+
+            // Aktifkan kembali dropdown status
+            elements.trigger.style.pointerEvents = "auto";
+            elements.trigger.style.opacity = "1";
+            
+            return;
+        }
+
+        applyCooldownUI(remain);
+    }, 1000);
+}
+
+// 🔥 FIX: jangan reset timer
+function checkCooldown() {
+    const saved = localStorage.getItem(COOLDOWN_KEY);
+    if (!saved) return false;
+
+    const remain = COOLDOWN_TIME - (Date.now() - saved);
+
+    if (remain > 0) {
+        applyCooldownUI(remain);
+        startCooldown(saved); // 🔥 penting
+        return true;
+    } else {
+        localStorage.removeItem(COOLDOWN_KEY);
+        return false;
+    }
+}
+
+checkCooldown();
+
+
+// ================= UTIL =================
+
+function showError(msg) {
+    elements.errorNotif.textContent = msg;
+    elements.errorNotif.classList.add('show');
+    setTimeout(() => elements.errorNotif.classList.remove('show'), 4000);
+}
+
+function showSuccess() {
+    if (submitted) {
+        elements.formContainer.style.display = 'none';
+        elements.successOverlay.style.display = 'flex';
+    }
+}
+
+
+// ================= UI =================
+
+elements.trigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    elements.trigger.classList.toggle('open');
+    elements.optionsMenu.classList.toggle('show');
+});
+
+options.forEach(opt => {
+    opt.addEventListener('click', function () {
+        const val = this.getAttribute('data-value');
+        elements.trigger.textContent = val;
+        elements.trigger.style.color = "#fff";
+        elements.hiddenInput.value = val;
+
+        elements.optionsMenu.classList.remove('show');
+        elements.trigger.classList.remove('open');
+
+        if (val === 'Izin') {
+            elements.reasonContainer.style.display = 'block';
+            setTimeout(() => elements.reasonContainer.classList.add('show-reason'), 10);
+            elements.reasonInput.required = true;
+        } else {
+            elements.reasonContainer.classList.remove('show-reason');
+            elements.reasonInput.value = "";
+            setTimeout(() => elements.reasonContainer.style.display = 'none', 400);
+            elements.reasonInput.required = false;
+        }
+    });
+});
+
+options.forEach(opt => {
+    opt.addEventListener('click', function () {
+        const val = this.getAttribute('data-value');
+        elements.trigger.textContent = val;
+        elements.trigger.style.color = "#fff";
+        elements.hiddenInput.value = val;
+
+        elements.optionsMenu.classList.remove('show');
+        elements.trigger.classList.remove('open');
+
+        if (val === 'Izin') {
+            elements.reasonContainer.style.display = 'block';
+            setTimeout(() => elements.reasonContainer.classList.add('show-reason'), 10);
+            elements.reasonInput.required = true;
+            elements.reasonInput.value = ""; 
+        } else {
+            elements.reasonContainer.classList.remove('show-reason');
+            elements.reasonInput.required = false;
+            
+            if (val === 'Hadir') {
+                elements.reasonInput.value = "Tidak ada alasan, karena saya hadir";
+            } else {
+                elements.reasonInput.value = "";
+            }
+
+            setTimeout(() => elements.reasonContainer.style.display = 'none', 400);
+        }
+    });
+});
+
+
+// ================= SUBMIT =================
+
+elements.form.addEventListener('submit', function (e) {
+
+    if (checkCooldown()) {
+        e.preventDefault();
+        return;
+    }
+
+    if (!navigator.onLine) {
+        e.preventDefault();
+        showError("Tidak ada internet!");
+        return;
+    }
+
+    if (!elements.hiddenInput.value) {
+        e.preventDefault();
+        showError("Pilih status dulu!");
+        return;
+    }
+
+    if (submitted) {
+        e.preventDefault();
+        return;
+    }
+
+    let tk = elements.tiktokInput.value.trim();
+    if (tk) {
+        let user = tk
+            .replace(/https?:\/\//, '')
+            .replace(/(www\.|vt\.)?tiktok\.com\//, '')
+            .replace(/@/g, '')
+            .split(/[?\/]/)[0];
+
+        elements.tiktokInput.value = 'https://tiktok.com/@' + user;
+    }
+
+    submitted = true;
+
+    // 🔥 FIX: simpan waktu SEKALI
+    const now = Date.now();
+    localStorage.setItem(COOLDOWN_KEY, now);
+    startCooldown(now);
+
+    elements.btnSpinner.style.display = 'block';
+    elements.btnText.textContent = "Mengirim...";
+    elements.btn.disabled = true;
+});
+
+
+// ================= CLOSE DROPDOWN =================
+
+window.addEventListener('click', (e) => {
+    if (!elements.trigger.contains(e.target)) {
+        elements.optionsMenu.classList.remove('show');
+        elements.trigger.classList.remove('open');
+    }
+});
+</script>
+
 <script>
 const infoBtn = document.getElementById("infoBtn");
 const infoPopup = document.getElementById("infoPopup");
