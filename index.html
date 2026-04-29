@@ -422,6 +422,37 @@
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
 }
+
+.info-menu {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 15px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 8px;
+}
+
+.info-menu span {
+    cursor: pointer;
+    font-size: 0.8rem;
+    color: #aaa;
+    transition: 0.3s;
+}
+
+.info-menu span.active {
+    color: var(--primary);
+    font-weight: bold;
+}
+
+.info-menu span:hover {
+    color: #fff;
+}
+
+.sub-text {
+    display: block;
+    margin-left: 11px; /* bikin masuk ke dalam */
+    font-size: 0.8rem;
+    color: #ccc
+}
     </style>
 </head>
 
@@ -437,12 +468,9 @@
                 style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px; margin-top: 10px;">
                 Absensi kamu telah tersimpan.
             </p>
-            <button 
-onclick="window.location.href='https://newbiefams-absen.qinzenu.my.id'"
-style="background: var(--primary-gradient); color: white; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer;">
-Tutup
-</button>
-</div>
+            <button onclick="location.reload()"
+                style="background: var(--primary-gradient); color: white; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer;">Tutup</button>
+        </div>
 
         <div id="form-container">
             <div class="header-section">
@@ -494,6 +522,9 @@ Tutup
                     <textarea id="reasonInput" name="entry.864916109"
                         placeholder="Berikan alasan yang jelas..."></textarea>
                 </div>
+                <p style="font-size: 0.75rem; opacity: 0.8;">
+    Jika kamu tidak tahu cara absen, klik tombol <strong>?</strong> di sudut kanan bawah.
+</p>
                 <button type="submit" class="submit-btn" id="submitBtn">
                     <div class="spinner" id="btnSpinner"></div>
                     <span id="btnText">Kirim Absen</span>
@@ -503,21 +534,51 @@ Tutup
         <div class="footer-text">© 2026 NEWBIE FAMS • ADMIN</div>
     </div>
     
-    <!-- BUTTON INFO -->
+   <!-- BUTTON INFO -->
 <div id="infoBtn">?</div>
 
-<!-- POPUP INFO -->
+<!-- POPUP -->
 <div id="infoPopup">
     <div class="info-box">
-        <h3>Informasi</h3>
-        <p>
-            • Wajib absen 1x setiap 24 jam<br>
-            • Gunakan data yang valid<br>
-            • Jika izin, wajib isi alasan<br>
-            • Spam absen = auto blacklist<br>
-            <p style="font-weight: bold; color: white; text-align: center;">DILARANG <br> DDOS WEBSITE INI!</p>
 
-        </p>
+        <!-- MENU -->
+        <div class="info-menu">
+            <span onclick="showTab('panduan')" class="active">Panduan</span>
+            <span onclick="showTab('rules')">Rules</span>
+            <span onclick="showTab('info')">Informasi</span>
+        </div>
+
+       <div class="info-content" id="panduanTab">
+    <h3>Panduan</h3>
+    <p>
+        • Isi nama sesuai nama kamu<br>
+        • Isi username TikTok kamu<br>
+        • Isi nomor WhatsApp yang ada di grup<br>
+        • Pilih Hadir / Izin<br>
+        <span class="sub-text">Jika izin, isi alasan yang jelas</span>
+    </p>
+</div>
+
+        <div class="info-content" id="rulesTab" style="display:none;">
+            <h3>Rules</h3>
+            <p>
+                1. Dilarang spam absen<br>
+                2. Dilarang DDOS website<br>
+                3. Dilarang hapus data/cache<br><br>
+                <b>Jika melanggar = kick tanpa hormat</b>
+            </p>
+        </div>
+
+        <div class="info-content" id="infoTab" style="display:none;">
+            <h3>Informasi</h3>
+            <p>
+                • Wajib absen 1x setiap 24 jam<br>
+                • Gunakan data valid<br>
+                • Spam = blacklist<br><br>
+                <b>Dilarang menyebarkan website ini</b>
+            </p>
+        </div>
+
         <button onclick="closeInfo()">Tutup</button>
     </div>
 </div>
@@ -1273,11 +1334,25 @@ infoBtn.addEventListener("click", () => {
     infoPopup.style.display = "flex";
 });
 
+// SWITCH TAB
+function showTab(tab) {
+    document.getElementById('panduanTab').style.display = 'none';
+    document.getElementById('rulesTab').style.display = 'none';
+    document.getElementById('infoTab').style.display = 'none';
+
+    document.getElementById(tab + 'Tab').style.display = 'block';
+
+    // update active menu
+    document.querySelectorAll('.info-menu span').forEach(el => el.classList.remove('active'));
+    event.target.classList.add('active');
+}
+
+// CLOSE
 function closeInfo() {
     infoPopup.style.display = "none";
 }
 
-// Klik luar box = tutup
+// klik luar = tutup
 infoPopup.addEventListener("click", (e) => {
     if (e.target === infoPopup) {
         closeInfo();
