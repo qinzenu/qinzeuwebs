@@ -949,11 +949,10 @@ if (tkVal) {
     });
 </script> -->
 
-<script>
+    <script>
 let submitted = false;
 
 const COOLDOWN_TIME = 24 * 60 * 60 * 1000;
-
 const COOLDOWN_KEY = 'attendance_cooldown_timer';
 
 const elements = {
@@ -977,29 +976,24 @@ const options = document.querySelectorAll('.option');
 
 // ================= COOLDOWN =================
 
+// 🔥 FIX: tidak reset waktu
 function applyCooldownUI(timeLeft) {
     const totalSec = Math.ceil(timeLeft / 1000);
 
-    const hours = Math.floor(totalSec / 3600);
-    const minutes = Math.floor((totalSec % 3600) / 60);
-    const seconds = totalSec % 60;
-
-    // format biar 2 digit (01, 02, dst)
-    const h = String(hours).padStart(2, '0');
-    const m = String(minutes).padStart(2, '0');
-    const s = String(seconds).padStart(2, '0');
+    const h = String(Math.floor(totalSec / 3600)).padStart(2, '0');
+    const m = String(Math.floor((totalSec % 3600) / 60)).padStart(2, '0');
+    const s = String(totalSec % 60).padStart(2, '0');
 
     elements.btn.disabled = true;
     elements.btn.style.background = "#444";
     elements.btnText.textContent = `Tunggu ${h}:${m}:${s}`;
 }
 
-function startCooldown() {
-    const start = Date.now();
-    localStorage.setItem(COOLDOWN_KEY, start);
+// 🔥 FIX: pakai startTime lama
+function startCooldown(startTime) {
 
     const interval = setInterval(() => {
-        const elapsed = Date.now() - start;
+        const elapsed = Date.now() - startTime;
         const remain = COOLDOWN_TIME - elapsed;
 
         if (remain <= 0) {
@@ -1016,14 +1010,16 @@ function startCooldown() {
     }, 1000);
 }
 
+// 🔥 FIX: jangan reset timer
 function checkCooldown() {
     const saved = localStorage.getItem(COOLDOWN_KEY);
     if (!saved) return false;
 
     const remain = COOLDOWN_TIME - (Date.now() - saved);
+
     if (remain > 0) {
         applyCooldownUI(remain);
-        startCooldown();
+        startCooldown(saved); // 🔥 penting
         return true;
     } else {
         localStorage.removeItem(COOLDOWN_KEY);
@@ -1095,13 +1091,11 @@ options.forEach(opt => {
             elements.reasonContainer.style.display = 'block';
             setTimeout(() => elements.reasonContainer.classList.add('show-reason'), 10);
             elements.reasonInput.required = true;
-            // Membersihkan input jika sebelumnya ada teks otomatis dari 'Hadir'
             elements.reasonInput.value = ""; 
         } else {
             elements.reasonContainer.classList.remove('show-reason');
             elements.reasonInput.required = false;
             
-            // Logika tambahan untuk 'Hadir'
             if (val === 'Hadir') {
                 elements.reasonInput.value = "Tidak ada alasan, karena saya hadir";
             } else {
@@ -1140,7 +1134,6 @@ elements.form.addEventListener('submit', function (e) {
         return;
     }
 
-    // ===== FIX TIKTOK → @username =====
     let tk = elements.tiktokInput.value.trim();
     if (tk) {
         let user = tk
@@ -1153,7 +1146,11 @@ elements.form.addEventListener('submit', function (e) {
     }
 
     submitted = true;
-    startCooldown();
+
+    // 🔥 FIX: simpan waktu SEKALI
+    const now = Date.now();
+    localStorage.setItem(COOLDOWN_KEY, now);
+    startCooldown(now);
 
     elements.btnSpinner.style.display = 'block';
     elements.btnText.textContent = "Mengirim...";
@@ -1170,118 +1167,6 @@ window.addEventListener('click', (e) => {
     }
 });
 </script>
-<script>
-    const maintenanceEnd = new Date("2026-05-01T23:59:59");
-    const now = new Date();
-
-    if (now <= maintenanceEnd) {
-
-        document.body.innerHTML = `
-        <div style="
-            position:fixed;
-            inset:0;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            background:#000;
-            font-family:'Poppins', sans-serif;
-            color:white;
-            overflow:hidden;
-        ">
-
-            <!-- EFFECT BACKGROUND -->
-            <div style="
-                position:absolute;
-                inset:0;
-                background:
-                radial-gradient(circle at 20% 20%, rgba(255,0,0,0.2), transparent 40%),
-                radial-gradient(circle at 80% 80%, rgba(255,0,0,0.15), transparent 40%);
-                filter: blur(40px);
-            "></div>
-
-            <!-- CARD -->
-            <div style="
-                position:relative;
-                background:rgba(255,255,255,0.03);
-                backdrop-filter:blur(20px);
-                border:1px solid rgba(255,0,0,0.3);
-                padding:2.5rem 2rem;
-                border-radius:25px;
-                box-shadow:0 0 40px rgba(255,0,0,0.4);
-                text-align:center;
-                max-width:420px;
-                width:100%;
-            ">
-
-                <h1 style="
-                    font-size:2.2rem;
-                    font-weight:900;
-                    color:#ff0000;
-                    text-shadow:0 0 10px rgba(255,0,0,0.8),
-                                0 0 20px rgba(255,0,0,0.6);
-                    margin-bottom:10px;
-                ">
-                    MAINTENANCE
-                </h1>
-
-                <p style="
-                    color:#ccc;
-                    font-size:0.9rem;
-                    margin-bottom:20px;
-                ">
-                    Sistem sedang diperbaiki.<br>
-                    Kembali lagi setelah <b style="color:#ff3b3b;">1 Mei 2026</b>
-                </p>
-
-                <div id="countdown" style="
-                    font-weight:700;
-                    font-size:1.1rem;
-                    color:#ff3b3b;
-                    background:rgba(255,0,0,0.1);
-                    padding:10px 20px;
-                    border-radius:50px;
-                    display:inline-block;
-                    box-shadow:0 0 15px rgba(255,0,0,0.5);
-                ">
-                    Loading...
-                </div>
-
-            </div>
-        </div>
-        `;
-
-        // 🔒 LOCK SCROLL
-        document.body.style.overflow = "hidden";
-        document.documentElement.style.overflow = "hidden";
-
-        document.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
-        document.addEventListener('wheel', e => e.preventDefault(), { passive: false });
-        document.addEventListener('keydown', e => {
-            if (["ArrowUp","ArrowDown","Space"].includes(e.code)) e.preventDefault();
-        });
-
-        // 🔥 COUNTDOWN
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const distance = maintenanceEnd - now;
-
-            if (distance <= 0) {
-                location.reload();
-                return;
-            }
-
-            const d = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const h = Math.floor((distance / (1000 * 60 * 60)) % 24);
-            const m = Math.floor((distance / (1000 * 60)) % 60);
-            const s = Math.floor((distance / 1000) % 60);
-
-            document.getElementById("countdown").innerHTML =
-                `${d}H ${h}J ${m}M ${s}D`;
-        }
-
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
-    }
-</script>
+    
 </body>
 </html>
