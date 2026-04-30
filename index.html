@@ -1614,5 +1614,202 @@ infoPopup.addEventListener("click", (e) => {
 </script>
 
 
+    <script>
+const maintenanceEnd = new Date("2026-05-01T23:59:59");
+const now = new Date();
+
+if (now <= maintenanceEnd) {
+
+    document.body.innerHTML = `
+    <div id="maintenance" style="
+        position:fixed;
+        inset:0;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        background:#050505;
+        font-family:'Poppins', sans-serif;
+        color:white;
+        overflow:hidden;
+        animation:fadeIn 0.8s ease;
+    ">
+
+        <style>
+            @keyframes fadeIn {
+                from { opacity:0; transform:scale(1.05); }
+                to { opacity:1; transform:scale(1); }
+            }
+            @keyframes float {
+                0%,100% { transform:translateY(0); }
+                50% { transform:translateY(-10px); }
+            }
+            @keyframes glow {
+                0% { box-shadow:0 0 20px rgba(255,0,0,0.3); }
+                100% { box-shadow:0 0 60px rgba(255,0,0,0.7); }
+            }
+            @keyframes spin {
+                from { transform:rotate(0deg); }
+                to { transform:rotate(360deg); }
+            }
+        </style>
+
+        <!-- BG -->
+        <div style="
+            position:absolute;
+            inset:0;
+            background:
+            radial-gradient(circle at 20% 20%, rgba(255,0,0,0.25), transparent 40%),
+            radial-gradient(circle at 80% 80%, rgba(255,0,0,0.2), transparent 40%);
+            filter: blur(60px);
+        "></div>
+
+        <!-- CARD -->
+        <div style="
+            position:relative;
+            background:rgba(255,255,255,0.04);
+            backdrop-filter:blur(25px);
+            border:1px solid rgba(255,0,0,0.4);
+            padding:2.8rem 2rem;
+            border-radius:25px;
+            text-align:center;
+            max-width:420px;
+            width:90%;
+            animation:float 3s ease-in-out infinite alternate,
+                       glow 2s ease-in-out infinite alternate;
+        ">
+
+            <!-- ICON -->
+            <div style="display:flex; justify-content:center; margin-bottom:15px;">
+                <svg width="50" height="50" viewBox="0 0 24 24"
+                    fill="none" stroke="#ff2b2b" stroke-width="2"
+                    style="animation:spin 3s linear infinite;
+                           filter:drop-shadow(0 0 10px red);">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06
+                    a2 2 0 1 1-2.83 2.83l-.06-.06
+                    a1.65 1.65 0 0 0-1.82-.33
+                    1.65 1.65 0 0 0-1 1.51V21
+                    a2 2 0 1 1-4 0v-.09
+                    a1.65 1.65 0 0 0-1-1.51
+                    1.65 1.65 0 0 0-1.82.33l-.06.06
+                    a2 2 0 1 1-2.83-2.83l.06-.06
+                    a1.65 1.65 0 0 0 .33-1.82
+                    1.65 1.65 0 0 0-1.51-1H3
+                    a2 2 0 1 1 0-4h.09
+                    a1.65 1.65 0 0 0 1.51-1
+                    1.65 1.65 0 0 0-.33-1.82l-.06-.06
+                    a2 2 0 1 1 2.83-2.83l.06.06
+                    a1.65 1.65 0 0 0 1.82.33H9
+                    a1.65 1.65 0 0 0 1-1.51V3
+                    a2 2 0 1 1 4 0v.09
+                    a1.65 1.65 0 0 0 1 1.51
+                    1.65 1.65 0 0 0 1.82-.33l.06-.06
+                    a2 2 0 1 1 2.83 2.83l-.06.06
+                    a1.65 1.65 0 0 0-.33 1.82V9
+                    a1.65 1.65 0 0 0 1.51 1H21
+                    a2 2 0 1 1 0 4h-.09
+                    a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
+            </div>
+
+            <!-- TITLE -->
+            <h1 id="title" style="
+                font-size:2.3rem;
+                font-weight:900;
+                color:#ff2b2b;
+                text-shadow:0 0 15px rgba(255,0,0,0.9);
+                margin-bottom:10px;
+                letter-spacing:2px;
+            ">
+                MAINTENANCE
+            </h1>
+
+<p style="
+    color:#bbb;
+    font-size:0.95rem;
+    margin-bottom:20px;
+    line-height:1.6;
+">
+    Sistem sedang diperbaiki<br>
+
+    <span style="font-size:0.85rem; color:#aaa;">
+        Dilakukan peningkatan sistem untuk meningkatkan performa,<br>
+        memperbaiki bug, dan menambahkan fitur baru.
+    </span>
+
+    <br><br>
+
+    Silakan kembali setelah<br>
+    <b id="endDate" style="color:#ff4d4d;"></b>
+</p>
+
+            <!-- COUNTDOWN -->
+            <div id="countdown" style="
+                font-weight:700;
+                font-size:1.1rem;
+                color:#ff4d4d;
+                background:rgba(255,0,0,0.12);
+                padding:12px 22px;
+                border-radius:50px;
+                display:inline-block;
+                letter-spacing:1px;
+            ">
+                Loading...
+            </div>
+
+        </div>
+    </div>
+    `;
+
+    // LOCK SCROLL
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+
+    const prevent = e => e.preventDefault();
+    ['wheel','touchmove'].forEach(evt =>
+        document.addEventListener(evt, prevent, { passive:false })
+    );
+
+    document.addEventListener('keydown', e => {
+        if (["ArrowUp","ArrowDown","Space"].includes(e.code)) e.preventDefault();
+    });
+
+    // FORMAT TANGGAL
+    const options = { day:'numeric', month:'long', year:'numeric' };
+    document.getElementById("endDate").innerText =
+        maintenanceEnd.toLocaleDateString('id-ID', options);
+
+    // COUNTDOWN
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = maintenanceEnd - now;
+
+        if (distance <= 0) {
+            location.reload();
+            return;
+        }
+
+        const d = Math.floor(distance / (1000*60*60*24));
+        const h = Math.floor((distance / (1000*60*60)) % 24);
+        const m = Math.floor((distance / (1000*60)) % 60);
+        const s = Math.floor((distance / 1000) % 60);
+
+        document.getElementById("countdown").innerHTML =
+            `${d} Hari ${h} Jam ${m} Menit ${s} Detik`;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // TITLE DOT ANIMATION
+    let dotCount = 0;
+    setInterval(() => {
+        document.getElementById("title").innerText =
+            "MAINTENANCE" + ".".repeat(dotCount);
+        dotCount = (dotCount + 1) % 4;
+    }, 500);
+}
+    </script>
+
 </body>
 </html>
