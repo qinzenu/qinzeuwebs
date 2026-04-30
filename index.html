@@ -1852,9 +1852,22 @@ if (now <= updateEnd) {
                 • Penambahan gambar di background
             </p>
 
-            <div id="countdown" style="font-weight:700; font-size:1.1rem; color:#ff4d4d; background:rgba(255,0,0,0.12); padding:12px 22px; border-radius:50px; display:inline-block; letter-spacing:1px;">
-                Loading...
-            </div>
+<div id="countdown" style="
+    font-weight:700; 
+    font-size:1.1rem; 
+    color:#ff4d4d; 
+    background:rgba(255,0,0,0.12); 
+    padding:12px 22px; 
+    border-radius:50px; 
+    display:inline-block; 
+    letter-spacing:1px;
+    white-space: nowrap; /* Mencegah teks turun ke bawah */
+    min-width: 200px;    /* Memberikan lebar minimum agar box tidak kembang kempis */
+    text-align: center;  /* Memastikan teks tetap di tengah */
+">
+    Loading...
+</div>
+
         </div>
     </div>
     `;
@@ -1894,7 +1907,8 @@ if (now <= updateEnd) {
         dotCount = (dotCount + 1) % 4;
     }, 500);
 }
-</script>
+</script>    
+
 
 
 
