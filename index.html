@@ -33,7 +33,6 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* Mencegah zoom saat double tap pada tombol atau elemen interaktif */
 button, input, select, textarea {
     touch-action: manipulation;
 }
@@ -327,7 +326,6 @@ button, input, select, textarea {
             letter-spacing: 1px;
         }
 
-        /* Animasi putar untuk spinner */
         @keyframes spin {
             to {
                 transform: rotate(360deg);
@@ -1776,208 +1774,127 @@ updatePopup.addEventListener("click", (e) => {
 });
 </script>
 
-<script>
+    <script>
 const updateEnd = new Date("2026-05-01T06:00:00");
 const now = new Date();
 
 if (now <= updateEnd) {
-
     document.body.innerHTML = `
-    <div id="update" style="
+    <img src="./vd/fotolivexjj.jpg" style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 1;
+    " alt="background">
+
+    <div style="
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4); /* Kegelapan latar belakang */
+        z-index: 2;
+    "></div>
+
+    <div id="update-container" style="
         position:fixed;
         inset:0;
         display:flex;
         justify-content:center;
         align-items:center;
-        background:#050505;
         font-family:'Poppins', sans-serif;
         color:white;
+        z-index: 3;
         overflow:hidden;
-        animation:fadeIn 0.8s ease;
     ">
-
         <style>
-            @keyframes fadeIn {
-                from { opacity:0; transform:scale(1.05); }
-                to { opacity:1; transform:scale(1); }
-            }
-            @keyframes float {
-                0%,100% { transform:translateY(0); }
-                50% { transform:translateY(-10px); }
-            }
-            @keyframes glow {
-                0% { box-shadow:0 0 20px rgba(255,0,0,0.3); }
-                100% { box-shadow:0 0 60px rgba(255,0,0,0.7); }
-            }
-            @keyframes spin {
-                from { transform:rotate(0deg); }
-                to { transform:rotate(360deg); }
-            }
+            @keyframes fadeIn { from { opacity:0; transform:scale(1.05); } to { opacity:1; transform:scale(1); } }
+            @keyframes float { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-10px); } }
+            @keyframes glow { 0% { box-shadow:0 0 20px rgba(255,0,0,0.3); } 100% { box-shadow:0 0 60px rgba(255,0,0,0.7); } }
+            @keyframes spin { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
         </style>
 
-        
-        <div style="
-            position:absolute;
-            inset:0;
-            background:
-            radial-gradient(circle at 20% 20%, rgba(255,0,0,0.25), transparent 40%),
-            radial-gradient(circle at 80% 80%, rgba(255,0,0,0.2), transparent 40%);
-            filter: blur(60px);
-        "></div>
-
-      
         <div style="
             position:relative;
-            background:rgba(255,255,255,0.04);
-            backdrop-filter:blur(25px);
+            background:rgba(20, 20, 20, 0.3);
+            backdrop-filter:blur(3px);
+            -webkit-backdrop-filter:blur(3px);
             border:1px solid rgba(255,0,0,0.4);
             padding:2.8rem 2rem;
             border-radius:25px;
             text-align:center;
             max-width:420px;
             width:90%;
-            animation:float 3s ease-in-out infinite alternate,
-                       glow 2s ease-in-out infinite alternate;
+            animation: float 3s ease-in-out infinite alternate, glow 2s ease-in-out infinite alternate;
         ">
-
-            
             <div style="display:flex; justify-content:center; margin-bottom:15px;">
-                <svg width="50" height="50" viewBox="0 0 24 24"
-                    fill="none" stroke="#ff2b2b" stroke-width="2"
-                    style="animation:spin 4s linear infinite;
-                           filter:drop-shadow(0 0 10px red);">
+                <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="#ff2b2b" stroke-width="2" style="animation:spin 4s linear infinite; filter:drop-shadow(0 0 10px red);">
                     <polyline points="23 4 23 10 17 10"></polyline>
                     <polyline points="1 20 1 14 7 14"></polyline>
                     <path d="M3.51 9a9 9 0 0 1 14.13-3.36L23 10M1 14l5.36 4.36A9 9 0 0 0 20.49 15"></path>
                 </svg>
             </div>
             
-            
-            <h1 id="title" style="
-    font-size: 1.8rem; /* Perkecil dari 2.3rem ke 1.8rem */
-    font-weight: 900;
-    color: #ff2b2b;
-    text-shadow: 0 0 15px rgba(255,0,0,0.9);
-    margin-bottom: 10px;
-    letter-spacing: 1px; /* Kurangi sedikit spasi antar huruf */
-    white-space: nowrap; /* TAMBAHKAN INI agar teks tidak bisa turun ke bawah */
-">
-    UPDATE SYSTEM
-</h1>
+            <h1 id="title" style="font-size: 1.8rem; font-weight: 900; color: #ff2b2b; text-shadow: 0 0 15px rgba(255,0,0,0.9); margin-bottom: 10px; letter-spacing: 1px; white-space: nowrap;">
+                UPDATE SYSTEM
+            </h1>
 
-            
-            
-            <p style="
-                color:#bbb;
-                font-size:0.95rem;
-                margin:20px auto;
-                line-height:1.6;
-                text-align:left;
-                max-width:320px;
-            ">
+            <p style="color:#bbb; font-size:0.95rem; margin:20px auto; line-height:1.6; text-align:left; max-width:320px;">
                 <span style="display:block; text-align:center;">
                     Sistem sedang diperbarui<br>
                     Mohon tunggu sampai selesai<br>
                     <b id="endDate" style="color:#ff4d4d;"></b>
                 </span>
-
-                <br><br>
-
+                <br>
                 <b style="color:#ff4d4d;">Update:</b><br>
                 • Perbaiki bug data tidak masuk ke sheet<br>
-                • Penambahan gambar di background<br>
-
+                • Penambahan gambar di background
             </p>
 
-            
-            <div id="countdown" style="
-    font-weight:700;
-    font-size:1.1rem;
-    color:#ff4d4d;
-    background:rgba(255,0,0,0.12);
-    padding:12px 22px;
-    border-radius:50px;
-    display:inline-block;
-    letter-spacing:1px;
-    white-space: nowrap; /* TAMBAHKAN INI */
-">
-    Loading...
-</div>
-
-
+            <div id="countdown" style="font-weight:700; font-size:1.1rem; color:#ff4d4d; background:rgba(255,0,0,0.12); padding:12px 22px; border-radius:50px; display:inline-block; letter-spacing:1px;">
+                Loading...
+            </div>
         </div>
     </div>
     `;
 
-    // 🔒 LOCK SCROLL
+    // LOCK SCROLL
     document.documentElement.style.overflow = "hidden";
     document.body.style.overflow = "hidden";
 
-    const prevent = e => e.preventDefault();
-    ['wheel','touchmove'].forEach(evt =>
-        document.addEventListener(evt, prevent, { passive:false })
-    );
-
-    document.addEventListener('keydown', e => {
-        if (["ArrowUp","ArrowDown","Space"].includes(e.code)) e.preventDefault();
-    });
-
-    // 🗓️ FORMAT TANGGAL OTOMATIS
+    // FORMAT TANGGAL
     const options = { day:'numeric', month:'long', year:'numeric' };
-    document.getElementById("endDate").innerText =
-        updateEnd.toLocaleDateString('id-ID', options);
+    document.getElementById("endDate").innerText = updateEnd.toLocaleDateString('id-ID', options);
 
-    // ⏳ COUNTDOWN
+    // COUNTDOWN
     function updateCountdown() {
-    const now = new Date().getTime();
-    const distance = updateEnd - now;
+        const distance = updateEnd - new Date().getTime();
+        if (distance <= 0) { location.reload(); return; }
 
-    if (distance <= 0) {
-        location.reload();
-        return;
+        const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const h = Math.floor((distance / (1000 * 60 * 60)) % 24);
+        const m = Math.floor((distance / (1000 * 60)) % 60);
+        const s = Math.floor((distance / 1000) % 60);
+
+        let result = d > 0 ? `${d} Day ` : "";
+        result += (d > 0 || h > 0) ? `${h} Hours ` : "";
+        result += (d > 0 || h > 0 || m > 0) ? `${m} Minutes ` : "";
+        result += `${s} Seccond`;
+        document.getElementById("countdown").innerHTML = result;
     }
-
-    const d = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const h = Math.floor((distance / (1000 * 60 * 60)) % 24);
-    const m = Math.floor((distance / (1000 * 60)) % 60);
-    const s = Math.floor((distance / 1000) % 60);
-
-    // LOGIKA DINAMIS:
-    let result = "";
-
-    if (d > 0) {
-        result += `${d} Hari `;
-    }
-    
-    // Tampilkan Jam jika ada Hari (meskipun 0 Jam) ATAU jika Jam memang > 0
-    if (d > 0 || h > 0) {
-        result += `${h} Jam `;
-    }
-
-    // Tampilkan Menit jika ada Jam/Hari (meskipun 0 Menit) ATAU jika Menit memang > 0
-    if (d > 0 || h > 0 || m > 0) {
-        result += `${m} Menit `;
-    }
-
-    // Detik selalu tampil
-    result += `${s} Detik`;
-
-    document.getElementById("countdown").innerHTML = result;
-}
-
 
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
-    // 🔥 TITLE ANIMATION
+    // TITLE DOT ANIMATION
     let dotCount = 0;
     setInterval(() => {
-        document.getElementById("title").innerText =
-            "UPDATE SYSTEM" + ".".repeat(dotCount);
+        document.getElementById("title").innerText = "UPDATE SYSTEM" + ".".repeat(dotCount);
         dotCount = (dotCount + 1) % 4;
     }, 500);
 }
-    </script>
+</script>
 
 
 
