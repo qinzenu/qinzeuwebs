@@ -30,6 +30,7 @@
             box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
             touch-action: pan-x pan-y;
+            -webkit-tap-highlight-color: transparent;
         }
 
         /* Mencegah zoom saat double tap pada tombol atau elemen interaktif */
@@ -80,8 +81,8 @@ button, input, select, textarea {
 
         .main-wrapper {
             background: rgba(20, 20, 20, 0.6);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
             border: 1px solid rgba(255, 0, 0, 0.2);
             padding: 3rem 2rem;
             border-radius: var(--radius-lg);
@@ -458,10 +459,138 @@ button, input, select, textarea {
     color: #ccc
 }
     </style>
+    <style>
+      #bgImage {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+}
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: transparent;
+    z-index: -1;
+}
+    </style>
+   <!-- <style>
+      #bgVideo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+}
+
+/* Overlay biar tetap gelap & elegan */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+}
+
+#soundBtn {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: white;
+    cursor: pointer;
+    z-index: 9999;
+    transition: 0.3s;
+}
+
+#soundBtn:hover {
+    transform: scale(1.1);
+}
+    </style> -->
+    <style>
+      .update-popup {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+}
+
+.update-box {
+    width: 90%;
+    max-width: 360px;
+    background: #111;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 18px;
+    padding: 20px;
+    animation: fadeIn 0.3s ease;
+}
+
+.update-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.update-header h3 {
+    color: #ff3131;
+    font-size: 1.1rem;
+}
+
+#closeUpdate {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.update-body {
+    font-size: 0.85rem;
+    color: #ddd;
+    line-height: 1.5;
+}
+    </style>
 </head>
 
 <body>
+  <div id="updatePopup" class="update-popup">
+    <div class="update-box">
+        <div class="update-header">
+            <h3>Update Terbaru</h3>
+            <button id="closeUpdate">✕</button>
+        </div>
 
+        <div class="update-body">
+            <p>
+                • Bug fix data tidak masuk ke sheet<br>
+                • Penambahan gambar di background<br><br>
+            </p>
+        </div>
+    </div>
+</div>
+ <!-- Projek gakuat
+ 
+ <video autoplay muted loop playsinline id="bgVideo">
+    <source src="./vd/fotolivexjj.mp4" type="video/mp4">
+</video> 
+<div id="soundBtn">🔇</div> -->
+<img id="bgImage" src="./vd/fotolivexjj.jpg" alt="background">
     <div id="error-notification"></div>
 
     <div class="main-wrapper">
@@ -484,8 +613,7 @@ button, input, select, textarea {
                 <p>Jangan Lupa Absen Setiap Hari</p>
             </div>
 
-            <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"
-                onload="if(submitted){showSuccess();}"></iframe>
+            <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
 
             <form id="attendanceForm"
                 action="https://docs.google.com/forms/d/e/1FAIpQLSeOjtlyn9ao3Qsk7IqFe0MtjLrFHiJr_s8hy-qaloWRHdATQQ/formResponse"
@@ -1337,6 +1465,7 @@ window.addEventListener('click', (e) => {
 
 <script>
 let submitted = false;
+let sending = false;
 
 const COOLDOWN_TIME = 24 * 60 * 60 * 1000;
 const COOLDOWN_KEY = 'attendance_cooldown_timer';
@@ -1354,7 +1483,8 @@ const elements = {
     btnSpinner: document.getElementById('btnSpinner'),
     btnText: document.getElementById('btnText'),
     formContainer: document.getElementById('form-container'),
-    successOverlay: document.getElementById('success-overlay')
+    successOverlay: document.getElementById('success-overlay'),
+    iframe: document.getElementById('hidden_iframe')
 };
 
 const options = document.querySelectorAll('.option');
@@ -1369,25 +1499,20 @@ function applyCooldownUI(timeLeft) {
     const m = String(Math.floor((totalSec % 3600) / 60)).padStart(2, '0');
     const s = String(totalSec % 60).padStart(2, '0');
 
-    // Kunci tombol kirim
     elements.btn.disabled = true;
     elements.btn.style.background = "#444";
     elements.btnText.textContent = `Tunggu ${h}:${m}:${s}`;
 
-    // KUNCI SEMUA INPUT (Tambahan Baru)
     const allInputs = elements.form.querySelectorAll('input, textarea');
     allInputs.forEach(input => {
         input.disabled = true;
         input.style.opacity = "0.6";
-        input.style.cursor = "not-allowed";
     });
-    
-    // Kunci dropdown status
+
     elements.trigger.style.pointerEvents = "none";
     elements.trigger.style.opacity = "0.6";
 }
 
-// 🔥 FIX: pakai startTime lama
 function startCooldown(startTime) {
     const interval = setInterval(() => {
         const elapsed = Date.now() - startTime;
@@ -1397,23 +1522,18 @@ function startCooldown(startTime) {
             clearInterval(interval);
             localStorage.removeItem(COOLDOWN_KEY);
 
-            // Aktifkan kembali tombol
             elements.btn.disabled = false;
-            elements.btnText.textContent = "Kirim Absensi";
+            elements.btnText.textContent = "Kirim Absen";
             elements.btn.style.background = "";
 
-            // AKTIFKAN KEMBALI SEMUA INPUT (Tambahan Baru)
             const allInputs = elements.form.querySelectorAll('input, textarea');
             allInputs.forEach(input => {
                 input.disabled = false;
                 input.style.opacity = "1";
-                input.style.cursor = "text";
             });
 
-            // Aktifkan kembali dropdown status
             elements.trigger.style.pointerEvents = "auto";
             elements.trigger.style.opacity = "1";
-            
             return;
         }
 
@@ -1421,7 +1541,6 @@ function startCooldown(startTime) {
     }, 1000);
 }
 
-// 🔥 FIX: jangan reset timer
 function checkCooldown() {
     const saved = localStorage.getItem(COOLDOWN_KEY);
     if (!saved) return false;
@@ -1430,7 +1549,7 @@ function checkCooldown() {
 
     if (remain > 0) {
         applyCooldownUI(remain);
-        startCooldown(saved); // 🔥 penting
+        startCooldown(saved);
         return true;
     } else {
         localStorage.removeItem(COOLDOWN_KEY);
@@ -1450,16 +1569,31 @@ function showError(msg) {
 }
 
 function showSuccess() {
-    if (submitted) {
-        elements.formContainer.style.display = 'none';
-        elements.successOverlay.style.display = 'flex';
-    }
+    elements.formContainer.style.display = 'none';
+    elements.successOverlay.style.display = 'flex';
 }
+
+
+// ================= IFRAME DETECTION (🔥 FIX UTAMA) =================
+
+elements.iframe.onload = function () {
+    if (sending) {
+        submitted = true;
+        sending = false;
+
+        showSuccess();
+
+        const now = Date.now();
+        localStorage.setItem(COOLDOWN_KEY, now);
+        startCooldown(now);
+    }
+};
 
 
 // ================= UI =================
 
 elements.trigger.addEventListener('click', (e) => {
+    if (sending) return;
     e.stopPropagation();
     elements.trigger.classList.toggle('open');
     elements.optionsMenu.classList.toggle('show');
@@ -1467,7 +1601,10 @@ elements.trigger.addEventListener('click', (e) => {
 
 options.forEach(opt => {
     opt.addEventListener('click', function () {
+        if (sending) return;
+
         const val = this.getAttribute('data-value');
+
         elements.trigger.textContent = val;
         elements.trigger.style.color = "#fff";
         elements.hiddenInput.value = val;
@@ -1479,40 +1616,11 @@ options.forEach(opt => {
             elements.reasonContainer.style.display = 'block';
             setTimeout(() => elements.reasonContainer.classList.add('show-reason'), 10);
             elements.reasonInput.required = true;
-        } else {
-            elements.reasonContainer.classList.remove('show-reason');
             elements.reasonInput.value = "";
-            setTimeout(() => elements.reasonContainer.style.display = 'none', 400);
-            elements.reasonInput.required = false;
-        }
-    });
-});
-
-options.forEach(opt => {
-    opt.addEventListener('click', function () {
-        const val = this.getAttribute('data-value');
-        elements.trigger.textContent = val;
-        elements.trigger.style.color = "#fff";
-        elements.hiddenInput.value = val;
-
-        elements.optionsMenu.classList.remove('show');
-        elements.trigger.classList.remove('open');
-
-        if (val === 'Izin') {
-            elements.reasonContainer.style.display = 'block';
-            setTimeout(() => elements.reasonContainer.classList.add('show-reason'), 10);
-            elements.reasonInput.required = true;
-            elements.reasonInput.value = ""; 
         } else {
             elements.reasonContainer.classList.remove('show-reason');
             elements.reasonInput.required = false;
-            
-            if (val === 'Hadir') {
-                elements.reasonInput.value = "Tidak ada alasan, karena saya hadir";
-            } else {
-                elements.reasonInput.value = "";
-            }
-
+            elements.reasonInput.value = "Tidak ada alasan, karena saya hadir";
             setTimeout(() => elements.reasonContainer.style.display = 'none', 400);
         }
     });
@@ -1540,11 +1648,14 @@ elements.form.addEventListener('submit', function (e) {
         return;
     }
 
-    if (submitted) {
+    if (submitted || sending) {
         e.preventDefault();
         return;
     }
 
+    sending = true;
+
+    // FORMAT TIKTOK
     let tk = elements.tiktokInput.value.trim();
     if (tk) {
         let user = tk
@@ -1555,13 +1666,6 @@ elements.form.addEventListener('submit', function (e) {
 
         elements.tiktokInput.value = 'https://tiktok.com/@' + user;
     }
-
-    submitted = true;
-
-    // 🔥 FIX: simpan waktu SEKALI
-    const now = Date.now();
-    localStorage.setItem(COOLDOWN_KEY, now);
-    startCooldown(now);
 
     elements.btnSpinner.style.display = 'block';
     elements.btnText.textContent = "Mengirim...";
@@ -1613,8 +1717,66 @@ infoPopup.addEventListener("click", (e) => {
 });
 </script>
 
+<!-- Script Video latar belakang -->
+<!-- <script>
+const video = document.getElementById("bgVideo");
+const btn = document.getElementById("soundBtn");
 
-    <script>
+// default muted (biar bisa autoplay)
+video.muted = true;
+
+// coba langsung unmute (kadang berhasil di desktop)
+setTimeout(() => {
+    video.muted = false;
+    video.play().catch(() => {
+        // kalau gagal, tetap mute
+        video.muted = true;
+    });
+}, 1000);
+
+// toggle manual
+btn.addEventListener("click", () => {
+    video.muted = !video.muted;
+
+    if (video.muted) {
+        btn.textContent = "🔇";
+    } else {
+        btn.textContent = "🔊";
+        video.play();
+    }
+});
+</script> -->
+
+<script>
+const updatePopup = document.getElementById("updatePopup");
+const closeUpdate = document.getElementById("closeUpdate");
+
+// VERSION UPDATE → GANTI INI SETIAP ADA UPDATE BARU
+const UPDATE_VERSION = "v1.0.0";
+
+// cek apakah sudah pernah ditutup
+if (localStorage.getItem("update_seen") !== UPDATE_VERSION) {
+    setTimeout(() => {
+        updatePopup.style.display = "flex";
+    }, 800);
+}
+
+// tombol close
+closeUpdate.addEventListener("click", () => {
+    updatePopup.style.display = "none";
+    localStorage.setItem("update_seen", UPDATE_VERSION);
+});
+
+// klik luar box = tutup
+updatePopup.addEventListener("click", (e) => {
+    if (e.target === updatePopup) {
+        updatePopup.style.display = "none";
+        localStorage.setItem("update_seen", UPDATE_VERSION);
+    }
+});
+</script>
+
+<script>
 const updateEnd = new Date("2026-05-01T06:00:00");
 const now = new Date();
 
@@ -1816,5 +1978,11 @@ if (now <= updateEnd) {
     }, 500);
 }
     </script>
+
+
+
+<!---->
+
+
 </body>
 </html>
