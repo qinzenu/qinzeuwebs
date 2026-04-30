@@ -1692,15 +1692,17 @@ if (now <= updateEnd) {
             
             
             <h1 id="title" style="
-                font-size:2.3rem;
-                font-weight:900;
-                color:#ff2b2b;
-                text-shadow:0 0 15px rgba(255,0,0,0.9);
-                margin-bottom:10px;
-                letter-spacing:2px;
-            ">
-                UPDATE SYSTEM
-            </h1>
+    font-size: 1.8rem; /* Perkecil dari 2.3rem ke 1.8rem */
+    font-weight: 900;
+    color: #ff2b2b;
+    text-shadow: 0 0 15px rgba(255,0,0,0.9);
+    margin-bottom: 10px;
+    letter-spacing: 1px; /* Kurangi sedikit spasi antar huruf */
+    white-space: nowrap; /* TAMBAHKAN INI agar teks tidak bisa turun ke bawah */
+">
+    UPDATE SYSTEM
+</h1>
+
             
             
             <p style="
@@ -1727,17 +1729,19 @@ if (now <= updateEnd) {
 
             
             <div id="countdown" style="
-                font-weight:700;
-                font-size:1.1rem;
-                color:#ff4d4d;
-                background:rgba(255,0,0,0.12);
-                padding:12px 22px;
-                border-radius:50px;
-                display:inline-block;
-                letter-spacing:1px;
-            ">
-                Loading...
-            </div>
+    font-weight:700;
+    font-size:1.1rem;
+    color:#ff4d4d;
+    background:rgba(255,0,0,0.12);
+    padding:12px 22px;
+    border-radius:50px;
+    display:inline-block;
+    letter-spacing:1px;
+    white-space: nowrap; /* TAMBAHKAN INI */
+">
+    Loading...
+</div>
+
 
         </div>
     </div>
@@ -1763,22 +1767,42 @@ if (now <= updateEnd) {
 
     // ⏳ COUNTDOWN
     function updateCountdown() {
-        const now = new Date().getTime();
-        const distance = updateEnd - now;
+    const now = new Date().getTime();
+    const distance = updateEnd - now;
 
-        if (distance <= 0) {
-            location.reload();
-            return;
-        }
-
-        const d = Math.floor(distance / (1000*60*60*24));
-        const h = Math.floor((distance / (1000*60*60)) % 24);
-        const m = Math.floor((distance / (1000*60)) % 60);
-        const s = Math.floor((distance / 1000) % 60);
-
-        document.getElementById("countdown").innerHTML =
-            `${d} Hari ${h} Jam ${m} Menit ${s} Detik`;
+    if (distance <= 0) {
+        location.reload();
+        return;
     }
+
+    const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const h = Math.floor((distance / (1000 * 60 * 60)) % 24);
+    const m = Math.floor((distance / (1000 * 60)) % 60);
+    const s = Math.floor((distance / 1000) % 60);
+
+    // LOGIKA DINAMIS:
+    let result = "";
+
+    if (d > 0) {
+        result += `${d} Hari `;
+    }
+    
+    // Tampilkan Jam jika ada Hari (meskipun 0 Jam) ATAU jika Jam memang > 0
+    if (d > 0 || h > 0) {
+        result += `${h} Jam `;
+    }
+
+    // Tampilkan Menit jika ada Jam/Hari (meskipun 0 Menit) ATAU jika Menit memang > 0
+    if (d > 0 || h > 0 || m > 0) {
+        result += `${m} Menit `;
+    }
+
+    // Detik selalu tampil
+    result += `${s} Detik`;
+
+    document.getElementById("countdown").innerHTML = result;
+}
+
 
     setInterval(updateCountdown, 1000);
     updateCountdown();
