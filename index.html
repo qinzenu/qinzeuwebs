@@ -33,9 +33,12 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-button, input, select, textarea {
-    touch-action: manipulation;
-}
+        button,
+        input,
+        select,
+        textarea {
+            touch-action: manipulation;
+        }
 
         body {
             background-color: var(--bg-color);
@@ -353,129 +356,132 @@ button, input, select, textarea {
         }
     </style>
     <style>
-      /* FLOAT BUTTON */
-#infoBtn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    background: var(--primary-gradient);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 20px;
-    color: white;
-    cursor: pointer;
-    box-shadow: 0 5px 20px rgba(255,0,0,0.4);
-    z-index: 9999;
-    transition: 0.3s;
-    -webkit-tap-highlight-color: transparent;
-}
-.info-box p {
-    text-align: left;
-    line-height: 1.6;
-}
+        /* FLOAT BUTTON */
+        #infoBtn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(255, 0, 0, 0.4);
+            z-index: 9999;
+            transition: 0.3s;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-#infoBtn:hover {
-    transform: scale(1.1);
-}
+        .info-box p {
+            text-align: left;
+            line-height: 1.6;
+        }
 
-/* POPUP BACKGROUND */
-#infoPopup {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.7);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 10000;
-    -webkit-tap-highlight-color: transparent;
-}
+        #infoBtn:hover {
+            transform: scale(1.1);
+        }
 
-/* BOX */
-.info-box {
-    background: #111;
-    padding: 25px;
-    border-radius: 20px;
-    width: 90%;
-    max-width: 320px;
-    text-align: center;
-    border: 1px solid rgba(255,255,255,0.1);
-    animation: fadeIn 0.3s ease;
-}
+        /* POPUP BACKGROUND */
+        #infoPopup {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-.info-box h3 {
-    margin-bottom: 10px;
-    color: var(--primary);
-}
+        /* BOX */
+        .info-box {
+            background: #111;
+            padding: 25px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 320px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeIn 0.3s ease;
+        }
 
-.info-box p {
-    font-size: 0.85rem;
-    color: #ccc;
-    margin-bottom: 20px;
-    line-height: 1.5;
-}
+        .info-box h3 {
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
 
-.info-box button {
-    background: var(--primary-gradient);
-    border: none;
-    padding: 8px 15px;
-    border-radius: 10px;
-    color: white;
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-}
+        .info-box p {
+            font-size: 0.85rem;
+            color: #ccc;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
 
-.info-menu {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 15px;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    padding-bottom: 8px;
-}
+        .info-box button {
+            background: var(--primary-gradient);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-.info-menu span {
-    cursor: pointer;
-    font-size: 0.8rem;
-    color: #aaa;
-    transition: 0.3s;
-}
+        .info-menu {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 8px;
+        }
 
-.info-menu span.active {
-    color: var(--primary);
-    font-weight: bold;
-}
+        .info-menu span {
+            cursor: pointer;
+            font-size: 0.8rem;
+            color: #aaa;
+            transition: 0.3s;
+        }
+
+        .info-menu span.active {
+            color: var(--primary);
+            font-weight: bold;
+        }
 
 
-.sub-text {
-    display: block;
-    margin-left: 11px; /* bikin masuk ke dalam */
-    font-size: 0.8rem;
-    color: #ccc
-}
+        .sub-text {
+            display: block;
+            margin-left: 11px;
+            /* bikin masuk ke dalam */
+            font-size: 0.8rem;
+            color: #ccc
+        }
     </style>
     <style>
-      #bgImage {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -2;
-}
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: transparent;
-    z-index: -1;
-}
+        #bgImage {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: transparent;
+            z-index: -1;
+        }
     </style>
-   <!-- <style>
+    <!-- <style>
       #bgVideo {
     position: fixed;
     top: 0;
@@ -518,90 +524,103 @@ body::before {
 }
     </style> -->
     <style>
-      .update-popup {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.75);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 99999;
-}
+        .update-popup {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+        }
 
-.update-box {
-    width: 90%;
-    max-width: 360px;
-    background: #111;
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 18px;
-    padding: 20px;
-    animation: fadeIn 0.3s ease;
-}
+        .update-box {
+            width: 90%;
+            max-width: 360px;
+            background: #111;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 18px;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
 
-.update-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
+        .update-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
 
-.update-header h3 {
-    color: #ff3131;
-    font-size: 1.1rem;
-}
+        .update-header h3 {
+            color: #ff3131;
+            font-size: 1.1rem;
+        }
 
-#closeUpdate {
-    background: transparent;
-    border: none;
-    color: white;
-    font-size: 18px;
-    cursor: pointer;
-}
+        #closeUpdate {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+        }
 
-.update-body {
-    font-size: 0.85rem;
-    color: #ddd;
-    line-height: 1.5;
-}
+        .update-body {
+            font-size: 0.85rem;
+            color: #ddd;
+            line-height: 1.5;
+        }
     </style>
 </head>
 
 <body>
-  <div id="updatePopup" class="update-popup">
-    <div class="update-box">
-        <div class="update-header">
-            <h3>Update Terbaru</h3>
-            <button id="closeUpdate">✕</button>
-        </div>
+    <div id="updatePopup" class="update-popup">
+        <div class="update-box">
+            <div class="update-header">
+                <h3>Update Terbaru</h3>
+                <button id="closeUpdate">✕</button>
+            </div>
 
-        <div class="update-body">
-            <p>
-                • Bug fix data tidak masuk ke sheet<br>
-                • Penambahan gambar di background<br><br>
-            </p>
+            <div class="update-body">
+                <p>
+                    • Penambahan Cek Absensi<br><br>
+                </p>
+            </div>
         </div>
     </div>
-</div>
- <!-- Projek gakuat
+    <!-- Projek gakuat
  
  <video autoplay muted loop playsinline id="bgVideo">
     <source src="./vd/fotolivexjj.mp4" type="video/mp4">
 </video> 
 <div id="soundBtn">🔇</div> -->
-<img id="bgImage" src="./vd/fotolivexjj.jpg" alt="background">
+    <img id="bgImage" src="./vd/fotolivexjj.jpg" alt="background">
     <div id="error-notification"></div>
 
     <div class="main-wrapper">
-        <div id="success-overlay">
-            <div class="check-icon" id="status-icon">✓</div>
-            <h2 id="status-title">Absen Berhasil</h2>
-            <p id="status-desc"
-                style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px; margin-top: 10px;">
-                Kamu telah absen, Jangan lupa di hari selanjutnya untuk absen kembali
-            </p>
-            <button onclick="window.location.href='https://newbiefams-absen.qinzenu.my.id'"
-                style="background: var(--primary-gradient); color: white; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer;">Tutup</button>
-        </div>
+       <div id="success-overlay">
+    <div class="check-icon" id="status-icon">✓</div>
+    <h2 id="status-title">Absen Berhasil</h2>
+    
+    <p id="status-desc" style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 10px; margin-top: 10px;">
+        Kamu telah absen, Jangan lupa di hari selanjutnya untuk absen kembali.
+    </p>
+
+    <!-- Tambahan Link Cek Absensi & Pesan Admin -->
+    <div style="margin-bottom: 20px;">
+        <a href="https://newbiefams-cekabsen.qinzenu.my.id/" 
+           style="color: #ff2b2b; text-decoration: none; font-size: 0.85rem; font-weight: bold;">
+           [ Cek Riwayat Absensi ]
+        </a>
+        <p style="color: var(--text-muted); font-size: 0.75rem; margin-top: 8px; font-style: italic;">
+            Jika data tidak masuk, silakan hubungi <b>Admin Zenu</b>.
+        </p>
+    </div>
+
+    <button onclick="window.location.href='https://newbiefams-absen.qinzenu.my.id'"
+        style="background: var(--primary-gradient); color: white; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer; width: 100%;">
+        Tutup
+    </button>
+</div>
         <div id="form-container">
             <div class="header-section">
                 <div class="logo-container">
@@ -652,8 +671,8 @@ body::before {
                         placeholder="Berikan alasan yang jelas..."></textarea>
                 </div>
                 <p style="font-size: 0.75rem; opacity: 0.8;">
-    Jika kamu tidak tahu cara absen, klik tombol <strong>?</strong> di sudut kanan bawah.
-</p>
+                    Jika kamu tidak tahu cara absen, klik tombol <strong>?</strong> di sudut kanan bawah.
+                </p>
                 <button type="submit" class="submit-btn" id="submitBtn">
                     <div class="spinner" id="btnSpinner"></div>
                     <span id="btnText">Kirim Absen</span>
@@ -662,57 +681,57 @@ body::before {
         </div>
         <div class="footer-text">© 2026 NEWBIE FAMS • ADMIN</div>
     </div>
-    
-   <!-- BUTTON INFO -->
-<div id="infoBtn">?</div>
 
-<!-- POPUP -->
-<div id="infoPopup">
-    <div class="info-box">
+    <!-- BUTTON INFO -->
+    <div id="infoBtn">?</div>
 
-        <!-- MENU -->
-        <div class="info-menu">
-            <span onclick="showTab('panduan')" class="active">Panduan</span>
-            <span onclick="showTab('rules')">Rules</span>
-            <span onclick="showTab('info')">Informasi</span>
+    <!-- POPUP -->
+    <div id="infoPopup">
+        <div class="info-box">
+
+            <!-- MENU -->
+            <div class="info-menu">
+                <span onclick="showTab('panduan')" class="active">Panduan</span>
+                <span onclick="showTab('rules')">Rules</span>
+                <span onclick="showTab('info')">Informasi</span>
+            </div>
+
+            <div class="info-content" id="panduanTab">
+                <h3>Panduan</h3>
+                <p>
+                    • Isi nama sesuai nama kamu<br>
+                    • Isi username TikTok kamu
+                    <span class="sub-text" style="font-weight: bold;">(Harus terdaftar di TikTok)</span>
+                    • Isi nomor WhatsApp yang ada di grup
+                    <span class="sub-text" style="font-weight: bold;">(Nomor Kamu yang ada di grup NewbiFams)</span>
+                    • Pilih Hadir / Izin<br>
+                    <span class="sub-text">Jika izin, isi alasan yang jelas</span>
+                </p>
+            </div>
+
+            <div class="info-content" id="rulesTab" style="display:none;">
+                <h3>Rules</h3>
+                <p>
+                    1. Dilarang spam absen<br>
+                    2. Dilarang DDOS website<br>
+                    3. Dilarang hapus data/cache<br><br>
+                    <b>Jika melanggar = kick tanpa hormat</b>
+                </p>
+            </div>
+
+            <div class="info-content" id="infoTab" style="display:none;">
+                <h3>Informasi</h3>
+                <p>
+                    • Wajib absen 1x setiap 24 jam<br>
+                    • Gunakan data valid<br>
+                    • Spam = blacklist<br><br>
+                    <b>Dilarang menyebarkan website ini</b>
+                </p>
+            </div>
+
+            <button onclick="closeInfo()">Tutup</button>
         </div>
-
-       <div class="info-content" id="panduanTab">
-    <h3>Panduan</h3>
-    <p>
-        • Isi nama sesuai nama kamu<br>
-        • Isi username TikTok kamu
-        <span class="sub-text" style="font-weight: bold;">(Harus terdaftar di TikTok)</span>
-        • Isi nomor WhatsApp yang ada di grup
-        <span class="sub-text" style="font-weight: bold;">(Nomor Kamu yang ada di grup NewbiFams)</span>
-        • Pilih Hadir / Izin<br>
-        <span class="sub-text">Jika izin, isi alasan yang jelas</span>
-    </p>
-</div>
-
-        <div class="info-content" id="rulesTab" style="display:none;">
-            <h3>Rules</h3>
-            <p>
-                1. Dilarang spam absen<br>
-                2. Dilarang DDOS website<br>
-                3. Dilarang hapus data/cache<br><br>
-                <b>Jika melanggar = kick tanpa hormat</b>
-            </p>
-        </div>
-
-        <div class="info-content" id="infoTab" style="display:none;">
-            <h3>Informasi</h3>
-            <p>
-                • Wajib absen 1x setiap 24 jam<br>
-                • Gunakan data valid<br>
-                • Spam = blacklist<br><br>
-                <b>Dilarang menyebarkan website ini</b>
-            </p>
-        </div>
-
-        <button onclick="closeInfo()">Tutup</button>
     </div>
-</div>
 
     <!--
 <script>
@@ -1019,7 +1038,7 @@ ______ Script 2 (Cooldown Timer)
     });
 </script>
 -->
-<!--
+    <!--
 <script>
     let submitted = false;
     const COOLDOWN_TIME = 1 * 60 * 1000; // Hasil: 60,000 ms
@@ -1239,7 +1258,7 @@ if (tkVal) {
     });
 </script> -->
 
-<!-- kode asli <script>
+    <!-- kode asli <script>
 let submitted = false;
 
 const COOLDOWN_TIME = 24 * 60 * 60 * 1000;
@@ -1461,262 +1480,262 @@ window.addEventListener('click', (e) => {
 
 
 
-<script>
-let submitted = false;
-let sending = false;
+    <script>
+        let submitted = false;
+        let sending = false;
 
-const COOLDOWN_TIME = 24 * 60 * 60 * 1000;
-const COOLDOWN_KEY = 'attendance_cooldown_timer';
+        const COOLDOWN_TIME = 24 * 60 * 60 * 1000;
+        const COOLDOWN_KEY = 'attendance_cooldown_timer';
 
-const elements = {
-    trigger: document.getElementById('statusTrigger'),
-    optionsMenu: document.getElementById('statusOptions'),
-    hiddenInput: document.getElementById('statusValue'),
-    reasonContainer: document.getElementById('reason-container'),
-    reasonInput: document.getElementById('reasonInput'),
-    tiktokInput: document.getElementById('tiktokUser'),
-    btn: document.getElementById('submitBtn'),
-    form: document.getElementById('attendanceForm'),
-    errorNotif: document.getElementById('error-notification'),
-    btnSpinner: document.getElementById('btnSpinner'),
-    btnText: document.getElementById('btnText'),
-    formContainer: document.getElementById('form-container'),
-    successOverlay: document.getElementById('success-overlay'),
-    iframe: document.getElementById('hidden_iframe')
-};
+        const elements = {
+            trigger: document.getElementById('statusTrigger'),
+            optionsMenu: document.getElementById('statusOptions'),
+            hiddenInput: document.getElementById('statusValue'),
+            reasonContainer: document.getElementById('reason-container'),
+            reasonInput: document.getElementById('reasonInput'),
+            tiktokInput: document.getElementById('tiktokUser'),
+            btn: document.getElementById('submitBtn'),
+            form: document.getElementById('attendanceForm'),
+            errorNotif: document.getElementById('error-notification'),
+            btnSpinner: document.getElementById('btnSpinner'),
+            btnText: document.getElementById('btnText'),
+            formContainer: document.getElementById('form-container'),
+            successOverlay: document.getElementById('success-overlay'),
+            iframe: document.getElementById('hidden_iframe')
+        };
 
-const options = document.querySelectorAll('.option');
+        const options = document.querySelectorAll('.option');
 
 
-// ================= COOLDOWN =================
+        // ================= COOLDOWN =================
 
-function applyCooldownUI(timeLeft) {
-    const totalSec = Math.ceil(timeLeft / 1000);
+        function applyCooldownUI(timeLeft) {
+            const totalSec = Math.ceil(timeLeft / 1000);
 
-    const h = String(Math.floor(totalSec / 3600)).padStart(2, '0');
-    const m = String(Math.floor((totalSec % 3600) / 60)).padStart(2, '0');
-    const s = String(totalSec % 60).padStart(2, '0');
+            const h = String(Math.floor(totalSec / 3600)).padStart(2, '0');
+            const m = String(Math.floor((totalSec % 3600) / 60)).padStart(2, '0');
+            const s = String(totalSec % 60).padStart(2, '0');
 
-    elements.btn.disabled = true;
-    elements.btn.style.background = "#444";
-    elements.btnText.textContent = `Tunggu ${h}:${m}:${s}`;
-
-    const allInputs = elements.form.querySelectorAll('input, textarea');
-    allInputs.forEach(input => {
-        input.disabled = true;
-        input.style.opacity = "0.6";
-    });
-
-    elements.trigger.style.pointerEvents = "none";
-    elements.trigger.style.opacity = "0.6";
-}
-
-function startCooldown(startTime) {
-    const interval = setInterval(() => {
-        const elapsed = Date.now() - startTime;
-        const remain = COOLDOWN_TIME - elapsed;
-
-        if (remain <= 0) {
-            clearInterval(interval);
-            localStorage.removeItem(COOLDOWN_KEY);
-
-            elements.btn.disabled = false;
-            elements.btnText.textContent = "Kirim Absen";
-            elements.btn.style.background = "";
+            elements.btn.disabled = true;
+            elements.btn.style.background = "#444";
+            elements.btnText.textContent = `Tunggu ${h}:${m}:${s}`;
 
             const allInputs = elements.form.querySelectorAll('input, textarea');
             allInputs.forEach(input => {
-                input.disabled = false;
-                input.style.opacity = "1";
+                input.disabled = true;
+                input.style.opacity = "0.6";
             });
 
-            elements.trigger.style.pointerEvents = "auto";
-            elements.trigger.style.opacity = "1";
-            return;
+            elements.trigger.style.pointerEvents = "none";
+            elements.trigger.style.opacity = "0.6";
         }
 
-        applyCooldownUI(remain);
-    }, 1000);
-}
+        function startCooldown(startTime) {
+            const interval = setInterval(() => {
+                const elapsed = Date.now() - startTime;
+                const remain = COOLDOWN_TIME - elapsed;
 
-function checkCooldown() {
-    const saved = localStorage.getItem(COOLDOWN_KEY);
-    if (!saved) return false;
+                if (remain <= 0) {
+                    clearInterval(interval);
+                    localStorage.removeItem(COOLDOWN_KEY);
 
-    const remain = COOLDOWN_TIME - (Date.now() - saved);
+                    elements.btn.disabled = false;
+                    elements.btnText.textContent = "Kirim Absen";
+                    elements.btn.style.background = "";
 
-    if (remain > 0) {
-        applyCooldownUI(remain);
-        startCooldown(saved);
-        return true;
-    } else {
-        localStorage.removeItem(COOLDOWN_KEY);
-        return false;
-    }
-}
+                    const allInputs = elements.form.querySelectorAll('input, textarea');
+                    allInputs.forEach(input => {
+                        input.disabled = false;
+                        input.style.opacity = "1";
+                    });
 
-checkCooldown();
+                    elements.trigger.style.pointerEvents = "auto";
+                    elements.trigger.style.opacity = "1";
+                    return;
+                }
 
-
-// ================= UTIL =================
-
-function showError(msg) {
-    elements.errorNotif.textContent = msg;
-    elements.errorNotif.classList.add('show');
-    setTimeout(() => elements.errorNotif.classList.remove('show'), 4000);
-}
-
-function showSuccess() {
-    elements.formContainer.style.display = 'none';
-    elements.successOverlay.style.display = 'flex';
-}
-
-
-// ================= IFRAME DETECTION (🔥 FIX UTAMA) =================
-
-elements.iframe.onload = function () {
-    if (sending) {
-        submitted = true;
-        sending = false;
-
-        showSuccess();
-
-        const now = Date.now();
-        localStorage.setItem(COOLDOWN_KEY, now);
-        startCooldown(now);
-    }
-};
-
-
-// ================= UI =================
-
-elements.trigger.addEventListener('click', (e) => {
-    if (sending) return;
-    e.stopPropagation();
-    elements.trigger.classList.toggle('open');
-    elements.optionsMenu.classList.toggle('show');
-});
-
-options.forEach(opt => {
-    opt.addEventListener('click', function () {
-        if (sending) return;
-
-        const val = this.getAttribute('data-value');
-
-        elements.trigger.textContent = val;
-        elements.trigger.style.color = "#fff";
-        elements.hiddenInput.value = val;
-
-        elements.optionsMenu.classList.remove('show');
-        elements.trigger.classList.remove('open');
-
-        if (val === 'Izin') {
-            elements.reasonContainer.style.display = 'block';
-            setTimeout(() => elements.reasonContainer.classList.add('show-reason'), 10);
-            elements.reasonInput.required = true;
-            elements.reasonInput.value = "";
-        } else {
-            elements.reasonContainer.classList.remove('show-reason');
-            elements.reasonInput.required = false;
-            elements.reasonInput.value = "Tidak ada alasan, karena saya hadir";
-            setTimeout(() => elements.reasonContainer.style.display = 'none', 400);
+                applyCooldownUI(remain);
+            }, 1000);
         }
-    });
-});
+
+        function checkCooldown() {
+            const saved = localStorage.getItem(COOLDOWN_KEY);
+            if (!saved) return false;
+
+            const remain = COOLDOWN_TIME - (Date.now() - saved);
+
+            if (remain > 0) {
+                applyCooldownUI(remain);
+                startCooldown(saved);
+                return true;
+            } else {
+                localStorage.removeItem(COOLDOWN_KEY);
+                return false;
+            }
+        }
+
+        checkCooldown();
 
 
-// ================= SUBMIT =================
+        // ================= UTIL =================
 
-elements.form.addEventListener('submit', function (e) {
+        function showError(msg) {
+            elements.errorNotif.textContent = msg;
+            elements.errorNotif.classList.add('show');
+            setTimeout(() => elements.errorNotif.classList.remove('show'), 4000);
+        }
 
-    if (checkCooldown()) {
-        e.preventDefault();
-        return;
-    }
-
-    if (!navigator.onLine) {
-        e.preventDefault();
-        showError("Tidak ada internet!");
-        return;
-    }
-
-    if (!elements.hiddenInput.value) {
-        e.preventDefault();
-        showError("Pilih status dulu!");
-        return;
-    }
-
-    if (submitted || sending) {
-        e.preventDefault();
-        return;
-    }
-
-    sending = true;
-
-    // FORMAT TIKTOK
-    let tk = elements.tiktokInput.value.trim();
-    if (tk) {
-        let user = tk
-            .replace(/https?:\/\//, '')
-            .replace(/(www\.|vt\.)?tiktok\.com\//, '')
-            .replace(/@/g, '')
-            .split(/[?\/]/)[0];
-
-        elements.tiktokInput.value = 'https://tiktok.com/@' + user;
-    }
-
-    elements.btnSpinner.style.display = 'block';
-    elements.btnText.textContent = "Mengirim...";
-    elements.btn.disabled = true;
-});
+        function showSuccess() {
+            elements.formContainer.style.display = 'none';
+            elements.successOverlay.style.display = 'flex';
+        }
 
 
-// ================= CLOSE DROPDOWN =================
+        // ================= IFRAME DETECTION (🔥 FIX UTAMA) =================
 
-window.addEventListener('click', (e) => {
-    if (!elements.trigger.contains(e.target)) {
-        elements.optionsMenu.classList.remove('show');
-        elements.trigger.classList.remove('open');
-    }
-});
-</script>
+        elements.iframe.onload = function () {
+            if (sending) {
+                submitted = true;
+                sending = false;
 
-<script>
-const infoBtn = document.getElementById("infoBtn");
-const infoPopup = document.getElementById("infoPopup");
+                showSuccess();
 
-infoBtn.addEventListener("click", () => {
-    infoPopup.style.display = "flex";
-});
+                const now = Date.now();
+                localStorage.setItem(COOLDOWN_KEY, now);
+                startCooldown(now);
+            }
+        };
 
-// SWITCH TAB
-function showTab(tab) {
-    document.getElementById('panduanTab').style.display = 'none';
-    document.getElementById('rulesTab').style.display = 'none';
-    document.getElementById('infoTab').style.display = 'none';
 
-    document.getElementById(tab + 'Tab').style.display = 'block';
+        // ================= UI =================
 
-    // update active menu
-    document.querySelectorAll('.info-menu span').forEach(el => el.classList.remove('active'));
-    event.target.classList.add('active');
-}
+        elements.trigger.addEventListener('click', (e) => {
+            if (sending) return;
+            e.stopPropagation();
+            elements.trigger.classList.toggle('open');
+            elements.optionsMenu.classList.toggle('show');
+        });
 
-// CLOSE
-function closeInfo() {
-    infoPopup.style.display = "none";
-}
+        options.forEach(opt => {
+            opt.addEventListener('click', function () {
+                if (sending) return;
 
-// klik luar = tutup
-infoPopup.addEventListener("click", (e) => {
-    if (e.target === infoPopup) {
-        closeInfo();
-    }
-});
-</script>
+                const val = this.getAttribute('data-value');
 
-<!-- Script Video latar belakang -->
-<!-- <script>
+                elements.trigger.textContent = val;
+                elements.trigger.style.color = "#fff";
+                elements.hiddenInput.value = val;
+
+                elements.optionsMenu.classList.remove('show');
+                elements.trigger.classList.remove('open');
+
+                if (val === 'Izin') {
+                    elements.reasonContainer.style.display = 'block';
+                    setTimeout(() => elements.reasonContainer.classList.add('show-reason'), 10);
+                    elements.reasonInput.required = true;
+                    elements.reasonInput.value = "";
+                } else {
+                    elements.reasonContainer.classList.remove('show-reason');
+                    elements.reasonInput.required = false;
+                    elements.reasonInput.value = "Tidak ada alasan, karena saya hadir";
+                    setTimeout(() => elements.reasonContainer.style.display = 'none', 400);
+                }
+            });
+        });
+
+
+        // ================= SUBMIT =================
+
+        elements.form.addEventListener('submit', function (e) {
+
+            if (checkCooldown()) {
+                e.preventDefault();
+                return;
+            }
+
+            if (!navigator.onLine) {
+                e.preventDefault();
+                showError("Tidak ada internet!");
+                return;
+            }
+
+            if (!elements.hiddenInput.value) {
+                e.preventDefault();
+                showError("Pilih status dulu!");
+                return;
+            }
+
+            if (submitted || sending) {
+                e.preventDefault();
+                return;
+            }
+
+            sending = true;
+
+            // FORMAT TIKTOK
+            let tk = elements.tiktokInput.value.trim();
+            if (tk) {
+                let user = tk
+                    .replace(/https?:\/\//, '')
+                    .replace(/(www\.|vt\.)?tiktok\.com\//, '')
+                    .replace(/@/g, '')
+                    .split(/[?\/]/)[0];
+
+                elements.tiktokInput.value = 'https://tiktok.com/@' + user;
+            }
+
+            elements.btnSpinner.style.display = 'block';
+            elements.btnText.textContent = "Mengirim...";
+            elements.btn.disabled = true;
+        });
+
+
+        // ================= CLOSE DROPDOWN =================
+
+        window.addEventListener('click', (e) => {
+            if (!elements.trigger.contains(e.target)) {
+                elements.optionsMenu.classList.remove('show');
+                elements.trigger.classList.remove('open');
+            }
+        });
+    </script>
+
+    <script>
+        const infoBtn = document.getElementById("infoBtn");
+        const infoPopup = document.getElementById("infoPopup");
+
+        infoBtn.addEventListener("click", () => {
+            infoPopup.style.display = "flex";
+        });
+
+        // SWITCH TAB
+        function showTab(tab) {
+            document.getElementById('panduanTab').style.display = 'none';
+            document.getElementById('rulesTab').style.display = 'none';
+            document.getElementById('infoTab').style.display = 'none';
+
+            document.getElementById(tab + 'Tab').style.display = 'block';
+
+            // update active menu
+            document.querySelectorAll('.info-menu span').forEach(el => el.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        // CLOSE
+        function closeInfo() {
+            infoPopup.style.display = "none";
+        }
+
+        // klik luar = tutup
+        infoPopup.addEventListener("click", (e) => {
+            if (e.target === infoPopup) {
+                closeInfo();
+            }
+        });
+    </script>
+
+    <!-- Script Video latar belakang -->
+    <!-- <script>
 const video = document.getElementById("bgVideo");
 const btn = document.getElementById("soundBtn");
 
@@ -1745,41 +1764,41 @@ btn.addEventListener("click", () => {
 });
 </script> -->
 
-<script>
-const updatePopup = document.getElementById("updatePopup");
-const closeUpdate = document.getElementById("closeUpdate");
+    <script>
+        const updatePopup = document.getElementById("updatePopup");
+        const closeUpdate = document.getElementById("closeUpdate");
 
-// VERSION UPDATE → GANTI INI SETIAP ADA UPDATE BARU
-const UPDATE_VERSION = "v1.0.0";
+        // VERSION UPDATE → GANTI INI SETIAP ADA UPDATE BARU
+        const UPDATE_VERSION = "v0.0.1";
 
-// cek apakah sudah pernah ditutup
-if (localStorage.getItem("update_seen") !== UPDATE_VERSION) {
-    setTimeout(() => {
-        updatePopup.style.display = "flex";
-    }, 800);
-}
+        // cek apakah sudah pernah ditutup
+        if (localStorage.getItem("update_seen") !== UPDATE_VERSION) {
+            setTimeout(() => {
+                updatePopup.style.display = "flex";
+            }, 800);
+        }
 
-// tombol close
-closeUpdate.addEventListener("click", () => {
-    updatePopup.style.display = "none";
-    localStorage.setItem("update_seen", UPDATE_VERSION);
-});
+        // tombol close
+        closeUpdate.addEventListener("click", () => {
+            updatePopup.style.display = "none";
+            localStorage.setItem("update_seen", UPDATE_VERSION);
+        });
 
-// klik luar box = tutup
-updatePopup.addEventListener("click", (e) => {
-    if (e.target === updatePopup) {
-        updatePopup.style.display = "none";
-        localStorage.setItem("update_seen", UPDATE_VERSION);
-    }
-});
-</script>
+        // klik luar box = tutup
+        updatePopup.addEventListener("click", (e) => {
+            if (e.target === updatePopup) {
+                updatePopup.style.display = "none";
+                localStorage.setItem("update_seen", UPDATE_VERSION);
+            }
+        });
+    </script>
 
     <script>
-const updateEnd = new Date("2026-05-01T06:00:00");
-const now = new Date();
+        const updateEnd = new Date("2026-05-02T06:00:00");
+        const now = new Date();
 
-if (now <= updateEnd) {
-    document.body.innerHTML = `
+        if (now <= updateEnd) {
+            document.body.innerHTML = `
     <img src="https://i.ibb.co.com/m57drpHX/fotolivexjj.jpg" style="
         position: fixed;
         top: 0;
@@ -1848,8 +1867,7 @@ if (now <= updateEnd) {
                 </span>
                 <br>
                 <b style="color:#ff4d4d;">Update:</b><br>
-                • Perbaiki bug data tidak masuk ke sheet<br>
-                • Penambahan gambar di background
+                •Penambahan Cek Absensi
             </p>
 
 <div id="countdown" style="
@@ -1872,48 +1890,50 @@ if (now <= updateEnd) {
     </div>
     `;
 
-    // LOCK SCROLL
-    document.documentElement.style.overflow = "hidden";
-    document.body.style.overflow = "hidden";
+            // LOCK SCROLL
+            document.documentElement.style.overflow = "hidden";
+            document.body.style.overflow = "hidden";
 
-    // FORMAT TANGGAL
-    const options = { day:'numeric', month:'long', year:'numeric' };
-    document.getElementById("endDate").innerText = updateEnd.toLocaleDateString('id-ID', options);
+            // FORMAT TANGGAL
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            document.getElementById("endDate").innerText = updateEnd.toLocaleDateString('id-ID', options);
 
-    // COUNTDOWN
-    function updateCountdown() {
-        const distance = updateEnd - new Date().getTime();
-        if (distance <= 0) { location.reload(); return; }
+            // COUNTDOWN
+            function updateCountdown() {
+                const distance = updateEnd - new Date().getTime();
+                if (distance <= 0) { location.reload(); return; }
 
-        const d = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const h = Math.floor((distance / (1000 * 60 * 60)) % 24);
-        const m = Math.floor((distance / (1000 * 60)) % 60);
-        const s = Math.floor((distance / 1000) % 60);
+                const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const h = Math.floor((distance / (1000 * 60 * 60)) % 24);
+                const m = Math.floor((distance / (1000 * 60)) % 60);
+                const s = Math.floor((distance / 1000) % 60);
 
-        let result = d > 0 ? `${d} Day ` : "";
-        result += (d > 0 || h > 0) ? `${h} Hours ` : "";
-        result += (d > 0 || h > 0 || m > 0) ? `${m} Minutes ` : "";
-        result += `${s} Seccond`;
-        document.getElementById("countdown").innerHTML = result;
-    }
+                let result = d > 0 ? `${d} Day ` : "";
+                result += (d > 0 || h > 0) ? `${h} Hours ` : "";
+                result += (d > 0 || h > 0 || m > 0) ? `${m} Minutes ` : "";
+                result += `${s} Seccond`;
+                document.getElementById("countdown").innerHTML = result;
+            }
 
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
+            setInterval(updateCountdown, 1000);
+            updateCountdown();
 
-    // TITLE DOT ANIMATION
-    let dotCount = 0;
-    setInterval(() => {
-        document.getElementById("title").innerText = "UPDATE SYSTEM" + ".".repeat(dotCount);
-        dotCount = (dotCount + 1) % 4;
-    }, 500);
-}
-</script>    
-
-
+            // TITLE DOT ANIMATION
+            let dotCount = 0;
+            setInterval(() => {
+                document.getElementById("title").innerText = "UPDATE SYSTEM" + ".".repeat(dotCount);
+                dotCount = (dotCount + 1) % 4;
+            }, 500);
+        }
+    </script>
 
 
-<!---->
+
+
+
+    <!---->
 
 
 </body>
+
 </html>
