@@ -1793,7 +1793,7 @@ btn.addEventListener("click", () => {
         });
     </script>
 
-    <script>
+    <!-- <script>
         const updateEnd = new Date("2026-05-02T06:00:00");
         const now = new Date();
 
@@ -1925,7 +1925,167 @@ btn.addEventListener("click", () => {
                 dotCount = (dotCount + 1) % 4;
             }, 500);
         }
-    </script>
+    </script> -->
+
+
+    <script>
+// 1. Menambahkan +07:00 agar patokan waktu selalu WIB (Universal Time)
+const maintenanceEnd = new Date("2026-05-18T06:00:00+07:00");
+const now = new Date();
+
+if (now <= maintenanceEnd) {
+    document.body.innerHTML = `
+    <!-- BACKGROUND IMAGE -->
+    <img src="https://i.ibb.co.com/m57drpHX/fotolivexjj.jpg" style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 1;
+    " alt="background">
+
+    <!-- OVERLAY -->
+    <div style="
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.65); 
+        z-index: 2;
+    "></div>
+
+    <div id="maintenance-container" style="
+        position:fixed;
+        inset:0;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        font-family:'Poppins', sans-serif;
+        color:white;
+        z-index: 3;
+        overflow:hidden;
+        animation:fadeIn 0.8s ease;
+    ">
+        <style>
+            @keyframes fadeIn { from { opacity:0; transform:scale(1.05); } to { opacity:1; transform:scale(1); } }
+            @keyframes float { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-10px); } }
+            @keyframes glow { 0% { box-shadow:0 0 20px rgba(255,0,0,0.2); } 100% { box-shadow:0 0 50px rgba(255,0,0,0.5); } }
+            @keyframes spin { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
+        </style>
+
+        <!-- CARD CONTENT -->
+        <div style="
+            position:relative;
+            background:rgba(20, 20, 20, 0.5);
+            backdrop-filter:blur(15px);
+            -webkit-backdrop-filter:blur(15px);
+            border:1px solid rgba(255,0,0,0.3);
+            padding:2.5rem 1rem;
+            border-radius:25px;
+            text-align:center;
+            max-width:450px; 
+            width:92%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: float 3s ease-in-out infinite alternate, glow 2s ease-in-out infinite alternate;
+        ">
+            <!-- ICON -->
+            <div style="margin-bottom:15px;">
+                <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="#ff2b2b" stroke-width="2" style="animation:spin 4s linear infinite; filter:drop-shadow(0 0 10px red);">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06 a2 2 0 1 1-2.83 2.83l-.06-.06 a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21 a2 2 0 1 1-4 0v-.09 a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06 a2 2 0 1 1-2.83-2.83l.06-.06 a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3 a2 2 0 1 1 0-4h.09 a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06 a2 2 0 1 1 2.83-2.83l.06.06 a1.65 1.65 0 0 0 1.82.33H9 a1.65 1.65 0 0 0 1-1.51V3 a2 2 0 1 1 4 0v.09 a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06 a2 2 0 1 1 2.83 2.83l-.06.06 a1.65 1.65 0 0 0-.33 1.82V9 a1.65 1.65 0 0 0 1.51 1H21 a2 2 0 1 1 0 4h-.09 a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
+            </div>
+
+            <h1 id="title" style="font-size:1.8rem; font-weight:900; color:#ff2b2b; text-shadow:0 0 15px rgba(255,0,0,0.8); margin-bottom:10px; letter-spacing:1px; width: 100%;">
+                MAINTENANCE
+            </h1>
+
+            <p style="color:#ddd; font-size:0.9rem; margin-bottom:20px; line-height:1.6; width: 100%; text-align: center;">
+                Sistem sedang diperbaiki<br>
+                
+                <span style="display: inline-block; text-align: left; margin-top: 10px;">
+                    <span style="font-size:0.75rem; color:#bbb; display: block;">• Perubahan jadwal absen.</span>
+                    <span style="font-size:0.75rem; color:#bbb; display: block;">• Peningkatan performa.</span>
+                    <span style="font-size:0.75rem; color:#bbb; display: block;">• Penambahan fitur baru.</span>
+                    <span style="font-size:0.75rem; color:#bbb; display: block;">• Peningkatan keamanan.</span>
+                    <span style="font-size:0.75rem; color:#bbb; display: block;">• Perbaikan bug dan stabilitas.</span>
+                    <span style="font-size:0.75rem; color:#bbb; display: block;">• Penambahan deteksi jaringan tidak stabil.</span>
+                    <span style="font-size:0.75rem; color:#bbb; display: block;">• Penambahan Waktu Absen.</span>
+                    <span style="font-size:0.75rem; color:#bbb; display: block;">• Perubahan nama domain.</span>
+                </span>
+                
+                <br><br>
+                Silakan kembali setelah<br>
+                <b id="endDate" style="color:#ff4d4d;"></b>
+            </p>
+
+            <!-- COUNTDOWN -->
+            <div style="width: 100%; display: flex; justify-content: center; padding: 0;">
+                <div id="countdown" style="
+                    font-weight:700; 
+                    font-size:0.82rem; 
+                    color:#ff4d4d; 
+                    background:rgba(255,0,0,0.18); 
+                    padding:10px 15px; 
+                    border-radius:50px; 
+                    white-space: nowrap; 
+                    border: 1px solid rgba(255,0,0,0.2);
+                    display: inline-block;
+                    margin: 0 auto;
+                ">
+                    Loading...
+                </div>
+            </div>
+        </div>
+    </div>
+    `;
+
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+
+    const options = { 
+        day:'numeric', 
+        month:'long', 
+        year:'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+        timeZone: 'Asia/Jakarta' // 2. Memaksa tampilan teks selalu dalam WIB
+    };
+
+    // 3. Menghapus 'pukul' dan menambahkan label 'WIB' secara manual
+    let dateString = maintenanceEnd.toLocaleString('id-ID', options).replace('pukul', '').trim() + " WIB";
+    document.getElementById("endDate").innerText = dateString;
+
+    function updateCountdown() {
+        const nowMs = new Date().getTime();
+        const distance = maintenanceEnd - nowMs;
+        if (distance <= 0) { location.reload(); return; }
+
+        const d = Math.floor(distance / (1000*60*60*24));
+        const h = Math.floor((distance / (1000*60*60)) % 24);
+        const m = Math.floor((distance / (1000*60)) % 60);
+        const s = Math.floor((distance / 1000) % 60);
+
+        document.getElementById("countdown").innerHTML = 
+            `${d} Hari ${h} Jam ${m} Menit ${s} Detik`;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    let dotCount = 0;
+    setInterval(() => {
+        const titleEl = document.getElementById("title");
+        if(titleEl) {
+            titleEl.innerText = "MAINTENANCE" + ".".repeat(dotCount);
+            dotCount = (dotCount + 1) % 4;
+        }
+    }, 500);
+}
+</script>
 
 
 
