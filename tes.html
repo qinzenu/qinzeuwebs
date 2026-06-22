@@ -1741,8 +1741,8 @@
                             <p style="font-size: 12px; color: var(--muted); margin: 0 0 12px 0; line-height: 1.6;">
                                 Dapatkan update terbaru dan pengumuman sistem langsung di perangkatmu secara real-time.
                             </p>
-                            <button onclick="aktifkanNotifikasi()"
-                                style="background: var(--primary); color: #ffffff; padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 600; text-decoration: none; border: none; cursor: pointer; transition: opacity 0.2s;">
+                            <button id="btn-notif" onclick="aktifkanNotifikasi()"
+                                style="display: none; background: var(--primary); color: #ffffff; padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 600; text-decoration: none; border: none; cursor: pointer; transition: opacity 0.2s;">
                                 <i class="fa-solid fa-bell"></i> AKTIFKAN NOTIFIKASI
                             </button>
                         </div>
@@ -2360,74 +2360,82 @@
             });
         }
     </script>
-   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
-    import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-messaging.js";
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+        import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-messaging.js";
 
-    const WEBPAGE_VERSION = "1.0.35";
+        const WEBPAGE_VERSION = "1.0.36";
+        const firebaseConfig = {
+            apiKey: "AIzaSyAKWNgNv0GJxdiuEywB9HWpIv6Sj4ZgM14",
+            projectId: "notif-183a8",
+            messagingSenderId: "103670602072",
+            appId: "1:103670602072:web:ee0350cb900530bbc7ad2d"
+        };
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyAKWNgNv0GJxdiuEywB9HWpIv6Sj4ZgM14",
-        projectId: "notif-183a8",
-        messagingSenderId: "103670602072",
-        appId: "1:103670602072:web:ee0350cb900530bbc7ad2d"
-    };
+        const app = initializeApp(firebaseConfig);
+        const messaging = getMessaging(app);
 
-    const app = initializeApp(firebaseConfig);
-    const messaging = getMessaging(app);
+        // Fungsi global agar bisa dipanggil oleh tombol onclick
+        window.aktifkanNotifikasi = async function () {
+            try {
+                if (!("Notification" in window)) {
+                    console.log("Browser tidak mendukung notifikasi.");
+                    return;
+                }
 
-    async function initNotifications() {
-        try {
-            // 1. Cek apakah browser mendukung Notification
-            if (!("Notification" in window)) {
-                console.log("Browser ini tidak mendukung notifikasi desktop/push.");
-                return;
-            }
+                let permission = Notification.permission;
+                if (permission !== 'granted') {
+                    permission = await Notification.requestPermission();
+                }
 
-            // 2. Minta Izin
-            let permission = Notification.permission;
-            if (permission !== 'granted') {
-                permission = await Notification.requestPermission();
-            }
+                if (permission === 'granted') {
+                    // Sembunyikan tombol jika sudah diizinkan
+                    const btn = document.getElementById('btn-notif');
+                    if (btn) btn.style.display = 'none';
 
-            if (permission === 'granted') {
-                // 3. Tampilkan notifikasi update versi (Hanya jika di Window context)
-                const versiTersimpan = localStorage.getItem("last_version");
-                if (versiTersimpan !== WEBPAGE_VERSION) {
-                    // Cek apakah 'Notification' bisa digunakan sebagai constructor
-                    try {
-                        new Notification("NEWBIEFAMS Update!", {
-                            body: "Fitur baru versi " + WEBPAGE_VERSION + " telah hadir!",
-                            icon: 'https://i.ibb.co.com/xt3gG1v8/iconnotif.png'
-                        });
-                    } catch (e) {
-                        console.warn("Gagal menggunakan new Notification, mencoba lewat registration...");
-                        const reg = await navigator.serviceWorker.ready;
-                        reg.showNotification("NEWBIEFAMS Update!", {
-                            body: "Fitur baru versi " + WEBPAGE_VERSION + " telah hadir!",
-                            icon: 'https://i.ibb.co.com/xt3gG1v8/iconnotif.png'
-                        });
+                    // Tampilkan notifikasi update versi
+                    const versiTersimpan = localStorage.getItem("last_version");
+                    if (versiTersimpan !== WEBPAGE_VERSION) {
+                        try {
+                            new Notification("NEWBIEFAMS Update!", {
+                                body: "Fitur baru versi " + WEBPAGE_VERSION + " telah hadir!",
+                                icon: 'https://i.ibb.co.com/xt3gG1v8/iconnotif.png'
+                            });
+                        } catch (e) {
+                            const reg = await navigator.serviceWorker.ready;
+                            reg.showNotification("NEWBIEFAMS Update!", {
+                                body: "Fitur baru versi " + WEBPAGE_VERSION + " telah hadir!",
+                                icon: 'https://i.ibb.co.com/xt3gG1v8/iconnotif.png'
+                            });
+                        }
+                        localStorage.setItem("last_version", WEBPAGE_VERSION);
                     }
-                    localStorage.setItem("last_version", WEBPAGE_VERSION);
-                }
 
-                // 4. Ambil Token FCM
-                if ('serviceWorker' in navigator) {
-                    const registration = await navigator.serviceWorker.ready;
-                    const token = await getToken(messaging, { 
-                        vapidKey: 'BDSE64pKfzdwWw7XQVXqhwCBMkObSrlvxNep0B6EXoPYSwsFkGSmNbls9oFNRK3P2bi7qTSyNcc4kUvgpQA_bEQ',
-                        serviceWorkerRegistration: registration 
-                    });
-                    console.log("Token FCM berhasil didapat.");
+                    // Ambil Token FCM
+                    if ('serviceWorker' in navigator) {
+                        const registration = await navigator.serviceWorker.ready;
+                        const token = await getToken(messaging, {
+                            vapidKey: 'BDSE64pKfzdwWw7XQVXqhwCBMkObSrlvxNep0B6EXoPYSwsFkGSmNbls9oFNRK3P2bi7qTSyNcc4kUvgpQA_bEQ',
+                            serviceWorkerRegistration: registration
+                        });
+                        console.log("Token FCM berhasil didapat.");
+                    }
                 }
+            } catch (err) {
+                console.error("ERROR DETAIL:", err.message);
             }
-        } catch (err) {
-            console.error("ERROR DETAIL:", err.message);
         }
-    }
 
-    window.addEventListener("load", initNotifications);
-</script>
+        // Jalankan otomatis saat load, tapi hanya jika belum pernah diizinkan
+        window.addEventListener("load", () => {
+            if (Notification.permission !== 'granted') {
+                const btn = document.getElementById('btn-notif');
+                if (btn) btn.style.display = 'block'; // Tampilkan tombol untuk user
+            } else {
+                window.aktifkanNotifikasi(); // Jalankan otomatis jika sudah pernah izin
+            }
+        });
+    </script>
     <script>
         /* =========================
            NEWBIEFAMS PROTECTION
@@ -2695,40 +2703,40 @@ HARAP PATUHI RULES NEWBIEFAMS
     });
 </script>
 -->
-<script>
-    (function() {
-    // 1. Buat kotak logger
-    const logger = document.createElement('div');
-    logger.style.cssText = "position:fixed; bottom:0; left:0; width:100%; height:150px; background:rgba(0,0,0,0.9); color:#00ff00; font-size:12px; overflow-y:scroll; z-index:9999; padding:10px; border-top:2px solid #333;";
-    document.body.appendChild(logger);
+    <script>
+        (function () {
+            // 1. Buat kotak logger
+            const logger = document.createElement('div');
+            logger.style.cssText = "position:fixed; bottom:0; left:0; width:100%; height:150px; background:rgba(0,0,0,0.9); color:#00ff00; font-size:12px; overflow-y:scroll; z-index:9999; padding:10px; border-top:2px solid #333;";
+            document.body.appendChild(logger);
 
-    // 2. Simpan referensi fungsi console asli
-    const originalLog = console.log;
-    const originalError = console.error;
+            // 2. Simpan referensi fungsi console asli
+            const originalLog = console.log;
+            const originalError = console.error;
 
-    // 3. Overwrite console agar tampil di logger DAN tetap di console browser
-    console.log = (...args) => {
-        logger.innerHTML += args.join(' ') + '<br>';
-        originalLog.apply(console, args);
-        logger.scrollTop = logger.scrollHeight; // Auto-scroll ke bawah
-    };
+            // 3. Overwrite console agar tampil di logger DAN tetap di console browser
+            console.log = (...args) => {
+                logger.innerHTML += args.join(' ') + '<br>';
+                originalLog.apply(console, args);
+                logger.scrollTop = logger.scrollHeight; // Auto-scroll ke bawah
+            };
 
-    console.error = (...args) => {
-        logger.innerHTML += '<span style="color:red">ERROR: ' + args.join(' ') + '</span><br>';
-        originalError.apply(console, args);
-        logger.scrollTop = logger.scrollHeight;
-    };
+            console.error = (...args) => {
+                logger.innerHTML += '<span style="color:red">ERROR: ' + args.join(' ') + '</span><br>';
+                originalError.apply(console, args);
+                logger.scrollTop = logger.scrollHeight;
+            };
 
-    // 4. Tangkap error sistem yang tidak sengaja terjadi (Global Error Handler)
-    window.onerror = function(message, source, lineno, colno, error) {
-        console.error(`${message} at ${source}:${lineno}`);
-    };
-    
-    window.onunhandledrejection = function(event) {
-        console.error("Promise Rejected: " + event.reason);
-    };
-})();
-</script>
+            // 4. Tangkap error sistem yang tidak sengaja terjadi (Global Error Handler)
+            window.onerror = function (message, source, lineno, colno, error) {
+                console.error(`${message} at ${source}:${lineno}`);
+            };
+
+            window.onunhandledrejection = function (event) {
+                console.error("Promise Rejected: " + event.reason);
+            };
+        })();
+    </script>
 </body>
 
 </html>
