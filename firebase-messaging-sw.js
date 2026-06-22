@@ -1,4 +1,3 @@
-// Harus menggunakan versi compat agar bisa berjalan di service worker
 importScripts('https://www.gstatic.com/firebasejs/12.15.0/firebase-app-compat.js');
 importScripts('https://www.gstatic.com/firebasejs/12.15.0/firebase-messaging-compat.js');
 
@@ -11,14 +10,16 @@ firebase.initializeApp({
 
 const messaging = firebase.messaging();
 
-// Menangani pesan saat web tertutup/di background
 messaging.onBackgroundMessage((payload) => {
-    const notificationTitle = payload.notification.title;
+    // Gunakan URL Absolut (https://domain.com/path/ke/icon.png) 
+    // daripada relatif (../) untuk menghindari error di HP
+    const notificationTitle = payload.notification.title || "NEWBIEFAMS";
     const notificationOptions = {
-        body: payload.notification.body,
-        icon: '../vd/iconnotif.png',
-        badge: '../vd/iconnotif.png'
+        body: payload.notification.body || "Ada update baru!",
+        icon: 'https://i.ibb.co.com/xt3gG1v8/iconnotif.png', // GUNAKAN URL FULL
+        badge: 'https://i.ibb.co.com/xt3gG1v8/iconnotif.png',
+        data: { url: payload.fcmOptions?.link || '/' }
     };
 
-    self.registration.showNotification(notificationTitle, notificationOptions);
+    return self.registration.showNotification(notificationTitle, notificationOptions);
 });
