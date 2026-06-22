@@ -2360,94 +2360,89 @@
             });
         }
     </script>
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
-        import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-messaging.js";
+   <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+    import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-messaging.js";
 
-        const WEBPAGE_VERSION = "1.0.37";
-        const firebaseConfig = {
-            apiKey: "AIzaSyAKWNgNv0GJxdiuEywB9HWpIv6Sj4ZgM14",
-            projectId: "notif-183a8",
-            messagingSenderId: "103670602072",
-            appId: "1:103670602072:web:ee0350cb900530bbc7ad2d"
-        };
+    const WEBPAGE_VERSION = "1.0.37";
+    const firebaseConfig = {
+        apiKey: "AIzaSyAKWNgNv0GJxdiuEywB9HWpIv6Sj4ZgM14",
+        projectId: "notif-183a8",
+        messagingSenderId: "103670602072",
+        appId: "1:103670602072:web:ee0350cb900530bbc7ad2d"
+    };
 
-        const app = initializeApp(firebaseConfig);
-        const messaging = getMessaging(app);
+    const app = initializeApp(firebaseConfig);
+    const messaging = getMessaging(app);
 
-        // Fungsi global agar bisa dipanggil oleh tombol onclick
-        window.aktifkanNotifikasi = async function () {
-            try {
-                if (!("Notification" in window)) {
-                    console.log("Browser tidak mendukung notifikasi.");
-                    return;
-                }
-
-                let permission = Notification.permission;
-                if (permission !== 'granted') {
-                    permission = await Notification.requestPermission();
-                }
-
-                if (permission === 'granted') {
-                    // Sembunyikan tombol jika sudah diizinkan
-                    const btn = document.getElementById('btn-notif');
-                    if (btn) btn.style.display = 'none';
-
-                    // Tampilkan notifikasi update versi
-                    const versiTersimpan = localStorage.getItem("last_version");
-                    if (versiTersimpan !== WEBPAGE_VERSION) {
-                        try {
-                            new Notification("NEWBIEFAMS Update!", {
-                                body: "Fitur baru versi " + WEBPAGE_VERSION + " telah hadir!",
-                                icon: 'https://i.ibb.co.com/xt3gG1v8/iconnotif.png'
-                            });
-                        } catch (e) {
-                            const reg = await navigator.serviceWorker.ready;
-                            reg.showNotification("NEWBIEFAMS Update!", {
-                                body: "Fitur baru versi " + WEBPAGE_VERSION + " telah hadir!",
-                                icon: 'https://i.ibb.co.com/xt3gG1v8/iconnotif.png'
-                            });
-                        }
-                        localStorage.setItem("last_version", WEBPAGE_VERSION);
-                    }
-
-                    // Ambil Token FCM
-                    if ('serviceWorker' in navigator) {
-    try {
-        console.log("Mengecek Service Worker...");
-        // Pastikan SW terdaftar (Gunakan path root '/')
-        const registration = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
-        
-        // Tunggu sampai SW siap
-        const swReady = await navigator.serviceWorker.ready;
-        console.log("SW Siap, mengambil token...");
-
-        const token = await getToken(messaging, {
-            vapidKey: 'BDSE64pKfzdwWw7XQVXqhwCBMkObSrlvxNep0B6EXoPYSwsFkGSmNbls9oFNRK3P2bi7qTSyNcc4kUvgpQA_bEQ',
-            serviceWorkerRegistration: swReady
-        });
-
-        if (token) {
-            console.log("TOKEN FCM BERHASIL DIDAPAT:", token);
-            // Tambahkan: Kirim token ke database Anda di sini!
-        } else {
-            console.error("Token kosong, coba refresh halaman.");
-        }
-            } catch (err) {
-                console.error("ERROR DETAIL:", err.message);
+    window.aktifkanNotifikasi = async function () {
+        try {
+            if (!("Notification" in window)) {
+                console.log("Browser tidak mendukung notifikasi.");
+                return;
             }
-        }
 
-        // Jalankan otomatis saat load, tapi hanya jika belum pernah diizinkan
-        window.addEventListener("load", () => {
-            if (Notification.permission !== 'granted') {
+            let permission = Notification.permission;
+            if (permission !== 'granted') {
+                permission = await Notification.requestPermission();
+            }
+
+            if (permission === 'granted') {
                 const btn = document.getElementById('btn-notif');
-                if (btn) btn.style.display = 'block'; // Tampilkan tombol untuk user
-            } else {
-                window.aktifkanNotifikasi(); // Jalankan otomatis jika sudah pernah izin
+                if (btn) btn.style.display = 'none';
+
+                // 1. Notifikasi Update
+                const versiTersimpan = localStorage.getItem("last_version");
+                if (versiTersimpan !== WEBPAGE_VERSION) {
+                    try {
+                        new Notification("NEWBIEFAMS Update!", {
+                            body: "Fitur baru versi " + WEBPAGE_VERSION + " telah hadir!",
+                            icon: 'https://i.ibb.co.com/xt3gG1v8/iconnotif.png'
+                        });
+                    } catch (e) {
+                        console.warn("Fallback ke registration.showNotification");
+                    }
+                    localStorage.setItem("last_version", WEBPAGE_VERSION);
+                }
+
+                // 2. Registrasi dan Token (DIPERBARUI)
+                if ('serviceWorker' in navigator) {
+                    console.log("Mencoba mendaftarkan Service Worker...");
+                    
+                    // Paksa pendaftaran ulang ke file root
+                    const registration = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
+                    console.log("SW Terdaftar, Scope:", registration.scope);
+
+                    // Tunggu SW benar-benar siap
+                    await navigator.serviceWorker.ready;
+                    console.log("Service Worker siap!");
+
+                    const token = await getToken(messaging, {
+                        vapidKey: 'BDSE64pKfzdwWw7XQVXqhwCBMkObSrlvxNep0B6EXoPYSwsFkGSmNbls9oFNRK3P2bi7qTSyNcc4kUvgpQA_bEQ',
+                        serviceWorkerRegistration: registration
+                    });
+
+                    if (token) {
+                        console.log("TOKEN FCM BERHASIL DIDAPAT:", token);
+                    } else {
+                        console.log("Token FCM kosong, pastikan VAPID Key benar.");
+                    }
+                }
             }
-        });
-    </script>
+        } catch (err) {
+            console.error("ERROR DETAIL:", err.message);
+        }
+    }
+
+    window.addEventListener("load", () => {
+        if (Notification.permission !== 'granted') {
+            const btn = document.getElementById('btn-notif');
+            if (btn) btn.style.display = 'block';
+        } else {
+            window.aktifkanNotifikasi();
+        }
+    });
+</script>
     <script>
         /* =========================
            NEWBIEFAMS PROTECTION
