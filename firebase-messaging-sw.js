@@ -1,3 +1,5 @@
+// firebase-messaging-sw.js
+
 importScripts('https://www.gstatic.com/firebasejs/12.15.0/firebase-app-compat.js');
 importScripts('https://www.gstatic.com/firebasejs/12.15.0/firebase-messaging-compat.js');
 
@@ -10,16 +12,38 @@ firebase.initializeApp({
 
 const messaging = firebase.messaging();
 
+// Menggunakan event listener standar untuk memastikan event tertangkap
 messaging.onBackgroundMessage((payload) => {
-    // Gunakan URL Absolut (https://domain.com/path/ke/icon.png) 
-    // daripada relatif (../) untuk menghindari error di HP
-    const notificationTitle = payload.notification.title || "NEWBIEFAMS";
+    console.log('[firebase-messaging-sw.js] Received background message ', payload);
+
+    const notificationTitle = payload.notification?.title || "NEWBIEFAMS";
     const notificationOptions = {
-        body: payload.notification.body || "Ada update baru!",
-        icon: 'https://i.ibb.co.com/xt3gG1v8/iconnotif.png', // GUNAKAN URL FULL
+        body: payload.notification?.body || "Ada informasi baru untuk Anda!",
+        icon: 'https://i.ibb.co.com/xt3gG1v8/iconnotif.png',
         badge: 'https://i.ibb.co.com/xt3gG1v8/iconnotif.png',
-        data: { url: payload.fcmOptions?.link || '/' }
+        data: {
+            url: payload.notification?.click_action || payload.fcmOptions?.link || '/'
+        }
     };
 
+    // Gunakan waitUntil agar browser menunggu proses selesai sebelum menutup thread
     return self.registration.showNotification(notificationTitle, notificationOptions);
+});
+
+// Tambahkan listener untuk klik notifikasi (WAJIB ADA agar bisa membuka link)
+self.addEventListener('notificationclick', (event) => {
+    event.notification.close();
+    
+    const targetUrl = event.notification.data.url;
+
+    event.waitUntil(
+        clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
+            // Jika sudah ada tab terbuka, fokus ke sana
+            for (const client of clientList) {
+                if (client.url === targetUrl && 'focus' in client) return client.focus();
+            }
+            // Jika tidak ada, buka window baru
+            return clients.openWindow(targetUrl);
+        })
+    );
 });
