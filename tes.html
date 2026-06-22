@@ -2683,26 +2683,37 @@ HARAP PATUHI RULES NEWBIEFAMS
 -->
 <script>
     (function() {
-        const logger = document.createElement('div');
-        logger.style.position = 'fixed';
-        logger.style.bottom = '0';
-        logger.style.left = '0';
-        logger.style.width = '100%';
-        logger.style.height = '150px';
-        logger.style.backgroundColor = 'rgba(0,0,0,0.8)';
-        logger.style.color = '#00ff00';
-        logger.style.fontSize = '12px';
-        logger.style.overflowY = 'scroll';
-        logger.style.zIndex = '9999';
-        document.body.appendChild(logger);
+    // 1. Buat kotak logger
+    const logger = document.createElement('div');
+    logger.style.cssText = "position:fixed; bottom:0; left:0; width:100%; height:150px; background:rgba(0,0,0,0.9); color:#00ff00; font-size:12px; overflow-y:scroll; z-index:9999; padding:10px; border-top:2px solid #333;";
+    document.body.appendChild(logger);
 
-        console.log = (msg) => {
-            logger.innerHTML += msg + '<br>';
-        };
-        console.error = (msg) => {
-            logger.innerHTML += '<span style="color:red">' + msg + '</span><br>';
-        };
-    })();
+    // 2. Simpan referensi fungsi console asli
+    const originalLog = console.log;
+    const originalError = console.error;
+
+    // 3. Overwrite console agar tampil di logger DAN tetap di console browser
+    console.log = (...args) => {
+        logger.innerHTML += args.join(' ') + '<br>';
+        originalLog.apply(console, args);
+        logger.scrollTop = logger.scrollHeight; // Auto-scroll ke bawah
+    };
+
+    console.error = (...args) => {
+        logger.innerHTML += '<span style="color:red">ERROR: ' + args.join(' ') + '</span><br>';
+        originalError.apply(console, args);
+        logger.scrollTop = logger.scrollHeight;
+    };
+
+    // 4. Tangkap error sistem yang tidak sengaja terjadi (Global Error Handler)
+    window.onerror = function(message, source, lineno, colno, error) {
+        console.error(`${message} at ${source}:${lineno}`);
+    };
+    
+    window.onunhandledrejection = function(event) {
+        console.error("Promise Rejected: " + event.reason);
+    };
+})();
 </script>
 </body>
 
