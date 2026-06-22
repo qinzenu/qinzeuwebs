@@ -1,0 +1,2709 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>NEWBIEFAMS</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" href="https://i.ibb.co.com/1tBC2ngW/Logo-12-F8-F09.png">
+    <style>
+        :root {
+            --primary: #7c5cff;
+            --primary2: #5865f2;
+            --accent: #36ff0e;
+            --bg: #05060a;
+            --card: #0f1118;
+            --glass: rgba(255, 255, 255, .045);
+            --glass-border: rgba(255, 255, 255, .08);
+            --text: #ffffff;
+            --muted: #9aa4b2;
+            --shadow: 0 20px 40px rgba(0, 0, 0, .45);
+            --glow: 0 0 30px rgba(124, 92, 255, .25);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        img {
+            pointer-events: none;
+            -webkit-touch-callout: none;
+            -webkit-user-drag: none;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: var(--text);
+            /* background:
+                radial-gradient(circle at top left, rgba(124, 92, 255, .18), transparent 35%),
+                radial-gradient(circle at bottom right, rgba(88, 101, 242, .16), transparent 35%),
+                linear-gradient(180deg, #05060a, #090b12);
+            */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Pastikan body tidak memiliki min-height yang memicu scroll gambar */
+        body {
+            margin: 0;
+            padding: 15px;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            background-color: #000;
+            /* Warna fallback */
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Latar belakang yang benar-benar statis */
+        #bg-fixed {
+            position: fixed;
+            /* Kunci utama: diam terhadap layar */
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            /* Gunakan background-image di sini agar lebih stabil */
+            background-image: url('./vd/fotolivexjj.jpg');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            /* Overlay gelap langsung diterapkan di sini */
+            background-color: rgba(0, 0, 0, 0.5);
+            background-blend-mode: multiply;
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, .15);
+            border-radius: 20px;
+        }
+
+        /* LOGIN OVERLAY */
+        #login-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* GANTI BAGIAN BACKGROUND DI BAWAH INI */
+            background-image: url('./vd/fotolivexjj.jpg');
+            /* Sesuaikan path gambar Anda */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+
+            /* Overlay gelap agar teks tetap terbaca */
+            background-color: rgba(0, 0, 0, 0.5);
+            background-blend-mode: multiply;
+            /*
+            background: radial-gradient(circle at center, rgba(124, 92, 255, .16), transparent 45%), rgba(4, 5, 10, .95); */
+            backdrop-filter: blur(10px);
+            transition: .8s cubic-bezier(.22, 1, .36, 1);
+            /* Tambahan untuk mencegah scroll */
+            overflow: hidden;
+            touch-action: none;
+        }
+
+        body.login-open {
+            overflow: hidden !important;
+            height: 100vh !important;
+            touch-action: none;
+        }
+
+        .login-card {
+            width: 92%;
+            max-width: 400px;
+            padding: 38px 30px;
+            border-radius: 34px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(255, 255, 255, .03));
+            border: 1px solid rgba(255, 255, 255, .08);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, .55), inset 0 0 25px rgba(255, 255, 255, .03);
+            text-align: center;
+            animation: fadeUp .8s ease;
+        }
+
+        .login-logo {
+            width: 115px;
+            height: 115px;
+            margin: 0 auto 24px;
+            border-radius: 34px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, .08);
+            box-shadow: 0 0 40px rgba(124, 92, 255, .2), 0 0 80px rgba(124, 92, 255, .08);
+            animation: floatLogo 5s ease-in-out infinite;
+        }
+
+        .login-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .login-card h2 {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 8px;
+        }
+
+        .login-subtitle {
+            font-size: 14px;
+            color: var(--muted);
+            margin-bottom: 28px;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 18px;
+        }
+
+        .input-group input {
+            width: 100%;
+            height: 60px;
+            padding: 0 54px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, .07);
+            background: rgba(255, 255, 255, .03);
+            color: white;
+            outline: none;
+            transition: .3s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(124, 92, 255, .18);
+        }
+
+        .input-icon,
+        .toggle-pass {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7c8598;
+        }
+
+        .input-icon {
+            left: 18px;
+        }
+
+        .toggle-pass {
+            right: 18px;
+            cursor: pointer;
+        }
+
+        .login-btn {
+            width: 100%;
+            height: 60px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 800;
+            color: white;
+            background: linear-gradient(135deg, var(--primary), var(--primary2));
+            box-shadow: 0 12px 30px rgba(124, 92, 255, .35);
+            transition: .35s;
+        }
+
+        /* MAIN CONTENT */
+        .main-wrapper {
+            width: 100%;
+            max-width: 520px;
+            padding: 55px 18px 170px;
+            opacity: 0;
+            transform: translateY(30px);
+            filter: blur(12px);
+            transition: 1s cubic-bezier(.22, 1, .36, 1);
+        }
+
+        .profile-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .avatar-wrapper {
+            position: relative;
+            width: 135px;
+            height: 135px;
+            margin: 0 auto 24px;
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 40px;
+            padding: 5px;
+            background: linear-gradient(135deg, #171b24, #0d1018);
+            border: 1px solid rgba(255, 255, 255, .08);
+            box-shadow: 0 0 40px rgba(124, 92, 255, .2);
+        }
+
+
+
+        .verified-badge {
+            position: absolute;
+            bottom: 1px;
+            right: 4px;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #000000, #ff0000);
+            border: 3px solid #000000;
+            box-shadow: 0 0 18px rgba(88, 101, 242, .55);
+        }
+
+        .profile-name {
+            font-size: 34px;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .profile-tag {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        #digital-clock {
+            margin: 15px 0;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 1px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        .stat-item {
+            padding: 18px 10px;
+            border-radius: 24px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(14px);
+            transition: .35s;
+        }
+
+        .stat-item span {
+            display: block;
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .stat-item label {
+            font-size: 11px;
+            color: var(--muted);
+            text-transform: uppercase;
+        }
+
+        /* LINKS */
+        .link-card {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border-radius: 28px;
+            text-decoration: none;
+            color: white;
+            background: linear-gradient(180deg, rgba(255, 255, 255, .04), rgba(255, 255, 255, .025));
+            border: 1px solid rgba(255, 255, 255, .07);
+            backdrop-filter: blur(14px);
+
+            transition:
+                opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 0.3s ease;
+
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+            pointer-events: none;
+            display: none;
+        }
+
+
+        .link-card.show {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: all;
+        }
+
+        /* Animasi untuk Info Box */
+        .info-content {
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .link-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(124, 92, 255, .22);
+        }
+
+        .main-icon {
+            width: 48px;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        .am-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 14px;
+        }
+
+        .link-info {
+            flex: 1;
+        }
+
+        .link-info h4 {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .link-info p {
+            font-size: 12.5px;
+            color: var(--muted);
+        }
+
+        .btn-more {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #8892a7;
+            font-size: 18px;
+            transition: .3s;
+            z-index: 5;
+        }
+
+        .btn-more:hover {
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        #sidebar {
+            position: fixed;
+            left: 50%;
+            bottom: -100%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 520px;
+            padding: 38px 28px;
+            background: rgba(14, 17, 25, .95);
+            border-radius: 34px 34px 0 0;
+            border-top: 1px solid var(--glass-border);
+            backdrop-filter: blur(20px);
+
+            transition: .55s cubic-bezier(.22, 1, .36, 1);
+
+            z-index: 10001;
+        }
+
+        /* sidebar muncul */
+        #sidebar.active {
+            bottom: 0;
+        }
+
+        /* animasi turun */
+        #sidebar.reloading {
+            bottom: -100%;
+        }
+
+        #sidebar.active {
+            bottom: 0;
+        }
+
+        .copy-toast {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent);
+            color: black;
+            padding: 14px 28px;
+            border-radius: 18px;
+            font-size: 14px;
+            font-weight: 800;
+            display: none;
+            z-index: 100000;
+        }
+
+        #error-msg {
+            display: none;
+            margin-top: 16px;
+            color: #ff5757;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        /* ANIMATIONS */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(35px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes floatLogo {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(54, 255, 14, .7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 12px rgba(54, 255, 14, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(54, 255, 14, 0);
+            }
+        }
+
+        @keyframes verifiedFloat {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-3px);
+            }
+        }
+
+        .shake {
+            animation: shake .4s ease;
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            20%,
+            60% {
+                transform: translateX(-8px);
+            }
+
+            40%,
+            80% {
+                transform: translateX(8px);
+            }
+        }
+
+        /* SIDEBAR CONTENT ANIMATION */
+        #sidebar-content {
+            transition: .45s cubic-bezier(.22, 1, .36, 1);
+        }
+
+        .sidebar-enter {
+            opacity: 0;
+            transform: translateY(80px);
+        }
+
+        .sidebar-active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* =========================
+   FILTER BUTTONS
+========================= */
+
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+
+            gap: 10px;
+
+            margin-bottom: 22px;
+            padding-bottom: 5px;
+        }
+
+        .filter-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-btn {
+            border: none;
+            outline: none;
+            cursor: pointer;
+            white-space: nowrap;
+            padding: 13px 18px;
+            border-radius: 16px;
+
+            background: rgba(255, 255, 255, .05);
+            color: #aaa;
+
+            border: 1px solid rgba(255, 255, 255, .06);
+
+            font-size: 13px;
+            font-weight: 700;
+
+            transition: .3s;
+        }
+
+        .filter-btn:hover {
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg,
+                    var(--primary),
+                    var(--primary2));
+
+            color: white;
+
+            box-shadow:
+                0 10px 25px rgba(124, 92, 255, .25);
+        }
+
+        /* default hide social */
+        .link-card.social {
+            display: none;
+        }
+
+        /* =========================
+   INFO BOX
+========================= */
+
+        .info-box {
+            position: relative;
+
+            padding: 22px;
+
+            margin-bottom: 22px;
+
+            border-radius: 26px;
+
+            background:
+                linear-gradient(180deg,
+                    rgba(255, 255, 255, .05),
+                    rgba(255, 255, 255, .025));
+
+            border:
+                1px solid rgba(255, 255, 255, .07);
+
+            backdrop-filter: blur(14px);
+
+            overflow: hidden;
+        }
+
+        .info-box::before {
+            content: "";
+
+            position: absolute;
+
+            inset: 0;
+
+            background:
+                radial-gradient(circle at top right,
+                    rgba(124, 92, 255, .18),
+                    transparent 45%);
+
+            pointer-events: none;
+        }
+
+        .info-header {
+            display: flex;
+            align-items: center;
+
+            gap: 10px;
+
+            margin-bottom: 14px;
+
+            font-size: 15px;
+            font-weight: 800;
+
+            color: white;
+        }
+
+        .info-header i {
+            color: var(--primary);
+            font-size: 18px;
+        }
+
+        .info-box p {
+            font-size: 13px;
+            line-height: 1.7;
+
+            color: var(--muted);
+
+            margin-bottom: 10px;
+        }
+
+        .info-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-content {
+            opacity: 1;
+            transform: translateY(0);
+
+            transition:
+                opacity .25s ease,
+                transform .25s ease;
+        }
+
+
+        /* =========================
+   UPDATE POPUP
+========================= */
+
+        .update-popup {
+            position: fixed;
+            inset: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: rgba(0, 0, 0, .72);
+            backdrop-filter: blur(10px);
+
+            z-index: 999999;
+
+            opacity: 0;
+            pointer-events: none;
+
+            transition: .35s ease;
+        }
+
+        .update-popup.show {
+            opacity: 1;
+            pointer-events: all;
+            /* TAMBAHAN */
+            overflow: hidden;
+        }
+
+        .update-card {
+            width: 90%;
+            max-width: 380px;
+
+            /* SCROLL FIX */
+            max-height: 80vh;
+            overflow-y: auto;
+
+            padding: 34px 28px;
+
+            border-radius: 30px;
+
+            text-align: center;
+
+            background:
+                linear-gradient(180deg,
+                    rgba(255, 255, 255, .06),
+                    rgba(255, 255, 255, .03));
+
+            border:
+                1px solid rgba(255, 255, 255, .08);
+
+            transform:
+                translateY(30px) scale(.95);
+
+            transition:
+                .45s cubic-bezier(.22, 1, .36, 1);
+        }
+
+        /* SCROLLBAR */
+        .update-card::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .update-card::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, .15);
+            border-radius: 20px;
+        }
+
+        .update-popup.show .update-card {
+            transform:
+                translateY(0) scale(1);
+        }
+
+        .update-icon {
+            width: 82px;
+            height: 82px;
+
+            margin: 0 auto 22px;
+
+            border-radius: 24px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 34px;
+
+            color: white;
+
+            background:
+                linear-gradient(135deg,
+                    var(--primary),
+                    var(--primary2));
+
+            box-shadow:
+                0 15px 35px rgba(124, 92, 255, .35);
+        }
+
+        .update-card h2 {
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+
+        .update-card p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.7;
+
+            white-space: pre-line;
+
+            margin-bottom: 24px;
+
+            text-align: left;
+        }
+
+        .update-card button {
+            width: 100%;
+            height: 56px;
+
+            border: none;
+            border-radius: 18px;
+
+            cursor: pointer;
+
+            font-weight: 800;
+
+            color: white;
+
+            background:
+                linear-gradient(135deg,
+                    var(--primary),
+                    var(--primary2));
+
+            transition: .3s;
+        }
+
+        .update-card button:hover {
+            transform: translateY(-2px);
+        }
+
+        body.popup-open {
+            overflow: hidden;
+            height: 100vh;
+            touch-action: none;
+        }
+
+        #update-text {
+            white-space: pre-wrap;
+        }
+    </style>
+
+    <style>
+        .coming-soon-container {
+            background: var(--card);
+            border: 1px solid var(--glass-border);
+            border-radius: 28px;
+            padding: 40px 20px;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .status-badge {
+            background: rgba(124, 92, 255, 0.1);
+            color: var(--primary);
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            display: inline-block;
+            margin-bottom: 20px;
+            border: 1px solid rgba(124, 92, 255, 0.2);
+        }
+
+        .icon-wrapper {
+            position: relative;
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: var(--primary);
+        }
+
+        .pulse-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--primary);
+            border-radius: 18px;
+            animation: pulse 2s infinite;
+        }
+
+        .timer-grid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin: 25px 0;
+        }
+
+        .timer-box {
+            background: var(--glass);
+            padding: 10px;
+            border-radius: 12px;
+            min-width: 60px;
+        }
+
+        .timer-box span {
+            display: block;
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--text);
+            font-family: 'Monaco', monospace;
+        }
+
+        .timer-box p {
+            font-size: 8px;
+            color: var(--muted);
+            margin-top: 5px;
+            font-weight: 700;
+        }
+
+        .timer-sep {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--primary);
+            padding-bottom: 15px;
+        }
+
+        .progress-container {
+            width: 200px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.05);
+            margin: 20px auto 10px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar-glow {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            box-shadow: 0 0 10px var(--primary);
+            transition: width 0.5s ease;
+        }
+
+        .sync-text {
+            font-size: 10px;
+            color: var(--muted);
+            letter-spacing: 1px;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.9);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1.4);
+                opacity: 0;
+            }
+        }
+
+        /* Animasi Loading Bar */
+        .progress-bar-glow {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            box-shadow: 0 0 15px var(--primary);
+            position: relative;
+            overflow: hidden;
+            transition: width 0.5s ease;
+        }
+
+        /* Efek cahaya menyapu pada bar */
+        .progress-bar-glow::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.4),
+                    transparent);
+            animation: sweep 2s infinite;
+        }
+
+        @keyframes sweep {
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
+
+        /* Animasi Ikon Putar & Teks Kedap-kedip */
+        .sync-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 10px;
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .sync-text i {
+            animation: spin 2s infinite linear;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes pulseText {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        /* Container Teks */
+        .sync-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: 'Segoe UI', sans-serif;
+            color: var(--muted);
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        /* Animasi Ikon Putar */
+        .sync-text i {
+            animation: spin 2s infinite linear;
+            color: var(--primary);
+        }
+
+        /* Animasi Titik-Titik ( . .. ... ) */
+        .loading-text::after {
+            content: '';
+            animation: dots 2s infinite;
+        }
+
+        @keyframes dots {
+            0% {
+                content: '';
+            }
+
+            25% {
+                content: '.';
+            }
+
+            50% {
+                content: '..';
+            }
+
+            75% {
+                content: '...';
+            }
+
+            100% {
+                content: '';
+            }
+        }
+
+        /* Animasi Ikon Berputar */
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Efek Shimmer/Kedap-kedip lembut pada teks */
+        .loading-text {
+            animation: pulseFade 2s infinite ease-in-out;
+        }
+
+        @keyframes pulseFade {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        /* Animasi khusus untuk ikon update */
+        .fa-cloud-arrow-up {
+            animation: floatUpdate 2s infinite ease-in-out;
+        }
+
+        @keyframes floatUpdate {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        /* Memastikan teks loading-text punya animasi titik-titik (dots) */
+        .loading-text::after {
+            content: '';
+            animation: dots 2s infinite;
+        }
+
+        @keyframes dots {
+            0% {
+                content: '';
+            }
+
+            25% {
+                content: '.';
+            }
+
+            50% {
+                content: '..';
+            }
+
+            75% {
+                content: '...';
+            }
+
+            100% {
+                content: '';
+            }
+        }
+
+        /* =========================================
+   FIX SCROLL MOBILE
+========================================= */
+
+        html,
+        body {
+            overflow-x: hidden;
+            overflow-y: auto !important;
+
+            width: 100%;
+            max-width: 100%;
+
+            min-height: 100%;
+
+            -webkit-overflow-scrolling: touch;
+            touch-action: auto;
+        }
+
+        /* pastikan wrapper tidak mengunci scroll */
+        .main-wrapper {
+            overflow: visible !important;
+        }
+
+        /* FIX IOS / ANDROID */
+        body {
+            position: relative;
+        }
+
+        /* popup hanya lock saat aktif */
+        body.popup-open {
+            overflow: hidden !important;
+            touch-action: none;
+        }
+
+        /* saat popup tidak aktif */
+        .update-popup {
+            pointer-events: none;
+        }
+
+        .update-popup.show {
+            pointer-events: auto;
+        }
+
+        /* cegah elemen fixed bikin body terkunci */
+        #sidebar {
+            will-change: transform;
+        }
+
+        /* FIX KHUSUS MOBILE */
+        @media(max-width:768px) {
+
+            body {
+                height: auto !important;
+                min-height: 100vh;
+            }
+
+            .main-wrapper {
+                height: auto !important;
+            }
+
+        }
+
+        /* =========================================
+   HIDE SCROLLBAR
+========================================= */
+
+        /* Chrome, Edge, Safari */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Firefox */
+        html {
+            scrollbar-width: none;
+        }
+
+        /* IE */
+        body {
+            -ms-overflow-style: none;
+        }
+
+        /* Smooth Mobile */
+        html,
+        body {
+            overflow-x: hidden;
+            overflow-y: auto;
+
+            -webkit-overflow-scrolling: touch;
+        }
+
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 400px;
+            height: 70px;
+            background: rgba(15, 17, 24, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 10px;
+            z-index: 9999;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--muted);
+            font-size: 18px;
+            transition: 0.3s;
+        }
+
+        .nav-item span {
+            font-size: 10px;
+            margin-top: 4px;
+            font-weight: 600;
+        }
+
+        .nav-item.active,
+        .nav-item:hover {
+            color: var(--primary);
+        }
+
+        /* Styling untuk Spinner */
+        .login-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .spinner-icon {
+            display: none;
+            animation: fa-spin 1s infinite linear;
+        }
+
+        .btn-disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            background: rgb(0, 0, 0) !important;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="bg-fixed"></div>
+
+    <div class="container"></div>
+    <div id="copy-toast" class="copy-toast">LINK BERHASIL DISALIN!</div>
+
+    <div id="login-overlay">
+        <div class="login-card">
+            <div class="login-logo">
+                <img src="../vd/icon.png" alt="Logo">
+            </div>
+            <h2>NEWBIEFAMS</h2>
+            <p class="login-subtitle">Verifikasi Member By Zenu</p>
+
+            <div class="input-group">
+                <i class="fa-solid fa-user input-icon"></i>
+                <input type="text" id="username" placeholder="Masukkan Username" autocomplete="off">
+            </div>
+
+            <div class="input-group">
+                <i class="fa-solid fa-lock input-icon"></i>
+                <input type="password" id="access-key" placeholder="Enter The Password" autocomplete="off">
+                <i class="fa-solid fa-eye toggle-pass" onclick="togglePass()"></i>
+            </div>
+
+            <button class="login-btn" id="login-btn" onclick="checkAccess()">
+                <span class="btn-text">MASUKAN PASSWORD</span>
+                <span class="spinner" id="spinner" style="display: none;">
+                    <i class="fa-solid fa-spinner fa-spin"></i>
+                </span>
+            </button>
+
+            <p class="signup-text" style="font-size: 0.8em; margin-top: 15px; color: #666;">
+                Belum Punya Akun? <a href="daftar.html" style="color: #007bff; text-decoration: none;">Buat Akun</a>
+            </p>
+
+            <p id="error-msg" style="display:none; color: #ff3e3e; margin-top: 10px;"></p>
+        </div>
+    </div>
+    <!-- 
+    <div id="login-overlay">
+        <div class="login-card">
+    <div class="login-logo">
+        <img src="../vd/icon.png" alt="Logo">
+    </div>
+    <h2>NEWBIEFAMS</h2>
+    <p class="login-subtitle">Verifikasi Member By Zenu</p>
+    
+    <div class="input-group">
+        <i class="fa-solid fa-user input-icon"></i>
+        <input type="text" id="username" placeholder="Masukkan Username" autocomplete="off">
+    </div>
+
+   <div class="input-group">
+    <i class="fa-solid fa-lock input-icon"></i>
+    <input type="password" id="access-key" placeholder="Enter The Password" autocomplete="off">
+<i class="fa-solid fa-eye toggle-pass" onclick="togglePass()"></i>
+</div>
+    
+    <button class="login-btn" onclick="checkAccess()">MASUKAN PASSWORD</button>
+    <p id="error-msg" style="display:none; color: #ff3e3e; margin-top: 10px;"></p>
+</div>
+    </div>
+-->
+    <!-- =========================
+     UPDATE POPUP
+========================= -->
+    <div id="update-popup" class="update-popup">
+        <div class="update-card">
+
+            <div class="update-icon">
+                <i class="fa-solid fa-rocket"></i>
+            </div>
+
+            <h2>UPDATE TERBARU</h2>
+
+            <p id="update-text">
+                Website telah diperbarui ke versi terbaru.
+            </p>
+
+            <button onclick="closeUpdatePopup()">
+                TUTUP
+            </button>
+
+        </div>
+    </div>
+
+    <div class="main-wrapper" id="main-content">
+        <header class="profile-section">
+            <div class="avatar-wrapper">
+                <img src="../vd/icon.png" class="profile-img" alt="Zenu">
+                <div class="verified-badge"><i class="fa-solid fa-check"></i></div>
+            </div>
+            <h1 class="profile-name">𝙉𝙚𝙬𝙗𝙞𝙚Fams</h1>
+            <span class="profile-tag">Bukan Sekadar Gaya, Tapi Segudang Karya.<br>Hanya Perkumpulan Kreator Preset
+                Pemula<br>Sama-sama Belajar dan Improve Skill</span>
+
+            <!-- JAM DIGITAL -->
+            <div id="digital-clock"></div>
+
+            <div class="stats-grid">
+                <div class="stat-item"><span>130</span><label>Member</label></div>
+                <div class="stat-item"><span id="status-text">ONLINE</span><label>Status</label></div>
+                <div class="stat-item"><span>0.0.1</span><label>Version</label></div>
+            </div>
+        </header>
+
+
+
+        <!-- FILTER -->
+        <div class="filter-container">
+
+            <button class="filter-btn active" data-filter="informasi">
+                INFORMASI
+            </button>
+
+            <button class="filter-btn" data-filter="intro">
+                INTRO
+            </button>
+
+            <button class="filter-btn" data-filter="wm">
+                WM
+            </button>
+
+            <button class="filter-btn" data-filter="social">
+                TIKTOK
+            </button>
+
+        </div>
+
+        <!-- NEWBIEFAMS CYBER-ELITE DASHBOARD -->
+        <div class="info-content" style="
+    font-family: 'Inter', 'JetBrains Mono', monospace;
+    max-width: 750px;
+    margin: 40px auto;
+    padding: 0 15px;
+    color: #fff;
+">
+
+            <!-- ABOUT WEBSITE SECTION -->
+            <div style="
+        position: relative;
+        overflow: hidden;
+        background: #000;
+        border: 1px solid #222;
+        border-radius: 10px;
+        padding: 28px;
+        box-shadow: 0 0 25px rgba(0,242,255,.05);
+        margin-bottom: 20px;
+    ">
+                <!-- TOP ACCENT -->
+                <div style="
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #00f2ff, #006ae0);
+        "></div>
+
+                <!-- HEADER -->
+                <div style="
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+            flex-wrap: wrap;
+        ">
+                    <!-- LEFT -->
+                    <div>
+                        <div style="
+                    font-size: .72rem;
+                    color: #00f2ff;
+                    letter-spacing: 3px;
+                    margin-bottom: 12px;
+                    font-family: monospace;
+                ">
+                            WEBSITE RESMI
+                        </div>
+                        <h1 style="
+                    margin: 0;
+                    font-size: 2rem;
+                    font-weight: 900;
+                    letter-spacing: -1px;
+                    text-transform: uppercase;
+                    line-height: 1;
+                ">
+                            Newbie<span style="color: #00f2ff;">Fams</span>
+                        </h1>
+                    </div>
+
+                    <!-- RIGHT -->
+                    <div style="text-align: right;">
+                        <div style="
+                    font-size: .65rem;
+                    color: #555;
+                    margin-bottom: 6px;
+                    letter-spacing: 1px;
+                ">
+                            DEV WEBSITE
+                        </div>
+                        <div style="
+                    font-size: .78rem;
+                    color: #00f2ff;
+                    font-weight: 600;
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-end;
+                    gap: 8px;
+                ">
+                            <span
+                                style="width: 6px; height: 6px; border-radius: 50%; background: #00f2ff; box-shadow: 0 0 10px #00f2ff;"></span>
+                            ZENU
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DESCRIPTION -->
+                <div style="
+            margin-top: 24px;
+            padding-left: 16px;
+            border-left: 2px solid #222;
+        ">
+                    <p style="
+                margin: 0;
+                color: #8b8b8b;
+                font-size: .92rem;
+                line-height: 1.8;
+            ">
+                        Website ini merupakan pusat layanan digital
+                        <span style="color: #fff;">NewbieFams</span>
+                        yang menyediakan akses cepat ke berbagai fitur modern seperti
+                        <span style="color: #fff;">Intro</span>,
+                        <span style="color: #fff;">Watermark</span>,
+                        dan
+                        <span style="color: #fff;">TikTok Official NewbieFams</span>.
+                        <br><br>
+                        Dirancang dengan performa ringan, tampilan futuristik,
+                        serta pengalaman pengguna yang modern dan responsif
+                        untuk seluruh member komunitas.
+                    </p>
+                </div>
+            </div>
+
+            <!-- PROTOCOLS SECTION -->
+            <div style="
+        border: 1px solid #333; 
+        background: #0a0a0a; 
+        border-radius: 10px; 
+        overflow: hidden;
+    ">
+                <!-- Header Bar -->
+                <div
+                    style="padding: 15px 25px; background: #111; border-bottom: 1px solid #333; display: flex; align-items: center; gap: 12px;">
+                    <i class="fa-solid fa-terminal" style="color: #ff3e3e; font-size: 0.9rem;"></i>
+                    <span
+                        style="font-family: monospace; font-size: 0.8rem; font-weight: bold; letter-spacing: 2px; color: #ff3e3e;">RULES.exe</span>
+                </div>
+
+                <!-- Rules Grid -->
+                <div style="padding: 20px;">
+
+                    <!-- Rule 01 -->
+                    <div
+                        style="display: grid; grid-template-columns: 50px 1fr; gap: 15px; padding: 20px; border: 1px solid #222; margin-bottom: 15px; background: linear-gradient(135deg, #0d0d0d 0%, #050505 100%);">
+                        <div style="font-family: monospace; color: #444; font-size: 1.2rem; font-weight: bold;">01</div>
+                        <div>
+                            <div
+                                style="color: #ff3e3e; font-weight: bold; font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 5px; text-transform: uppercase;">
+                                Prohibited Distribution</div>
+                            <p style="margin: 0; color: #aaa; font-size: 0.9rem; line-height: 1.5;">
+                                Dilarang Menyebarkan <span style="color: #eee;">WM & Intro</span> khusus member newbie.
+                                Risiko pelanggaran akan dikenakan <span style="color: #ff3e3e;">BLACKLIST
+                                    PERMANEN</span> tanpa peringatan.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Rule 02 -->
+                    <div
+                        style="display: grid; grid-template-columns: 50px 1fr; gap: 15px; padding: 20px; border: 1px solid #222; margin-bottom: 15px; background: linear-gradient(135deg, #0d0d0d 0%, #050505 100%);">
+                        <div style="font-family: monospace; color: #444; font-size: 1.2rem; font-weight: bold;">02</div>
+                        <div>
+                            <div
+                                style="color: #ff3e3e; font-weight: bold; font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 5px; text-transform: uppercase;">
+                                Access Credentials</div>
+                            <p style="margin: 0; color: #aaa; font-size: 0.9rem; line-height: 1.5;">
+                                Dilarang Menyebarkan Akses Password. Jika ketahuan akan dikenakan <span
+                                    style="color: #ff3e3e;">BLACKLIST</span> secara tidak hormat.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Rule 03 -->
+                    <div
+                        style="display: grid; grid-template-columns: 50px 1fr; gap: 15px; padding: 20px; border: 1px solid #222; background: linear-gradient(135deg, #0d0d0d 0%, #050505 100%);">
+                        <div style="font-family: monospace; color: #444; font-size: 1.2rem; font-weight: bold;">03</div>
+                        <div>
+                            <div
+                                style="color: #ff3e3e; font-weight: bold; font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 5px; text-transform: uppercase;">
+                                Unauthorized Sale</div>
+                            <p style="margin: 0; color: #aaa; font-size: 0.9rem; line-height: 1.5;">
+                                Dilarang keras memperjualbelikan WM & Intro di dalam maupun luar grup. Pelanggaran
+                                berakibat <span style="color: #ff3e3e;">KICK</span> secara tidak hormat.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div style="padding: 20px; background: #000; border-top: 1px solid #333; text-align: center;">
+                    <div style="font-family: monospace; font-size: 0.75rem; color: #555; letter-spacing: 2px;">
+                        <span style="color: #00f2ff;">[ PATUHI PERATURAN YANG ADA ]</span>
+                    </div>
+                </div>
+            </div>
+            <div class="info-update-box" style="
+    background: var(--card);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 24px;
+    margin: 30px 0;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(10px);
+">
+                <div class="info-update-header" style="
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        padding-bottom: 16px;
+        margin-bottom: 20px;
+    ">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="
+                background: rgba(124, 92, 255, 0.15);
+                color: var(--primary);
+                width: 38px;
+                height: 38px;
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 18px;
+            ">
+                            <i class="fa-solid fa-bullhorn"></i>
+                        </div>
+                        <div>
+                            <h3
+                                style="font-size: 16px; font-weight: 800; color: var(--text); margin: 0; letter-spacing: 0.5px;">
+                                PUSAT UPDATE</h3>
+                            <p style="font-size: 12px; color: var(--muted); margin: 2px 0 0 0;">Silahkan dibaca sampai
+                                akhir</p>
+                        </div>
+                    </div>
+                    <span id="website-version-badge" style="
+        font-size: 11px;
+        background: rgba(124, 92, 255, 0.2);
+        color: var(--primary);
+        padding: 5px 12px;
+        border-radius: 50px;
+        font-weight: 700;
+        letter-spacing: 1px;
+    ">
+                        NULL
+                    </span>
+                </div>
+
+                <div class="info-update-list" style="display: flex; flex-direction: column; gap: 14px;">
+
+                    <!-- Bagian Profil (Yang sudah ada) -->
+                    <div class="update-center" style="display: flex; flex-direction: column; gap: 14px;">
+
+                        <div
+                            style="display: flex; gap: 14px; align-items: flex-start; background: rgba(255, 255, 255, 0.03); padding: 16px; border-radius: 16px; border: 1px solid var(--glass-border);">
+                            <div
+                                style="background: rgba(255, 193, 7, 0.1); color: #FFC107; width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; margin-top: 2px;">
+                                <i class="fa-solid fa-bell"></i>
+                            </div>
+                            <div style="flex-grow: 1;">
+                                <div
+                                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                                    <h4 style="font-size: 14px; font-weight: 700; color: var(--text); margin: 0;">Sistem
+                                        Terupdate</h4>
+                                    <span style="font-size: 10px; color: var(--muted);">15 Juni 2026</span>
+                                </div>
+                                <p style="font-size: 12px; color: var(--muted); margin: 0; line-height: 1.6;">
+                                    Profil kamu telah diperbarui ke versi terbaru. Nikmati fitur <strong>Level,
+                                        Streak,</strong> dan akses <strong>Premium</strong> yang lebih stabil.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div
+                            style="display: flex; gap: 14px; align-items: flex-start; background: rgba(255, 255, 255, 0.03); padding: 16px; border-radius: 16px; border: 1px solid var(--glass-border);">
+                            <div
+                                style="background: rgba(25, 216, 79, 0.1); color: #19d84f; width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; margin-top: 2px;">
+                                <i class="fa-solid fa-crown"></i>
+                            </div>
+                            <div style="flex-grow: 1;">
+                                <div
+                                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                                    <h4 style="font-size: 14px; font-weight: 700; color: var(--text); margin: 0;">Status
+                                        Premium</h4>
+                                </div>
+                                <p style="font-size: 12px; color: var(--muted); margin: 0; line-height: 1.6;">
+                                    Dapatkan akses fitur eksklusif dan prioritaskan akunmu.<br>Cek menu
+                                    <strong>profil</strong> untuk detail masa aktif.
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div
+                        style="display: flex; gap: 14px; align-items: flex-start; background: rgba(255, 255, 255, 0.02); padding: 16px; border-radius: 16px; border: 1px solid var(--glass-border);">
+                        <div
+                            style="background: rgba(124, 92, 255, 0.1); color: var(--primary); width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; margin-top: 2px;">
+                            <i class="fa-solid fa-bell"></i>
+                        </div>
+                        <div style="flex-grow: 1;">
+                            <h4 style="font-size: 14px; font-weight: 700; color: var(--text); margin: 0 0 4px 0;">
+                                AKTIFKAN NOTIFIKASI
+                            </h4>
+                            <p style="font-size: 12px; color: var(--muted); margin: 0 0 12px 0; line-height: 1.6;">
+                                Dapatkan update terbaru dan pengumuman sistem langsung di perangkatmu secara real-time.
+                            </p>
+                            <button onclick="aktifkanNotifikasi()"
+                                style="background: var(--primary); color: #ffffff; padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 600; text-decoration: none; border: none; cursor: pointer; transition: opacity 0.2s;">
+                                <i class="fa-solid fa-bell"></i> AKTIFKAN NOTIFIKASI
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Bagian Saluran WhatsApp -->
+                    <div
+                        style="display: flex; gap: 14px; align-items: flex-start; background: rgba(255, 255, 255, 0.02); padding: 16px; border-radius: 16px; border: 1px solid var(--glass-border);">
+                        <div
+                            style="background: rgba(37, 211, 102, 0.1); color: #25D366; width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; margin-top: 2px;">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </div>
+                        <div style="flex-grow: 1;">
+                            <h4 style="font-size: 14px; font-weight: 700; color: var(--text); margin: 0 0 4px 0;">
+                                SALURAN WHATSAPP</h4>
+                            <p style="font-size: 12px; color: var(--muted); margin: 0 0 12px 0; line-height: 1.6;">
+                                Dapatkan update terbaru, pengumuman, dan konten eksklusif langsung melalui saluran
+                                WhatsApp kami.
+                            </p>
+                            <a href="https://whatsapp.com/channel/0029Vb8PePf90x2wctALkw0J"
+                                style="display: inline-block; background: #25D366; color: #ffffff; padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 600; text-decoration: none; transition: opacity 0.2s;">
+                                Gabung Saluran Sekarang
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="info-update-box"
+                style="background: var(--card); border: 1px solid var(--glass-border); border-radius: 24px; padding: 24px; margin: 30px 0; box-shadow: var(--shadow); backdrop-filter: blur(10px);">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+                    <div
+                        style="background: rgba(124, 92, 255, 0.15); color: var(--primary); width: 38px; height: 38px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px;">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <div>
+                        <h3 style="font-size: 16px; font-weight: 800; color: var(--text); margin: 0;">ADMIN & FOUNDER
+                            NEWBIE
+                        </h3>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: rgba(255,255,255,0.03); border-radius: 12px;">
+                        <span style="font-size: 14px; font-weight: 600;">@dannewbie01</span>
+                        <span
+                            style="font-size: 11px; background: rgba(54, 255, 14, 0.1); color: var(--accent); padding: 4px 10px; border-radius: 8px; font-weight: 700;">FOUNDER</span>
+                    </div>
+
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: rgba(255,255,255,0.03); border-radius: 12px;">
+                        <span style="font-size: 14px; font-weight: 600;">@qinzenu</span>
+                        <span
+                            style="font-size: 11px; background: rgba(124, 92, 255, 0.1); color: var(--primary); padding: 4px 10px; border-radius: 8px; font-weight: 700;">DEV
+                            WEB</span>
+                    </div>
+
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: rgba(255,255,255,0.03); border-radius: 12px;">
+                        <span style="font-size: 14px; font-weight: 600;">@nopzaja_</span>
+                        <span
+                            style="font-size: 11px; background: rgba(255, 255, 255, 0.1); color: var(--text); padding: 4px 16px; border-radius: 8px; font-weight: 700;">ADMIN</span>
+                    </div>
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: rgba(255,255,255,0.03); border-radius: 12px;">
+                        <span style="font-size: 14px; font-weight: 600;">@nittnewbieee</span>
+                        <span
+                            style="font-size: 11px; background: rgba(255, 255, 255, 0.1); color: var(--text); padding: 4px 16px; border-radius: 8px; font-weight: 700;">ADMIN</span>
+                    </div>
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: rgba(255,255,255,0.03); border-radius: 12px;">
+                        <span style="font-size: 14px; font-weight: 600;">@daffnewbie2</span>
+                        <span
+                            style="font-size: 11px; background: rgba(255, 255, 255, 0.1); color: var(--text); padding: 4px 16px; border-radius: 8px; font-weight: 700;">ADMIN</span>
+                    </div>
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: rgba(255,255,255,0.03); border-radius: 12px;">
+                        <span style="font-size: 14px; font-weight: 600;">@shin_newbie1</span>
+                        <span
+                            style="font-size: 11px; background: rgba(255, 255, 255, 0.1); color: var(--text); padding: 4px 16px; border-radius: 8px; font-weight: 700;">ADMIN</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <section class="links-container">
+            <a href="https://alightcreative.com/am/share/u/x75KQVUqu0XrR0hKzxrgbzHdhLn2/p/s9AlB5Tdg7-0c1ba20843bde576"
+                class="link-card intro" data-title="INTRO V1 NEWBIEFAMS"
+                data-desc="Dilarang keras untuk menyebarkan intro member khusus newbiefams, jika ketahuan resiko di tanggung sendiri">
+                <img src="https://i.ibb.co.com/V0kVpbNv/Elemen-Baru-42-AB340-B8.png" class="main-icon am-icon">
+                <div class="link-info">
+                    <h4>INTRO V1 NEWBIEFAMS</h4>
+                    <p>Intro NewbieFams By Admin @newbiefamsofficial</p>
+                </div>
+                <button type="button" class="btn-more" onclick="openSidebar(event, this)"><i
+                        class="fa-solid fa-share-nodes"></i></button>
+            </a>
+            <a href="https://alightcreative.com/am/share/u/x75KQVUqu0XrR0hKzxrgbzHdhLn2/p/RJ2XfeocOz-a41169ec5280e4af"
+                class="link-card intro" data-title="INTRO V2 NEWBIEFAMS"
+                data-desc="Dilarang keras untuk menyebarkan intro member khusus newbiefams, jika ketahuan resiko di tanggung sendiri">
+                <img src="https://i.ibb.co.com/V0kVpbNv/Elemen-Baru-42-AB340-B8.png" class="main-icon am-icon">
+                <div class="link-info">
+                    <h4>INTRO V2 NEWBIEFAMS</h4>
+                    <p>Intro NewbieFams By Admin @newbiefamsofficial</p>
+                </div>
+                <button type="button" class="btn-more" onclick="openSidebar(event, this)"><i
+                        class="fa-solid fa-share-nodes"></i></button>
+            </a>
+            <a href="https://alightcreative.com/am/share/u/x75KQVUqu0XrR0hKzxrgbzHdhLn2/p/LwtonAWlHL-a048d757aa6c2660"
+                class="link-card intro" data-title="INTRO V1 NEWBIEFAMS"
+                data-desc="Dilarang keras untuk menyebarkan intro member khusus newbiefams, jika ketahuan resiko di tanggung sendiri">
+                <img src="https://i.ibb.co.com/V0kVpbNv/Elemen-Baru-42-AB340-B8.png" class="main-icon am-icon">
+                <div class="link-info">
+                    <h4>INTRO V1 NEWBIEFAMS</h4>
+                    <p>Intro NewbieFams By Admin @newbiefamsofficial</p>
+                </div>
+                <button type="button" class="btn-more" onclick="openSidebar(event, this)"><i
+                        class="fa-solid fa-share-nodes"></i></button>
+            </a>
+            <a href="https://alightcreative.com/am/share/u/x75KQVUqu0XrR0hKzxrgbzHdhLn2/p/9Zruv1SDx4-735e8f8ae75a2350"
+                class="link-card intro" data-title="INTRO V2 NEWBIEFAMS"
+                data-desc="Dilarang keras untuk menyebarkan intro member khusus newbiefams, jika ketahuan resiko di tanggung sendiri">
+                <img src="https://i.ibb.co.com/V0kVpbNv/Elemen-Baru-42-AB340-B8.png" class="main-icon am-icon">
+                <div class="link-info">
+                    <h4>INTRO V2 NEWBIEFAMS</h4>
+                    <p>Intro NewbieFams By Admin @newbiefamsofficial</p>
+                </div>
+                <button type="button" class="btn-more" onclick="openSidebar(event, this)"><i
+                        class="fa-solid fa-share-nodes"></i></button>
+            </a>
+
+            <a href="https://www.mediafire.com/file/0g0rtxzbhzr01uv/INTRO_NEWBIEFAMS_CHAR.mp4/file"
+                class="link-card intro" data-title="INTRO CHAR NEWBIEFAMS"
+                data-desc="Dilarang keras untuk menyebarkan intro member khusus newbiefams, jika ketahuan resiko di tanggung sendiri">
+                <img src="https://i.ibb.co.com/V0kVpbNv/Elemen-Baru-42-AB340-B8.png" class="main-icon am-icon">
+                <div class="link-info">
+                    <h4>INTRO CHAR NEWBIEFAMS</h4>
+                    <p>Intro NewbieFams By Admin @newbiefamsofficial</p>
+                </div>
+                <button type="button" class="btn-more" onclick="openSidebar(event, this)"><i
+                        class="fa-solid fa-share-nodes"></i></button>
+            </a>
+            <!--
+            <a href="../vd/Intro Char NewbieFams.mp4"
+    download
+    class="link-card intro"
+    data-title="INTRO CHAR NEWBIEFAMS"
+    data-desc="Dilarang keras untuk menyebarkan intro member khusus newbiefams, jika ketahuan resiko di tanggung sendiri">
+
+    <img src="../vd/logo.png"
+        class="main-icon am-icon">
+
+    <div class="link-info">
+        <h4>INTRO CHAR NEWBIEFAMS</h4>
+        <p>Intro NewbieFams By @newbiefamsofficial</p>
+    </div>
+
+    <button type="button"
+        class="btn-more"
+        onclick="openSidebar(event, this, 'https://www.mediafire.com/file/0g0rtxzbhzr01uv/INTRO_NEWBIEFAMS_CHAR.mp4/file')">
+
+        <i class="fa-solid fa-share-nodes"></i>
+
+    </button>
+</a> -->
+            <a href="https://alightcreative.com/am/share/u/x75KQVUqu0XrR0hKzxrgbzHdhLn2/p/7kBxwcJg4X-b4afc858dd976b1b"
+                class="link-card wm" data-title="WM DEDIC NEWBIEFAMS"
+                data-desc="Dilarang keras untuk menyebarkan intro member khusus newbiefams, jika ketahuan resiko di tanggung sendiri">
+                <img src="https://i.ibb.co.com/V0kVpbNv/Elemen-Baru-42-AB340-B8.png" class="main-icon am-icon">
+                <div class="link-info">
+                    <h4>WM DEDIC MEMBER NEWBIE</h4>
+                    <p>Watermark NewbieFams By Admin @newbiefamsofficial</p>
+                </div>
+                <button type="button" class="btn-more" onclick="openSidebar(event, this)"><i
+                        class="fa-solid fa-share-nodes"></i></button>
+            </a>
+            <a href="https://alightcreative.com/am/share/u/x75KQVUqu0XrR0hKzxrgbzHdhLn2/p/UCbLO6Iu3h-76c5fb2fb8c7f57e"
+                class="link-card wm" data-title="WM CHIBI NEWBIEFAMS"
+                data-desc="Dilarang keras untuk menyebarkan intro member khusus newbiefams, jika ketahuan resiko di tanggung sendiri">
+                <img src="https://i.ibb.co.com/V0kVpbNv/Elemen-Baru-42-AB340-B8.png" class="main-icon am-icon">
+                <div class="link-info">
+                    <h4>WM CHIBI NEWBIEFAMS</h4>
+                    <p>Watermark NewbieFams By Admin @newbiefamsofficial</p>
+                </div>
+                <button type="button" class="btn-more" onclick="openSidebar(event, this)"><i
+                        class="fa-solid fa-share-nodes"></i></button>
+            </a>
+
+            <a href="https://tiktok.com/@newbiefamsofficial" class="link-card social" data-title="TikTok Official"
+                data-desc="Info terbaru seputar NewbieFams">
+                <i class="fa-brands fa-tiktok main-icon"></i>
+                <div class="link-info">
+                    <h4>TIKTOK NEWBIEFAMS OFFICIAL</h4>
+                    <p>Follow for latest updates</p>
+                </div>
+                <button type="button" class="btn-more" onclick="openSidebar(event, this)"><i
+                        class="fa-solid fa-share-nodes"></i></button>
+            </a>
+
+            <!-- <a href="https://youtube.com/@qinzenu" class="link-card" data-title="YouTube Channel"
+                data-desc="Development & Cinematic videos">
+                <i class="fa-brands fa-youtube main-icon" style="color: #ff0000;"></i>
+                <div class="link-info">
+                    <h4>YouTube Channel</h4>
+                    <p>Tutorial & Showcase</p>
+                </div>
+                <button type="button" class="btn-more" onclick="openSidebar(event, this)"><i
+                        class="fa-solid fa-share-nodes"></i></button>
+            </a> -->
+        </section>
+
+
+    </div>
+
+    <div id="sidebar">
+        <div id="sidebar-content" class="sidebar-content sidebar-show">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                <h3 id="side-title" style="font-weight: 800;">Share Content</h3>
+                <i class="fa-solid fa-circle-xmark" onclick="closeSidebar()"
+                    style="cursor: pointer; font-size: 24px;"></i>
+            </div>
+
+            <div style="background: rgba(0,0,0,0.3); padding: 25px; border-radius: 24px; text-align: center;">
+                <p id="side-desc" style="font-size: 14px; color: var(--muted); margin-bottom: 20px;"></p>
+
+                <button onclick="copyLink()"
+                    style="background: white; color: black; border: none; padding: 15px; border-radius: 14px; font-weight: 800; width: 100%; cursor: pointer;">
+                    <i class="fa-solid fa-copy"></i> COPY LINK
+                </button>
+            </div>
+        </div>
+    </div>
+    <nav class="bottom-nav">
+        <a href="#main-containe" class="nav-item active">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </a>
+        <a href="ranking.html" class="nav-item">
+            <i class="fa-solid fa-trophy"></i>
+            <span>Ranking</span>
+        </a>
+        <a href="profil.html" class="nav-item ">
+            <i class="fa-solid fa-user"></i>
+            <span>Profil</span>
+        </a>
+    </nav>
+    <script>
+        // =========================
+        // DATA MEMBER (DINAMIS)
+        // =========================
+        let members = [];
+        let userStatus = "ONLINE";
+        let currentLink = "";
+        let isVerifying = false;
+
+        // Load data member dari file JSON
+        async function loadMembers() {
+            try {
+                const response = await fetch("datamembernewbiefams/users.json");
+                if (!response.ok) throw new Error("Gagal mengambil file JSON");
+                members = await response.json();
+                console.log("Data Member dimuat:", members);
+            } catch (error) {
+                console.error("Gagal memuat data member:", error);
+            }
+        }
+
+        // =========================
+        // WINDOW LOAD & INITIALIZATION
+        // =========================
+        window.onload = async () => {
+            await loadMembers();
+
+            if (localStorage.getItem('isLoggedIn') === 'true') {
+                showContent();
+            }
+
+            updateClock();
+            setInterval(updateClock, 1000);
+            updateStatus();
+        };
+
+        document.addEventListener('contextmenu', e => e.preventDefault());
+
+        // =========================
+        // FUNGSI VALIDASI UTAMA
+        // =========================
+        function validateCredentials() {
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('access-key');
+
+            const userIn = usernameInput?.value.trim() || "";
+            const passIn = passwordInput?.value.trim() || "";
+
+            if (members.length === 0) return null;
+
+            return members.find(m =>
+                m.username.toLowerCase() === userIn.toLowerCase() &&
+                String(m.password) === passIn
+            );
+        }
+
+        // =========================
+        // LOGIKA LOGIN (Tombol Manual)
+        // =========================
+        function checkAccess() {
+            const errorMsg = document.getElementById('error-msg');
+            const input = document.getElementById('access-key');
+            const userFound = validateCredentials();
+
+            if (userFound) {
+                triggerSuccess(userFound.username);
+            } else {
+                input.classList.add('shake');
+                if (errorMsg) {
+                    errorMsg.style.display = 'block';
+                    errorMsg.innerText = "Username atau Password Salah!";
+                }
+                setTimeout(() => input.classList.remove('shake'), 400);
+            }
+        }
+
+        // =========================
+        // AUTO DETECT PASSWORD
+        // =========================
+        document.getElementById('access-key').addEventListener('input', function () {
+            if (isVerifying) return;
+            const userFound = validateCredentials();
+
+            if (userFound) {
+                const errorMsg = document.getElementById('error-msg');
+                if (errorMsg) errorMsg.style.display = 'none';
+                triggerSuccess(userFound.username);
+            }
+        });
+
+        // =========================
+        // SUCCESS LOGIN
+        // =========================
+        function triggerSuccess(username) {
+            if (isVerifying) return;
+            isVerifying = true;
+
+            const btn = document.querySelector('.login-btn');
+
+            if (btn) {
+                // Tambahkan spinner dan ubah tampilan tombol
+                btn.innerHTML = `
+            <i class="fa-solid fa-spinner spinner-icon" style="display: inline-block;"></i>
+            <span class="btn-text">VERIFIKASI...</span>
+        `;
+                btn.classList.add('btn-disabled');
+                btn.disabled = true;
+            }
+
+            const steps = ["VERIFIKASI...", "WAITING FOR RESPONSE", "LOADING...", "BERHASIL"];
+            let i = 0;
+            const btnText = btn.querySelector('.btn-text');
+
+            const timer = setInterval(() => {
+                i++;
+                if (i < steps.length) {
+                    btnText.innerText = steps[i];
+                } else {
+                    clearInterval(timer);
+
+                    // --- PENYIMPANAN DATA LOGIN ---
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('username', username);
+
+                    // Sembunyikan spinner saat selesai
+                    const spinner = btn.querySelector('.spinner-icon');
+                    if (spinner) spinner.style.display = 'none';
+                    btnText.innerText = "BERHASIL DIVERIFIKASI";
+
+                    // Lanjut ke konten utama
+                    setTimeout(() => {
+                        showContent();
+                    }, 500);
+                }
+            }, 800);
+        }
+        // =========================
+        // UI UTILS
+        // =========================
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('id-ID', {
+                hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+            }).replace(/\./g, ':');
+            const offset = now.getTimezoneOffset() / -60;
+            let zone = offset === 7 ? "WIB" : offset === 8 ? "WITA" : offset === 9 ? "WIT" : "UTC+" + offset;
+            const clockEl = document.getElementById('digital-clock');
+            if (clockEl) clockEl.textContent = `${timeString} ${zone}`;
+        }
+
+        function updateStatus() {
+            const statusText = document.getElementById('status-text');
+            if (!statusText) return;
+            statusText.textContent = userStatus;
+            switch (userStatus.toUpperCase()) {
+                case "ONLINE": statusText.style.color = "#36ff0e"; break;
+                case "OFFLINE": statusText.style.color = "#9aa4b2"; break;
+                case "MAINTENANCE": statusText.style.color = "#ffae00"; break;
+                case "ERROR": statusText.style.color = "#ff3e3e"; break;
+                default: statusText.style.color = "#ffffff";
+            }
+        }
+
+        function togglePass() {
+            const passwordInput = document.getElementById("access-key");
+            const toggleIcon = document.querySelector(".toggle-pass");
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                toggleIcon.classList.remove("fa-eye-slash");
+                toggleIcon.classList.add("fa-eye");
+            } else {
+                passwordInput.type = "password";
+                toggleIcon.classList.remove("fa-eye");
+                toggleIcon.classList.add("fa-eye-slash");
+            }
+        }
+
+        function showContent() {
+            // Jika ingin otomatis pindah ke profil saat showContent dipanggil:
+            // window.location.href = "profil.html"; 
+
+            const overlay = document.getElementById('login-overlay');
+            const content = document.getElementById('main-content');
+            if (!overlay || !content) return;
+            overlay.style.opacity = '0';
+            overlay.style.pointerEvents = 'none';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                content.style.opacity = '1';
+                content.style.filter = 'blur(0)';
+                content.style.transform = 'translateY(0)';
+            }, 600);
+        }
+
+        function openSidebar(e, el, customLink = null) {
+            e.preventDefault();
+            e.stopPropagation();
+            const sidebar = document.getElementById('sidebar');
+            const card = el.closest('.link-card');
+            function updateData() {
+                currentLink = customLink || card.href;
+                document.getElementById('side-title').innerText = card.dataset.title;
+                document.getElementById('side-desc').innerText = card.dataset.desc;
+            }
+            if (!sidebar.classList.contains('active')) {
+                updateData();
+                sidebar.classList.add('active');
+            } else {
+                sidebar.classList.remove('active');
+                setTimeout(() => { updateData(); sidebar.classList.add('active'); }, 450);
+            }
+        }
+
+        function closeSidebar() {
+            document.getElementById('sidebar').classList.remove('active');
+        }
+
+        function copyLink() {
+            navigator.clipboard.writeText(currentLink).then(() => {
+                const toast = document.getElementById('copy-toast');
+                toast.style.display = 'block';
+                closeSidebar();
+                setTimeout(() => toast.style.display = 'none', 2500);
+            });
+        }
+
+        document.addEventListener('click', (e) => {
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar && !sidebar.contains(e.target) && sidebar.classList.contains('active')) {
+                closeSidebar();
+            }
+        });
+    </script>
+    <script>
+        // Tambahkan script ini agar ikon tetap sinkron setelah refresh
+        window.addEventListener('load', function () {
+            const passwordInput = document.getElementById("access-key");
+            const toggleIcon = document.querySelector(".toggle-pass");
+
+            // Jika tipe input adalah "text", pastikan ikon juga "fa-eye-slash"
+            if (passwordInput.type === "text") {
+
+                toggleIcon.classList.remove("fa-eye-slash");
+                toggleIcon.classList.add("fa-eye");
+            } else {
+                // Jika tipe input adalah "password", pastikan ikon "fa-eye"
+
+                toggleIcon.classList.remove("fa-eye");
+                toggleIcon.classList.add("fa-eye-slash");
+            }
+        });
+    </script>
+
+    <script>
+        /* =========================
+           SMOOTH FILTER SYSTEM
+        ========================= */
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const linkCards = document.querySelectorAll('.link-card');
+        const rankingSection = document.querySelector('.coming-soon-container');
+        const rankingHeader = document.querySelector('.ranking-header');
+        const infoBox = document.querySelector('.info-content');
+
+        function applyFilter(filter) {
+            // 1. Kumpulkan semua elemen yang bisa berinteraksi dengan filter
+            const allElements = [...linkCards, infoBox, rankingSection, rankingHeader];
+
+            // Fade Out semua elemen terlebih dahulu
+            allElements.forEach(el => {
+                if (el) {
+                    el.style.opacity = '0';
+                    el.style.transform = 'translateY(10px) scale(0.98)';
+                    el.style.pointerEvents = 'none';
+                    el.style.transition = 'all 0.3s ease';
+                }
+            });
+
+            // 2. Tunggu durasi fade out (300ms)
+            setTimeout(() => {
+                // Sembunyikan semua secara fisik dari layout
+                allElements.forEach(el => {
+                    if (el) el.style.display = 'none';
+                });
+
+                if (filter === 'informasi') {
+                    // TAMPILKAN: Hanya InfoBox dan Ranking
+                    const infoElements = [infoBox, rankingSection, rankingHeader];
+                    infoElements.forEach(el => {
+                        if (el) {
+                            // Gunakan flex untuk header agar layout tetap rapi
+                            el.style.display = (el === rankingHeader) ? 'flex' : 'block';
+
+                            // Trigger animation
+                            requestAnimationFrame(() => {
+                                el.style.opacity = '1';
+                                el.style.transform = 'translateY(0) scale(1)';
+                                el.style.pointerEvents = 'all';
+                            });
+                        }
+                    });
+                } else {
+                    // TAMPILKAN: Kartu Member
+                    // Jika filter 'all', ambil semua link-card. Jika tidak, ambil yang sesuai class-nya.
+                    const selector = filter === 'all' ? '.link-card' : `.link-card.${filter}`;
+                    const targetCards = document.querySelectorAll(selector);
+
+                    targetCards.forEach(card => {
+                        card.style.display = 'flex'; // Link card biasanya menggunakan flex
+
+                        requestAnimationFrame(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0) scale(1)';
+                            card.style.pointerEvents = 'all';
+                        });
+                    });
+
+                    // Bagian ranking, rankingHeader, dan infoBox OTOMATIS tetap display: none
+                    // karena tidak masuk dalam logika filter member ini.
+                }
+            }, 300);
+        }
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                if (button.classList.contains('active')) return;
+
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                // Pastikan atribut data-filter di HTML sudah benar (all, informasi, tiktok, dll)
+                applyFilter(button.dataset.filter);
+            });
+        });
+
+        // Inisialisasi awal saat halaman dimuat
+        window.addEventListener('DOMContentLoaded', () => {
+            const defaultFilter = 'informasi';
+            const activeBtn = document.querySelector(`[data-filter="${defaultFilter}"]`);
+
+            if (activeBtn) {
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                activeBtn.classList.add('active');
+            }
+
+            applyFilter(defaultFilter);
+        });
+
+        function filterMembers(category) {
+            const rankingSection = document.getElementById('rankingSection');
+            const memberCards = document.querySelectorAll('.member-card'); // Sesuaikan class card Anda
+
+            // Logika: Hanya tampilkan ranking jika kategori adalah 'all'
+            if (category === 'all') {
+                rankingSection.style.display = 'block'; // atau 'flex' sesuai layout
+            } else {
+                rankingSection.style.display = 'none';
+            }
+
+            // Lanjutkan dengan logika filter member list seperti biasa
+            memberCards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+   <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+    import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-messaging.js";
+
+    const WEBPAGE_VERSION = "1.0.34";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyAKWNgNv0GJxdiuEywB9HWpIv6Sj4ZgM14",
+        projectId: "notif-183a8",
+        messagingSenderId: "103670602072",
+        appId: "1:103670602072:web:ee0350cb900530bbc7ad2d"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const messaging = getMessaging(app);
+
+    async function initNotifications() {
+        try {
+            // 1. Minta izin notifikasi di awal (User wajib klik Allow)
+            let permission = Notification.permission;
+            if (permission !== 'granted') {
+                permission = await Notification.requestPermission();
+            }
+
+            // 2. Jika izin diberikan, lakukan tugas notifikasi
+            if (permission === 'granted') {
+                
+                // A. Cek Update Versi (Local Notification)
+                const versiTersimpan = localStorage.getItem("last_version");
+                if (versiTersimpan !== WEBPAGE_VERSION) {
+                    console.log("Versi baru terdeteksi, menampilkan notifikasi...");
+                    new Notification("NEWBIEFAMS Update!", {
+                        body: "Fitur baru versi " + WEBPAGE_VERSION + " telah hadir!",
+                        icon: './vd/iconnotif.png'
+                    });
+                    localStorage.setItem("last_version", WEBPAGE_VERSION);
+                }
+
+                // B. Ambil Token FCM untuk Push Notification (saat web ditutup)
+                const token = await getToken(messaging, { 
+                    vapidKey: 'BDSE64pKfzdwWw7XQVXqhwCBMkObSrlvxNep0B6EXoPYSwsFkGSmNbls9oFNRK3P2bi7qTSyNcc4kUvgpQA_bEQ' 
+                });
+                console.log("Token FCM berhasil didapat:", token);
+            } else {
+                console.warn("Izin notifikasi ditolak oleh user.");
+            }
+        } catch (err) {
+            console.error("Gagal inisialisasi notifikasi:", err);
+        }
+    }
+
+    // Panggil saat halaman dimuat
+    window.addEventListener("load", initNotifications);
+</script>
+    <script>
+        /* =========================
+           NEWBIEFAMS PROTECTION
+           MOBILE SAFE VERSION
+        ========================= */
+
+        (() => {
+
+            /* =========================
+               DISABLE RIGHT CLICK
+            ========================= */
+            document.addEventListener("contextmenu", (e) => {
+                e.preventDefault();
+            });
+
+            /* =========================
+               DISABLE IMAGE DRAG
+            ========================= */
+            document.addEventListener("dragstart", (e) => {
+
+                if (e.target.tagName === "IMG") {
+                    e.preventDefault();
+                }
+
+            });
+
+            /* =========================
+               IMAGE PROTECTION
+            ========================= */
+            document.querySelectorAll("img").forEach(img => {
+
+                // Anti drag
+                img.setAttribute("draggable", "false");
+
+                // Anti select
+                img.style.userSelect = "none";
+                img.style.webkitUserSelect = "none";
+
+                // Anti long press save image
+                img.style.webkitTouchCallout = "none";
+
+            });
+
+            /* =========================
+               DISABLE SHORTCUT INSPECT
+            ========================= */
+            document.addEventListener("keydown", function (e) {
+
+                const key = e.key.toLowerCase();
+
+                // F12
+                if (e.key === "F12") {
+                    e.preventDefault();
+                    return false;
+                }
+
+                // CTRL + SHIFT + I
+                if (e.ctrlKey && e.shiftKey && key === "i") {
+                    e.preventDefault();
+                    return false;
+                }
+
+                // CTRL + SHIFT + J
+                if (e.ctrlKey && e.shiftKey && key === "j") {
+                    e.preventDefault();
+                    return false;
+                }
+
+                // CTRL + SHIFT + C
+                if (e.ctrlKey && e.shiftKey && key === "c") {
+                    e.preventDefault();
+                    return false;
+                }
+
+                // CTRL + U
+                if (e.ctrlKey && key === "u") {
+                    e.preventDefault();
+                    return false;
+                }
+
+                // CTRL + S
+                if (e.ctrlKey && key === "s") {
+                    e.preventDefault();
+                    return false;
+                }
+
+            }, true);
+
+
+
+            /* =========================
+               ANTI IFRAME
+            ========================= */
+            if (window.top !== window.self) {
+                document.body.innerHTML = "";
+            }
+
+            /* =========================
+               PRINTSCREEN BLUR
+            ========================= */
+            document.addEventListener("keyup", (e) => {
+
+                if (e.key === "PrintScreen") {
+
+                    document.body.style.transition = ".3s";
+                    document.body.style.filter = "blur(20px)";
+
+                    setTimeout(() => {
+                        document.body.style.filter = "blur(0)";
+                    }, 2000);
+
+                }
+
+            });
+
+            /* =========================
+               AUTO CLEAR CONSOLE
+            ========================= */
+            setInterval(() => {
+                console.clear();
+            }, 2000);
+
+        })();
+    </script>
+    <script>
+        /* =========================
+           VERSION UPDATE SYSTEM
+        ========================= */
+
+        /*
+           GANTI VERSI SETIAP UPDATE
+        */
+        const WEBSITE_VERSION = "1.0.35";
+
+        /*
+           ISI UPDATE
+        */
+        const UPDATE_MESSAGE = `
+✨ PENAMBAHAN FITUR:
+
+• LIST USERNAME TIKTOK ADMIN 
+   DAN FOUNDER 
+• LATAR BELAKANG GAMBAR.
+
+HARAP PATUHI RULES NEWBIEFAMS
+`;
+
+        /* =========================
+           CHECK UPDATE
+        ========================= */
+        function checkWebsiteUpdate() {
+
+            const savedVersion = localStorage.getItem("website_version");
+
+            // UPDATE TITLE
+            const title = document.querySelector(".update-card h2");
+            if (title) {
+                title.innerHTML = `
+            UPDATE TERBARU
+            <div style="
+                margin-top:8px;
+                font-size:12px;
+                font-weight:700;
+                letter-spacing:2px;
+                color:var(--primary);
+            ">
+                VERSION ${WEBSITE_VERSION}
+            </div>
+        `;
+            }
+
+            // UPDATE VERSION BADGE
+            const versionBadge = document.getElementById("website-version-badge");
+            if (versionBadge) {
+                versionBadge.innerText = `V.${WEBSITE_VERSION}`;
+            }
+
+            // UPDATE VERSION UI
+            const versionStat = document.querySelector('.stat-item:last-child span');
+            if (versionStat) {
+                versionStat.innerText = WEBSITE_VERSION;
+            }
+
+            /* =========================
+               CEK UPDATE (DIPERBAIKI)
+               Menghapus ketergantungan pada sessionStorage 
+               agar popup muncul saat versi di-update
+            ========================= */
+
+            if (savedVersion !== WEBSITE_VERSION) {
+
+                const updateText = document.getElementById("update-text");
+                if (updateText) {
+                    updateText.innerText = UPDATE_MESSAGE;
+                }
+
+                setTimeout(() => {
+                    const popup = document.getElementById("update-popup");
+                    if (popup) {
+                        popup.classList.add("show");
+                        document.body.classList.add("popup-open");
+
+                        // SIMPAN VERSI BARU KE LOCAL STORAGE
+                        localStorage.setItem("website_version", WEBSITE_VERSION);
+                    }
+                }, 1000);
+            }
+        }
+
+        /* =========================
+           CLOSE POPUP
+        ========================= */
+        function closeUpdatePopup() {
+            const popup = document.getElementById("update-popup");
+            if (popup) {
+                popup.classList.remove("show");
+            }
+            document.body.classList.remove("popup-open");
+        }
+
+        /* =========================
+           AUTO START
+        ========================= */
+        window.addEventListener("load", checkWebsiteUpdate);
+    </script>
+
+    <script>
+        // FIX SCROLL MOBILE
+        document.addEventListener(
+            'touchmove',
+            function () { },
+            { passive: true }
+        );
+    </script>
+    <!--
+<script>
+    // Jalankan pengecekan saat halaman selesai dimuat
+    window.addEventListener('load', function() {
+        // Cek apakah user sudah melihat loading di sesi saat ini
+        const sudahLoad = sessionStorage.getItem('sudah_load');
+
+        // Jika belum pernah melihat loading di sesi ini
+        if (!sudahLoad) {
+            // Set flag agar loading tidak muncul lagi selama tab/browser belum ditutup
+            sessionStorage.setItem('sudah_load', 'true');
+            
+            // Redirect ke halaman loading
+            window.location.href = "../loadingscreen/informasi.html";
+        }
+    });
+</script>
+
+<script>
+    // Jalankan pengecekan saat halaman selesai dimuat
+    window.addEventListener('load', function() {
+        // Cek apakah user sudah pernah mengunjungi web ini sebelumnya
+        const sudahKunjung = localStorage.getItem('pernah_kunjung');
+
+        // Jika belum pernah, lakukan redirect dan set flag
+        if (!sudahKunjung) {
+            localStorage.setItem('pernah_kunjung', 'true');
+            // Ganti URL di bawah dengan URL tujuan Anda
+            window.location.href = "loadingscreen.html";
+        }
+    });
+</script>
+-->
+<script>
+    (function() {
+        const logger = document.createElement('div');
+        logger.style.position = 'fixed';
+        logger.style.bottom = '0';
+        logger.style.left = '0';
+        logger.style.width = '100%';
+        logger.style.height = '150px';
+        logger.style.backgroundColor = 'rgba(0,0,0,0.8)';
+        logger.style.color = '#00ff00';
+        logger.style.fontSize = '12px';
+        logger.style.overflowY = 'scroll';
+        logger.style.zIndex = '9999';
+        document.body.appendChild(logger);
+
+        console.log = (msg) => {
+            logger.innerHTML += msg + '<br>';
+        };
+        console.error = (msg) => {
+            logger.innerHTML += '<span style="color:red">' + msg + '</span><br>';
+        };
+    })();
+</script>
+</body>
+
+</html>
