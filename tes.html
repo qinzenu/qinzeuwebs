@@ -2413,14 +2413,26 @@
 
                     // Ambil Token FCM
                     if ('serviceWorker' in navigator) {
-                        const registration = await navigator.serviceWorker.ready;
-                        const token = await getToken(messaging, {
-                            vapidKey: 'BDSE64pKfzdwWw7XQVXqhwCBMkObSrlvxNep0B6EXoPYSwsFkGSmNbls9oFNRK3P2bi7qTSyNcc4kUvgpQA_bEQ',
-                            serviceWorkerRegistration: registration
-                        });
-                        console.log("Token FCM berhasil didapat.");
-                    }
-                }
+    try {
+        console.log("Mengecek Service Worker...");
+        // Pastikan SW terdaftar (Gunakan path root '/')
+        const registration = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
+        
+        // Tunggu sampai SW siap
+        const swReady = await navigator.serviceWorker.ready;
+        console.log("SW Siap, mengambil token...");
+
+        const token = await getToken(messaging, {
+            vapidKey: 'BDSE64pKfzdwWw7XQVXqhwCBMkObSrlvxNep0B6EXoPYSwsFkGSmNbls9oFNRK3P2bi7qTSyNcc4kUvgpQA_bEQ',
+            serviceWorkerRegistration: swReady
+        });
+
+        if (token) {
+            console.log("TOKEN FCM BERHASIL DIDAPAT:", token);
+            // Tambahkan: Kirim token ke database Anda di sini!
+        } else {
+            console.error("Token kosong, coba refresh halaman.");
+        }
             } catch (err) {
                 console.error("ERROR DETAIL:", err.message);
             }
