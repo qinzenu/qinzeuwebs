@@ -2410,7 +2410,8 @@
                     console.log("Mencoba mendaftarkan Service Worker...");
                     
                     // Paksa pendaftaran ulang ke file root
-                    const registration = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
+                    // Pastikan tidak ada spasi di dalam nama file
+const registration = await navigator.serviceWorker.register('../firebase-messaging-sw.js');
                     console.log("SW Terdaftar, Scope:", registration.scope);
 
                     // Tunggu SW benar-benar siap
